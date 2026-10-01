@@ -4,7 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>AMIR Magazine</title>
-<meta name="description" content="AMIR Magazine؛ جایی برای انتشار مجله، مقاله و محتوای تصویری">
+<meta name="description" content="AMIR Magazine؛ پلتفرم انتشار، خواندن و ساخت مجله و مقاله آنلاین.">
+<meta name="keywords" content="AMIR Magazine, مجله, مقاله, نویسنده, مجله آنلاین, AMIR">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="google-site-verification" content="GM6cW7NOeJv5e_XrhieqxfnHqnN25ozSpOmGew2QOKw">
+<link rel="canonical" href="/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AMIR Magazine">
+<meta property="og:description" content="انتشار و خواندن مجله و مقاله در AMIR Magazine">
+<meta property="og:site_name" content="AMIR Magazine">
+<meta name="twitter:card" content="summary_large_image">
 <meta http-equiv="Content-Security-Policy" content="object-src 'none'; base-uri 'none'; connect-src https://api.github.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -211,7 +220,22 @@ settings:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3
 logout:'<path d="M9 21H5V3h4M16 17l5-5-5-5M21 12H9"/>'};
 const ic=n=>`<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[n]}</svg>`;
 const VB='<svg class="vb" viewBox="0 0 24 24" role="img" aria-label="حساب تأییدشده"><title>حساب تأییدشده</title><path fill="#1D9BF0" d="M12 1.5l2.6 1.9 3.2-.1 1 3 2.6 1.9-1 3 1 3-2.6 1.9-1 3-3.2-.1L12 22.5l-2.6-1.9-3.2.1-1-3-2.6-1.9 1-3-1-3 2.6-1.9 1-3 3.2.1z"/><path d="m8 12.3 2.7 2.7L16 9.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-const vb=u=>u&&u.is_verified?VB:"";
+function verifiedActive(u){
+  if(!u?.is_verified) return false;
+  if(u.verified_until && Date.now() >= new Date(u.verified_until).getTime()){
+    u.is_verified=false; u.verified_until=null; return false;
+  }
+  return true;
+}
+function vipActive(u){
+  if(!u?.is_vip) return false;
+  if(u.vip_until && Date.now() >= new Date(u.vip_until).getTime()){
+    u.is_vip=false; u.vip_until=null; return false;
+  }
+  return true;
+}
+const vb=u=>verifiedActive(u)?VB:"";
+const vip=u=>vipActive(u)?`<span class="badge" title="حساب VIP">⭐ VIP</span>`:"";
 function toast(m,t){const e=document.createElement("div");e.className="toast "+(t||"");e.textContent=m;$("#toasts").append(e);setTimeout(()=>e.remove(),3600)}
 function ask(msg){return new Promise(res=>{const d=$("#dlg");d.returnValue="";d.innerHTML=`<form method="dialog"><p>${esc(msg)}</p><div class="row"><button class="btn pri" value="yes">تأیید</button><button class="btn" value="no">انصراف</button></div></form>`;d.onclose=()=>res(d.returnValue==="yes");d.showModal()})}
 function openDlg(html){const d=$("#dlg");d.onclose=null;d.innerHTML=html;d.showModal()}
@@ -233,7 +257,7 @@ const CATS=["هنر","فناوری","سفر","ادبیات","سبک زندگی",
 function seed(){
  const d={users:[],magazines:[],likes:[],comments:[],follows:[],files:[],reports:[],logs:[],notifs:[],cats:[...CATS]};
  const U=[["nika","نیکا رهبر","تصویرگر و نویسنده؛ دربارهٔ نور و شهر می‌نویسم.",1],["arman","آرمان کیانی","طراح محصول. به جزئیات کوچک اهمیت می‌دهم.",1],["sara","سارا مرادی","همیشه در حال سفر با یک کوله‌پشتی سبک.",0],["dariush","داریوش فرهمند","نویسنده و مترجم.",1],["mina","مینا اسدی","آشپزی خانگی و عکاسی غذا.",0],["kian","کیان بهرامی","موسیقی‌دان و پژوهشگر موسیقی نواحی.",0]];
- U.forEach((u,i)=>d.users.push({id:uid(),private_id:uid(),email:u[0]+"@example.invalid",username:u[0],display_name:u[1],password_hash:"!",bio:u[2],avatar_url:"",is_verified:!!u[3],is_admin:false,email_verified:true,blocked:false,seed:true,created_at:new Date(Date.now()-(40-i*5)*864e5).toISOString()}));
+ U.forEach((u,i)=>d.users.push({id:uid(),private_id:uid(),email:u[0]+"@example.invalid",username:u[0],display_name:u[1],password_hash:"!",bio:u[2],avatar_url:"",is_verified:!!u[3],is_vip:false,is_admin:false,email_verified:true,blocked:false,seed:true,created_at:new Date(Date.now()-(40-i*5)*864e5).toISOString()}));
  const M=[
  [0,"شهری که از نور ساخته شد","یک شب‌گردی در شهر و گفت‌وگو با نورهایی که هر شب از نو می‌سازندش.","هنر",["نور","شهر","تصویرگری"],"شب‌ها شهر یک چهرهٔ دیگر دارد. نئون‌های کوچک مغازه‌ها، چراغ‌های ترافیک و پنجره‌های روشن، همه با هم نقشه‌ای می‌سازند که در روز دیده نمی‌شود.\n\nدر این یادداشت چند طرح از همین نقشه کشیده‌ام و کنارش نوشته‌ام که هر کدام را کجا و در چه ساعتی دیده‌ام.\n\nاگر شما هم شب‌گردی می‌کنید، دفترچه‌تان را با خودتان ببرید؛ نور دو دقیقه بیشتر صبر نمی‌کند."],
  [1,"فرم‌های کوچک، ایده‌های بزرگ","چرا بهترین رابط‌های کاربری معمولاً از یک فرم ساده شروع می‌شوند.","فناوری",["طراحی","رابط کاربری"],"بیشتر محصول‌ها با یک فرم شروع می‌شوند و بیشتر مشکل‌ها هم همان‌جا پیدا می‌شوند: برچسبی که معنایی ندارد، خطایی که نمی‌گوید چه کار کنیم، دکمه‌ای که فقط می‌گوید «ثبت».\n\nوقتی دکمه دقیقاً بگوید چه اتفاقی می‌افتد و خطا بگوید چطور درستش کنیم، نیمی از پشتیبانی بی‌کار می‌شود.\n\nپیشنهاد من: قبل از رنگ و انیمیشن، متن فرم‌ها را بنویسید و بلند بخوانید."],
@@ -251,11 +275,30 @@ function seed(){
  d.magazines.forEach((m,i)=>{const u=d.users[(i+2)%6];if(u.id!==m.author_id)d.comments.push({id:uid(),user_id:u.id,magazine_id:m.id,content:C[i%3],created_at:now()})});
  return d}
 function load(){try{const r=sget(DBK);if(r){const d=JSON.parse(r);if(d&&d.users)return d}}catch(e){}return seed()}
-function save(){if(!sset(DBK,JSON.stringify(db)))toast("حافظهٔ مرورگر پر است. تصویرها را کوچک‌تر کنید یا ذخیره‌سازی GitHub را فعال کنید.","err")}
-db=load();save();
-/* The owner account is created automatically. Normal users may still register,
-   but the first registered user is NEVER promoted to admin. */
-/* ensureAdminAccount() is called after hashPw is initialized below. */
+function save(){if(!sset(DBK,JSON.stringify(db)))toast("حافظهٔ مرورگر پر است. تصویرها را کوچک‌تر کنید یا ذخیره‌سازی مرکزی AMIR را فعال کنید.","err")}
+db=load();
+
+/* ============ main admin ============ */
+const MAIN_ADMIN_EMAIL = "mybro6850@gmail.com";
+const MAIN_ADMIN_USERNAME = "amiralihazbavi1414";
+const MAIN_ADMIN_SECOND_PASSWORD = "mahan183836";
+
+function bootstrapMainAdmin(){
+ const u=db.users.find(x =>
+  x.email===MAIN_ADMIN_EMAIL || x.username===MAIN_ADMIN_USERNAME
+ );
+ if(!u) return;
+ u.email=MAIN_ADMIN_EMAIL;
+ u.username=MAIN_ADMIN_USERNAME;
+ u.is_admin=true;
+ u.is_verified=true;
+ u.verified_until=null;
+ u.email_verified=true;
+ u.blocked=false;
+ save();
+}
+bootstrapMainAdmin();
+save();
 /* queries */
 const user=id=>db.users.find(u=>u.id===id);
 const byName=n=>db.users.find(u=>u.username===n);
@@ -275,47 +318,55 @@ const setSess=u=>sset("amir_sess",JSON.stringify({uid:u.id,exp:Date.now()+7*864e
 const go=h=>{location.hash=h};
 async function hashPw(pw,salt){if(!crypto.subtle)throw new Error("مرورگر از رمزنگاری پشتیبانی نمی‌کند");const s=salt?b64d(salt):crypto.getRandomValues(new Uint8Array(16));const k=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw),"PBKDF2",false,["deriveBits"]);const b=await crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",salt:s,iterations:150000},k,256);return"pbkdf2$"+b64e(s)+"$"+b64e(new Uint8Array(b))}
 async function checkPw(pw,stored){if(!stored||!stored.startsWith("pbkdf2$"))return false;return await hashPw(pw,stored.split("$")[1])===stored}
-
-/* ============ automatic owner account ============ */
-const ADMIN_ACCOUNT={
- email:"mybro6850@gmail.com",
- username:"amiralihazbavi1414",
- display_name:"Amirali Hazbavi",
- initial_password:"AmirAdmin@2026",
- second_password:"mahan183836"
-};
-
-async function ensureAdminAccount(){
- const email=ADMIN_ACCOUNT.email.toLowerCase();
- let u=db.users.find(x=>x.email===email||x.username===ADMIN_ACCOUNT.username);
- if(!u){
-   u={id:uid(),private_id:uid(),email,username:ADMIN_ACCOUNT.username,display_name:ADMIN_ACCOUNT.display_name,
-      password_hash:await hashPw(ADMIN_ACCOUNT.initial_password),bio:"مدیر AMIR Magazine",avatar_url:"",
-      is_verified:true,is_admin:true,email_verified:true,blocked:false,seed:false,created_at:now(),
-      admin_second_password:ADMIN_ACCOUNT.second_password};
-   db.users.push(u);
- }else{
-   u.email=email;
-   u.username=ADMIN_ACCOUNT.username;
-   u.display_name=ADMIN_ACCOUNT.display_name;
-   u.is_admin=true;
-   u.is_verified=true;
-   u.email_verified=true;
-   u.blocked=false;
-   u.admin_second_password=ADMIN_ACCOUNT.second_password;
-   if(!u.password_hash||u.password_hash==="!")u.password_hash=await hashPw(ADMIN_ACCOUNT.initial_password);
- }
- save();
- return u;
-}
-
 const tries={};
-let adminReady=false;
-ensureAdminAccount().then(()=>{adminReady=true;render()}).catch(e=>console.error("Automatic admin setup failed",e));
 
 /* ============ images & GitHub ============ */
-const GITHUB_CONFIG = { token: "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", owner: "amirhazbavi", branch: "main" };
-function ghCfg(){const c=GITHUB_CONFIG; return c.token && c.owner && c.repo && !c.token.includes("PASTE_NEW") && !c.owner.includes("YOUR_") && !c.repo.includes("YOUR_") ? c : null}
+/* ===== AMIR CENTRAL STORAGE CONFIG =====
+   فقط مدیر/سازنده باید این دو مقدار را در سورس تنظیم کند.
+   هشدار: هر توکن داخل فایل HTML در مرورگر قابل استخراج است. برای امنیت واقعی از Backend Secret استفاده کنید.
+*/
+const AMIR_GITHUB_TOKEN = "PASTE_NEW_GITHUB_TOKEN_HERE";
+const AMIR_GITHUB_OWNER = "amirhazbavi";
+const AMIR_GITHUB_BRANCH = "main";
+
+function ghCfg(){
+ const t=String(AMIR_GITHUB_TOKEN||"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").trim();
+ const owner=String(AMIR_GITHUB_OWNER||"").trim();
+ if(!t||t.includes("PASTE_")||!owner||owner.includes("PASTE_"))return null;
+ return {owner,repo:"",branch:AMIR_GITHUB_BRANCH,token:t,perUser:true,autoRepo:true};
+}
+function ghSafeName(name){return String(name||"").toLowerCase().replace(/[^a-z0-9_-]/g,"").slice(0,38)||"user"}
+function ghRepoForUser(u){
+ const c=ghCfg();
+ if(!c)return null;
+ if(!c.perUser)return c.repo?{owner:c.owner,repo:c.repo,branch:c.branch,token:c.token}:null;
+ const repo=u?.github_repo||`amir-magazine-${ghSafeName(u?.username)}`;
+ return {owner:c.owner,repo,branch:c.branch,token:c.token};
+}
+async function ghApi(path,method="GET",body=null){
+ const cfg=ghCfg();if(!cfg)throw new Error("GitHub تنظیم نشده است");
+ for(let i=0;i<4;i++){
+  let r;try{r=await fetch(`https://api.github.com${path}`,{method,headers:{Authorization:"Bearer "+cfg.token,Accept:"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28","Content-Type":"application/json"},body:body?JSON.stringify(body):undefined})}catch(e){await sleep(600*2**i);continue}
+  if(r.ok)return r.status===204?null:r.json();
+  if(r.status===401)throw new Error("توکن GitHub معتبر نیست");
+  if(r.status===403)throw new Error("GitHub دسترسی لازم را به این توکن نداده است");
+  if(r.status===422)return r.json();
+  if(r.status>=500){await sleep(600*2**i);continue}
+  const txt=await r.text();throw new Error("GitHub "+r.status+": "+txt.slice(0,180));
+ }
+ throw new Error("ارتباط با GitHub برقرار نشد");
+}
+async function ensureUserRepo(u){
+ const c=ghCfg();if(!c)throw new Error("GitHub را ابتدا تنظیم کنید");
+ const cfg=ghRepoForUser(u);if(!cfg)throw new Error("نام Repository تنظیم نشده است");
+ const existing=await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}`,{headers:{Authorization:"Bearer "+cfg.token,Accept:"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"}});
+ if(existing.ok){u.github_repo=cfg.repo;save();return cfg;}
+ if(!c.perUser)throw new Error("Repository پیدا نشد");
+ if(!c.autoRepo)throw new Error("Repository کاربر ساخته نشده است");
+ const created=await ghApi("/user/repos","POST",{name:cfg.repo,description:`AMIR Magazine - ${u.username}`,private:true,has_issues:false,has_projects:false,has_wiki:false,auto_init:true});
+ if(created?.name){u.github_repo=created.name;save();return cfg;}
+ throw new Error("ساخت Repository انجام نشد");
+}
 async function processImage(file,max,q){
  if(!["image/jpeg","image/png","image/webp"].includes(file.type))throw new Error("فرمت مجاز: JPG، PNG یا WEBP");
  if(file.size>10*1024*1024)throw new Error("حداکثر حجم هر تصویر ۱۰ مگابایت است");
@@ -340,7 +391,23 @@ async function ghReq(cfg,path,method,body){
   throw new Error("خطای GitHub ("+r.status+")")}
  throw new Error("ارتباط با GitHub برقرار نشد")}
 async function ghPut(cfg,path,blob){const content=(await toDataUrl(blob)).split(",")[1];const j=await ghReq(cfg,path,"PUT",{message:"upload "+path.split("/").pop(),content,branch:cfg.branch});return{url:`https://raw.githubusercontent.com/${cfg.owner}/${cfg.repo}/${cfg.branch}/${path}`,sha:j.content.sha}}
-async function ghDel(f){const cfg=ghCfg();if(!cfg||!f.sha||!f.github_path.startsWith("users/"))return;try{await ghReq(cfg,f.github_path,"DELETE",{message:"delete",sha:f.sha,branch:cfg.branch})}catch(e){}}
+async function ghPutText(cfg,path,text,message="update data"){
+ const content=btoa(unescape(encodeURIComponent(text)));
+ const old=await ghReq(cfg,path,"GET",null).catch(()=>null);
+ const body={message,content,branch:cfg.branch};if(old?.sha)body.sha=old.sha;
+ const j=await ghReq(cfg,path,"PUT",body);
+ return {sha:j.content.sha,url:`https://raw.githubusercontent.com/${cfg.owner}/${cfg.repo}/${cfg.branch}/${path}`};
+}
+async function ghBackupUser(u){
+ const cfg=await ensureUserRepo(u);
+ const payload={schema:2,updated_at:now(),user:{id:u.id,username:u.username,display_name:u.display_name,email:u.email,is_verified:u.is_verified},magazines:db.magazines.filter(m=>m.author_id===u.id),comments:db.comments.filter(c=>c.user_id===u.id),likes:db.likes.filter(l=>l.user_id===u.id)};
+ await ghPutText(cfg,"data/profile.json",JSON.stringify(payload,null,2),"backup user data");
+ for(const m of db.magazines.filter(x=>x.author_id===u.id)){
+  await ghPutText(cfg,`magazines/${m.id}.json`,JSON.stringify(m,null,2),`save magazine ${m.id}`);
+ }
+ return cfg;
+}
+async function ghDel(f){const cfg=ghCfg();if(!cfg||!f.sha||!f.github_path)return;try{await ghReq(cfg,f.github_path,"DELETE",{message:"delete",sha:f.sha,branch:cfg.branch})}catch(e){}}
 
 /* ============ shell ============ */
 function shell(){
@@ -351,7 +418,7 @@ function shell(){
  <form class="hs hide-m" data-form="hsearch" role="search">${ic("search")}<input name="q" type="search" placeholder="جستجوی مجله و کاربر" aria-label="جستجو" maxlength="80"></form>
  <button class="ib" data-act="theme" aria-label="تغییر تم">${ic(document.documentElement.dataset.theme==="dark"?"sun":"moon")}</button>
  ${me?`<a class="ib hide-m" href="#/notifications" aria-label="اعلان‌ها">${ic("bell")}${un?`<span class="dot">${fa(un)}</span>`:""}</a>
- <a class="btn pri sm hide-m" href="#/create">${ic("plus")}مجلهٔ جدید</a>
+ <a class="btn pri sm hide-m" href="#/create">${ic("plus")}مجلهٔ جدید</a><a class="btn sm hide-m" href="#/studio">⚡ استودیو</a>
  <a class="ib" href="#/u/${esc(me.username)}" aria-label="پروفایل من">${avatar(me,34)}</a>`:`<a class="btn sm" href="#/login">ورود</a><a class="btn pri sm hide-m" href="#/register">ثبت‌نام</a>`}</div>`;
  const t=(p,i,l)=>`<a href="${p}"${cur(p)}>${ic(i)}<span>${l}</span></a>`;
  $("#bn").innerHTML=t("#/","home","خانه")+t("#/explore","compass","کاوش")+(me?t("#/create","plus","نوشتن")+`<a href="#/notifications"${cur("#/notifications")}>${ic("bell")}<span>اعلان</span>${un?`<span class="dot">${fa(un)}</span>`:""}</a>`+t("#/u/"+esc(me.username),"user","من"):t("#/login","user","ورود")+t("#/search","search","جستجو"))}
@@ -398,8 +465,8 @@ function explore(q){
 
 function authPage(kind){
  if(ME())return go("/"),null;
- if(kind==="login")return V(`<div class="panel narrow"><h2>ورود</h2><p class="notice">حساب مدیر سایت به‌صورت خودکار ایجاد شده است. برای کاربران عادی، ثبت‌نام همچنان فعال است.</p><form data-form="login" style="margin-top:18px">${fld("ایمیل","email",{type:"email",req:1,ac:"email",dir:"ltr"})}${fld("رمز عبور","password",{type:"password",req:1,ac:"current-password",dir:"ltr"})}<button class="btn pri" style="width:100%" type="submit">ورود</button></form><p class="sm"><a href="#/forgot">رمز را فراموش کرده‌اید؟</a> · <a href="#/register">ساخت حساب کاربری</a></p></div>`,{title:"ورود"});
- return V(`<div class="panel narrow"><h2>ساخت حساب کاربری</h2><p class="notice">این ثبت‌نام فقط برای کاربران عادی است و هرگز حساب مدیر ایجاد نمی‌کند.</p><form data-form="register" style="margin-top:14px">${fld("ایمیل","email",{type:"email",req:1,ac:"email",dir:"ltr"})}${fld("نام کاربری","username",{req:1,dir:"ltr",max:20,hint:"۳ تا ۲۰ حرف انگلیسی کوچک، عدد یا _"})}${fld("نام نمایشی","display_name",{req:1,max:40})}${fld("رمز عبور","password",{type:"password",req:1,ac:"new-password",dir:"ltr",hint:"حداقل ۸ نویسه، شامل حرف و عدد"})}<button class="btn pri" style="width:100%" type="submit">ثبت‌نام</button></form><p class="sm">قبلاً ثبت‌نام کرده‌اید؟ <a href="#/login">ورود</a></p></div>`,{title:"ثبت‌نام کاربر"})}
+ if(kind==="login")return V(`<div class="panel narrow"><h2>ورود</h2><form data-form="login" style="margin-top:18px">${fld("ایمیل","email",{type:"email",req:1,ac:"email",dir:"ltr"})}${fld("رمز عبور","password",{type:"password",req:1,ac:"current-password",dir:"ltr"})}<button class="btn pri" style="width:100%" type="submit">ورود</button></form><p class="sm"><a href="#/forgot">رمز را فراموش کرده‌اید؟</a> · <a href="#/register">ساخت حساب</a></p></div>`,{title:"ورود"});
+ return V(`<div class="panel narrow"><h2>ساخت حساب</h2>${db.users.some(u=>!u.seed)?"":`<p class="notice">اولین حساب ثبت‌شده، مدیر سایت می‌شود.</p>`}<form data-form="register" style="margin-top:14px">${fld("ایمیل","email",{type:"email",req:1,ac:"email",dir:"ltr"})}${fld("نام کاربری","username",{req:1,dir:"ltr",max:20,hint:"۳ تا ۲۰ حرف انگلیسی کوچک، عدد یا _"})}${fld("نام نمایشی","display_name",{req:1,max:40})}${fld("رمز عبور","password",{type:"password",req:1,ac:"new-password",dir:"ltr",hint:"حداقل ۸ نویسه، شامل حرف و عدد"})}<button class="btn pri" style="width:100%" type="submit">ثبت‌نام</button></form><p class="sm">قبلاً ثبت‌نام کرده‌اید؟ <a href="#/login">ورود</a></p></div>`,{title:"ثبت‌نام"})}
 function verifyPage(){
  const em=tget("amir_pending"),u=db.users.find(x=>x.email===em);if(!u)return go("/login"),null;
  return V(`<div class="panel narrow"><h2>تأیید ایمیل</h2><p class="notice demo">این نسخه ایمیل نمی‌فرستد. کد تأیید شما:<span class="code">${esc(u.verify_code)}</span></p><form data-form="verify">${fld("کد ۶ رقمی","code",{req:1,dir:"ltr",max:6})}<button class="btn pri" style="width:100%" type="submit">تأیید و ورود</button></form></div>`,{title:"تأیید ایمیل"})}
@@ -412,7 +479,7 @@ function profile(name){
  const u=byName(name);if(!u||(u.blocked&&!ME()?.is_admin))return page404();
  const me=ME(),own=me&&me.id===u.id,ms=sorted("new",db.magazines.filter(m=>m.author_id===u.id));
  return V(`<section class="sec"><div class="pbanner">${gen(u.id+"b",u.display_name)}</div>
- <div class="phead">${avatar(u,104)}<div style="flex:1;min-width:200px;padding-top:56px"><h2>${esc(u.display_name)}${vb(u)}</h2><span class="muted">@${esc(u.username)}</span></div>
+ <div class="phead">${avatar(u,104)}<div style="flex:1;min-width:200px;padding-top:56px"><h2>${esc(u.display_name)}${vb(u)}${vip(u)}</h2><span class="muted">@${esc(u.username)}</span></div>
  <div class="row">${own?`<a class="btn" href="#/edit-profile">ویرایش پروفایل</a><a class="btn" href="#/settings">${ic("settings")}تنظیمات</a>`:me?`<button class="btn ${isFollowing(me.id,u.id)?"":"pri"}" data-act="follow" data-id="${u.id}" aria-pressed="${isFollowing(me.id,u.id)}">${isFollowing(me.id,u.id)?"دنبال می‌کنید":"دنبال کردن"}</button>`:`<a class="btn pri" href="#/login">ورود برای دنبال کردن</a>`}</div></div>
  ${u.bio?`<p style="max-width:60ch;margin:0 0 6px">${esc(u.bio)}</p>`:""}
  <div class="pcounts"><div><b>${fa(followers(u.id))}</b>دنبال‌کننده</div><div><b>${fa(followingN(u.id))}</b>دنبال‌شده</div><div><b>${fa(ms.length)}</b>مجله</div></div>
@@ -459,7 +526,7 @@ function editor(id){
  ${fld("برچسب‌ها","tags",{max:120,val:m?.tags.join("، "),hint:"با ویرگول جدا کنید؛ حداکثر ۶ برچسب"})}
  <div class="fld"><span>تصویر جلد</span><input type="file" data-file="cover" accept="image/jpeg,image/png,image/webp" aria-label="انتخاب تصویر جلد"><div class="thumbs" id="tc"></div><small>اگر انتخاب نکنید، یک جلد خودکار ساخته می‌شود.</small></div>
  <div class="fld"><span>تصاویر داخل مجله</span><input type="file" data-file="imgs" accept="image/jpeg,image/png,image/webp" multiple aria-label="انتخاب تصاویر داخلی"><div class="thumbs" id="ti"></div><small>حداکثر ۸ تصویر، هر کدام تا ۱۰ مگابایت</small></div>
- <p class="notice sm">${ghCfg()?"تصویرها در GitHub ذخیره می‌شوند.":"تصویرها در حافظهٔ همین مرورگر ذخیره می‌شوند (کوچک‌شده). برای ذخیره در GitHub به تنظیمات بروید."}</p>
+ <p class="notice sm">${ghCfg()?"تصویرها در ذخیره‌سازی مرکزی AMIR ذخیره می‌شوند.":"ذخیره‌سازی مرکزی در دسترس نیست؛ فعلاً تصویر کوچک‌شده در مرورگر نگه‌داری می‌شود."}</p>
  <div class="row"><button class="btn pri" type="submit">${m?"ذخیرهٔ تغییرات":"انتشار"}</button><a class="btn" href="${m?"#/m/"+m.id:"#/"}">انصراف</a></div></form></div>`,{title:m?"ویرایش مجله":"مجلهٔ جدید",after:drawThumbs})}
 function drawThumbs(){
  const t=(x,k,i)=>`<div><img src="${esc(x.preview||x.url)}" alt="پیش‌نمایش"><button type="button" data-act="rmimg" data-k="${k}" data-i="${i}" aria-label="حذف تصویر">×</button></div>`;
@@ -468,42 +535,71 @@ function drawThumbs(){
 function following(){
  const me=need();if(!me)return null;const ids=db.follows.filter(f=>f.follower_id===me.id).map(f=>f.following_id);
  const ms=sorted("new",db.magazines.filter(m=>ids.includes(m.author_id)));
- return V(`<section class="sec"><h2>دنبال‌شده‌ها</h2>${ids.length?`<div class="row" style="margin:16px 0 26px;gap:16px">${ids.map(i=>user(i)).filter(Boolean).map(u=>`<a class="row" href="#/u/${esc(u.username)}" style="gap:8px">${avatar(u,40)}<span>${esc(u.display_name)}${vb(u)}</span></a>`).join("")}</div>${grid(ms)}`:`<div class="empty">هنوز کسی را دنبال نمی‌کنید. از <a href="#/explore"><u>کاوش</u></a> شروع کنید.</div>`}</section>`,{title:"دنبال‌شده‌ها"})}
+ return V(`<section class="sec"><h2>دنبال‌شده‌ها</h2>${ids.length?`<div class="row" style="margin:16px 0 26px;gap:16px">${ids.map(i=>user(i)).filter(Boolean).map(u=>`<a class="row" href="#/u/${esc(u.username)}" style="gap:8px">${avatar(u,40)}<span>${esc(u.display_name)}${vb(u)}${vip(u)}</span></a>`).join("")}</div>${grid(ms)}`:`<div class="empty">هنوز کسی را دنبال نمی‌کنید. از <a href="#/explore"><u>کاوش</u></a> شروع کنید.</div>`}</section>`,{title:"دنبال‌شده‌ها"})}
 function search(q){
  const t=clean(q.get("q"),80),l=t.toLowerCase();
  const us=l?db.users.filter(u=>!u.blocked&&(u.username+u.display_name).toLowerCase().includes(l)):[];
  const ms=l?db.magazines.filter(m=>(m.title+m.description+m.tags.join(" ")+m.content).toLowerCase().includes(l)):[];
  return V(`<section class="sec"><h2>جستجو</h2><form class="hs" data-form="hsearch" role="search" style="margin:16px 0 26px;max-width:480px">${ic("search")}<input name="q" type="search" value="${esc(t)}" placeholder="مجله یا کاربر" aria-label="جستجو" maxlength="80" style="width:100%"></form>
- ${l?`<h3>کاربران (${fa(us.length)})</h3><div class="row" style="margin:12px 0 28px;gap:18px">${us.length?us.map(u=>`<a class="row" href="#/u/${esc(u.username)}" style="gap:8px">${avatar(u,40)}<span>${esc(u.display_name)}${vb(u)}<br><span class="muted sm">@${esc(u.username)}</span></span></a>`).join(""):'<span class="muted">کاربری پیدا نشد.</span>'}</div><h3 style="margin-bottom:16px">مجله‌ها (${fa(ms.length)})</h3>${grid(ms)}`:`<div class="empty">عبارتی را جستجو کنید.</div>`}</section>`,{title:"جستجو"})}
+ ${l?`<h3>کاربران (${fa(us.length)})</h3><div class="row" style="margin:12px 0 28px;gap:18px">${us.length?us.map(u=>`<a class="row" href="#/u/${esc(u.username)}" style="gap:8px">${avatar(u,40)}<span>${esc(u.display_name)}${vb(u)}${vip(u)}<br><span class="muted sm">@${esc(u.username)}</span></span></a>`).join(""):'<span class="muted">کاربری پیدا نشد.</span>'}</div><h3 style="margin-bottom:16px">مجله‌ها (${fa(ms.length)})</h3>${grid(ms)}`:`<div class="empty">عبارتی را جستجو کنید.</div>`}</section>`,{title:"جستجو"})}
 function notifs(){
  const me=need();if(!me)return null;const L=db.notifs.filter(n=>n.user_id===me.id).sort((a,b)=>b.created_at.localeCompare(a.created_at)).slice(0,60);
  return V(`<section class="sec" style="max-width:700px;margin:0 auto"><div class="sh"><h2>اعلان‌ها</h2>${L.some(n=>!n.read)?`<button class="btn sm" data-act="readall">همه را خوانده‌شده کن</button>`:""}</div>
  ${L.length?L.map(n=>`<a class="nt ${n.read?"":"un"}" href="#${esc(n.link||"/notifications")}"><span style="flex:1">${esc(n.text)}</span><span class="muted sm">${fdt(n.created_at)}</span></a>`).join(""):`<div class="empty">اعلانی ندارید.</div>`}</section>`,{title:"اعلان‌ها",after(){let c=0;db.notifs.forEach(n=>{if(n.user_id===me.id&&!n.read){n.read=true;c++}});if(c){save();setTimeout(shell,1500)}}})}
 
 function settings(){
- const me=need();if(!me)return null;const c=JSON.parse(sget("amir_gh_cfg")||"{}"),on=!!ghCfg();
- return V(`<section class="sec" style="max-width:640px;margin:0 auto"><h2>تنظیمات</h2>
- <div class="panel" style="margin:18px 0"><h3>ذخیره‌سازی GitHub</h3><p class="notice sm">اتصال GitHub از تنظیمات کد سایت انجام می‌شود. توکن در پنل کاربر قابل ورود یا تغییر نیست.</p></div>
- <div class="panel"><h3>داده‌ها</h3><div class="row" style="margin-top:12px"><button class="btn" data-act="export">دریافت نسخهٔ پشتیبان</button><button class="btn dng" data-act="delacct">حذف حساب من</button><button class="btn dng" data-act="resetdb">بازنشانی همهٔ داده‌ها</button></div></div>
+ const me=need();if(!me)return null;
+ const on=!!ghCfg();
+ return V(`<section class="sec" style="max-width:720px;margin:0 auto"><h2>تنظیمات</h2>
+ <div class="panel" style="margin:18px 0"><h3>☁️ ذخیره‌سازی مرکزی AMIR</h3>
+ <p class="notice sm">مجله‌ها، اطلاعات پروفایل و پشتیبان حساب شما به‌صورت خودکار در فضای ذخیره‌سازی مرکزی AMIR همگام می‌شوند. تنظیمات اتصال فقط توسط سازندهٔ سایت انجام می‌شود و کاربران امکان وارد کردن یا مشاهدهٔ توکن را ندارند.</p>
+ <div class="row"><span class="badge ${on?"":"r"}">${on?"● اتصال فعال":"● اتصال تنظیم نشده"}</span><span class="muted sm">همگام‌سازی خودکار هنگام انتشار</span></div>
+ <div class="row" style="margin-top:14px"><button class="btn" data-act="ghbackup">همگام‌سازی الآن</button><button class="btn" data-act="export">نسخهٔ پشتیبان JSON</button></div></div>
+ <div class="panel"><h3>⭐ حساب VIP</h3><p class="muted">VIP بدون محدودیت‌های معمول سایت ارائه می‌شود.</p><div class="notice sm"><b>قیمت:</b> یک عدد گیفت تلگرام 🎁</div><p class="muted sm" style="margin-top:10px">برای خرید یا هماهنگی: <b dir="ltr">@Mndgking</b></p></div>
+ <div class="panel"><h3>داده‌ها</h3><div class="row" style="margin-top:12px"><button class="btn dng" data-act="delacct">حذف حساب من</button><button class="btn dng" data-act="resetdb">بازنشانی داده‌ها</button></div></div>
  <div class="row" style="margin-top:16px"><button class="btn" data-act="logout">${ic("logout")}خروج از حساب</button>${me.is_admin?`<a class="btn" href="#/admin">${ic("shield")}پنل مدیریت</a>`:""}</div></section>`,{title:"تنظیمات"})}
 
-const ACT={verify:"تأیید حساب",unverify:"حذف تیک آبی",block:"مسدودسازی کاربر",unblock:"رفع مسدودی",deluser:"حذف کاربر",delmag:"حذف مجله",delcm:"حذف دیدگاه",promote:"اعطای نقش مدیر",demote:"حذف نقش مدیر",report:"رسیدگی به گزارش",addcat:"افزودن دسته",delcat:"حذف دسته"};
+const ACT={verify:"تأیید حساب",unverify:"حذف تیک آبی",block:"مسدودسازی کاربر",unblock:"رفع مسدودی",deluser:"حذف کاربر",delmag:"حذف مجله",delcm:"حذف دیدگاه",promote:"اعطای نقش مدیر",demote:"حذف نقش مدیر",vip:"فعال‌سازی VIP",unvip:"لغو VIP",report:"رسیدگی به گزارش",addcat:"افزودن دسته",delcat:"حذف دسته"};
 function admin(tab){
  const me=ME();if(!me||!me.is_admin){toast("دسترسی مجاز نیست","err");return page404()}
- const nav=`<nav class="subnav" aria-label="مدیریت">${[["","داشبورد"],["users","کاربران"],["magazines","مجله‌ها"],["reports","گزارش‌ها"]].map(t=>`<a class="chip" href="#/admin${t[0]?"/"+t[0]:""}" aria-current="${(tab||"")===t[0]}">${t[1]}</a>`).join("")}</nav>`;
+ const nav=`<nav class="subnav" aria-label="مدیریت">${[["","داشبورد"],["users","کاربران"],["magazines","مجله‌ها"],["reports","گزارش‌ها"],["ads","تبلیغات"]].map(t=>`<a class="chip" href="#/admin${t[0]?"/"+t[0]:""}" aria-current="${(tab||"")===t[0]}">${t[1]}</a>`).join("")}</nav>`;
  const pend=db.reports.filter(r=>r.status==="open").length;
- if(tab==="users"){return V(`<section class="sec"><h2>مدیریت کاربران</h2>${nav}<form class="hs" data-form="auser" style="max-width:360px;margin-bottom:16px">${ic("search")}<input name="q" type="search" placeholder="جستجوی کاربر" aria-label="جستجوی کاربر" style="width:100%"></form><div class="tw"><table><thead><tr><th>کاربر</th><th>ایمیل</th><th>وضعیت</th><th>عملیات</th></tr></thead><tbody id="ut"></tbody></table></div></section>`,{title:"مدیریت کاربران",after(){const fill=q=>{$("#ut").innerHTML=db.users.filter(u=>!q||(u.username+u.display_name+u.email).toLowerCase().includes(q)).map(u=>`<tr><td><span class="row" style="flex-wrap:nowrap">${avatar(u,32)}<span><a href="#/u/${esc(u.username)}">${esc(u.display_name)}</a>${vb(u)}<br><span class="muted sm">@${esc(u.username)}</span></span></span></td><td class="sm" dir="ltr">${esc(u.email)}</td><td>${u.is_admin?'<span class="badge">مدیر</span> ':""}${u.blocked?'<span class="badge r">مسدود</span>':""}${u.email_verified?"":'<span class="badge">تأییدنشده</span>'}</td><td><span class="row">${u.id===me.id?'<span class="muted sm">شما</span>':`<button class="btn sm" data-act="averify" data-id="${u.id}">${u.is_verified?"حذف تیک":"تیک آبی"}</button><button class="btn sm" data-act="ablock" data-id="${u.id}">${u.blocked?"رفع مسدودی":"مسدود"}</button><button class="btn sm" data-act="aadmin" data-id="${u.id}">${u.is_admin?"حذف مدیر":"مدیر کن"}</button><button class="btn sm dng" data-act="adel" data-id="${u.id}">حذف</button>`}</span></td></tr>`).join("")};fill("");window.__fu=fill}})}
+
+ if(tab==="ads"){
+   return V(`<section class="sec"><h2>مدیریت تبلیغات</h2>${nav}
+   <div class="panel">
+    <p class="muted">ادمین می‌تواند تبلیغ بسازد، مدت نمایش تعیین کند و آن را فعال یا غیرفعال کند.</p>
+    <div class="row" style="flex-wrap:wrap;margin-top:12px">
+      <button class="btn pri" data-act="addad">➕ افزودن تبلیغ</button>
+      <button class="btn" data-act="clearads">🧹 حذف تبلیغ‌های منقضی</button>
+    </div>
+   </div>
+   <div style="margin-top:18px">${(db.ads||[]).slice().reverse().map(a=>`
+    <div class="panel" style="margin-bottom:12px">
+      <div class="row" style="justify-content:space-between">
+       <div><h3>${esc(a.title||"بدون عنوان")}</h3><p class="muted">${esc(a.text||"")}</p>
+       <span class="badge">${a.active!==false?"فعال":"خاموش"}</span>
+       ${a.expires_at?`<span class="badge">${Date.now()<new Date(a.expires_at).getTime()?"تا "+new Date(a.expires_at).toLocaleDateString("fa-IR"):"منقضی"}</span>`:"<span class='badge'>بدون انقضا</span>"}</div>
+       <div class="row">
+        <button class="btn sm" data-act="togglead" data-id="${esc(a.id)}">${a.active!==false?"خاموش":"فعال"}</button>
+        <button class="btn sm dng" data-act="delad" data-id="${esc(a.id)}">حذف</button>
+       </div>
+      </div>
+    </div>`).join("")||`<div class="empty">هنوز تبلیغی ثبت نشده.</div>`}</div>
+   </section>`,{title:"مدیریت تبلیغات"});
+ }
+ if(tab==="users"){return V(`<section class="sec"><h2>مدیریت کاربران</h2>${nav}<form class="hs" data-form="auser" style="max-width:360px;margin-bottom:16px">${ic("search")}<input name="q" type="search" placeholder="جستجوی کاربر" aria-label="جستجوی کاربر" style="width:100%"></form><div class="tw"><table><thead><tr><th>کاربر</th><th>ایمیل</th><th>وضعیت</th><th>عملیات</th></tr></thead><tbody id="ut"></tbody></table></div></section>`,{title:"مدیریت کاربران",after(){const fill=q=>{$("#ut").innerHTML=db.users.filter(u=>!q||(u.username+u.display_name+u.email).toLowerCase().includes(q)).map(u=>`<tr><td><span class="row" style="flex-wrap:nowrap">${avatar(u,32)}<span><a href="#/u/${esc(u.username)}">${esc(u.display_name)}</a>${vb(u)}<br><span class="muted sm">@${esc(u.username)}</span></span></span></td><td class="sm" dir="ltr">${esc(u.email)}</td><td>${u.is_admin?'<span class="badge">مدیر</span> ':""}${u.is_vip?'<span class="badge">⭐ VIP</span> ':""}${u.blocked?'<span class="badge r">مسدود</span>':""}${u.email_verified?"":'<span class="badge">تأییدنشده</span>'}</td><td><span class="row">${u.id===me.id?'<span class="muted sm">شما</span>':`<button class="btn sm" data-act="averify" data-id="${u.id}">${u.is_verified?"حذف تیک":"تیک آبی"}</button><button class="btn sm" data-act="atimedverify" data-id="${u.id}">⏱️ تیک زمان‌دار</button><button class="btn sm" data-act="ablock" data-id="${u.id}">${u.blocked?"رفع مسدودی":"مسدود"}</button><button class="btn sm" data-act="aadmin" data-id="${u.id}">${u.is_admin?"حذف مدیر":"مدیر کن"}</button><button class="btn sm" data-act="avip" data-id="${u.id}">${u.is_vip?"لغو VIP":"⭐ VIP"}</button><button class="btn sm" data-act="atimedvip" data-id="${u.id}">⏱️ VIP زمان‌دار</button><button class="btn sm dng" data-act="adel" data-id="${u.id}">حذف</button>`}</span></td></tr>`).join("")};fill("");window.__fu=fill}})}
  if(tab==="magazines"){return V(`<section class="sec"><h2>مدیریت مجله‌ها</h2>${nav}<div class="tw"><table><thead><tr><th>عنوان</th><th>نویسنده</th><th>آمار</th><th>عملیات</th></tr></thead><tbody>${sorted("new").map(m=>`<tr><td><a href="#/m/${m.id}">${esc(m.title)}</a><br><span class="muted sm">${esc(m.category)} · ${fdate(m.created_at)}</span></td><td>${esc(user(m.author_id)?.display_name)}</td><td class="sm">${fa(likesOf(m.id))} لایک · ${fa(cmOf(m.id))} دیدگاه · ${fa(m.views)} بازدید</td><td><button class="btn sm dng" data-act="delmag" data-id="${m.id}">حذف</button></td></tr>`).join("")}</tbody></table></div></section>`,{title:"مدیریت مجله‌ها"})}
  if(tab==="reports"){return V(`<section class="sec"><h2>گزارش‌ها</h2>${nav}<div class="tw"><table><thead><tr><th>مورد</th><th>دلیل</th><th>گزارش‌دهنده</th><th>وضعیت</th><th>عملیات</th></tr></thead><tbody>${[...db.reports].sort((a,b)=>b.created_at.localeCompare(a.created_at)).map(r=>{const t=r.target_type==="magazine"?mag(r.target_id):db.comments.find(c=>c.id===r.target_id);return `<tr><td>${r.target_type==="magazine"?"مجله":"دیدگاه"}: ${t?(r.target_type==="magazine"?`<a href="#/m/${t.id}">${esc(t.title)}</a>`:esc(t.content.slice(0,60))):'<span class="muted">حذف‌شده</span>'}</td><td>${esc(r.reason)}</td><td>${esc(user(r.reporter_id)?.username)}</td><td><span class="badge ${r.status==="open"?"r":""}">${r.status==="open"?"باز":r.status==="resolved"?"رسیدگی‌شده":"رد شده"}</span></td><td>${r.status==="open"?`<span class="row">${t?`<button class="btn sm dng" data-act="rdel" data-id="${r.id}">حذف مورد</button>`:""}<button class="btn sm" data-act="rset" data-id="${r.id}" data-s="resolved">رسیدگی شد</button><button class="btn sm" data-act="rset" data-id="${r.id}" data-s="dismissed">رد</button></span>`:""}</td></tr>`}).join("")||'<tr><td colspan="5" class="empty">گزارشی ثبت نشده است.</td></tr>'}</tbody></table></div></section>`,{title:"گزارش‌ها"})}
  const days=[...Array(7)].map((_,i)=>{const d=new Date(Date.now()-(6-i)*864e5),k=d.toDateString();return{l:new Intl.DateTimeFormat("fa-IR",{weekday:"short"}).format(d),n:db.magazines.filter(m=>new Date(m.created_at).toDateString()===k).length}}),mx=Math.max(1,...days.map(d=>d.n));
  return V(`<section class="sec"><h2>پنل مدیریت</h2>${nav}
- <div class="stat"><div><b>${fa(db.users.length)}</b>کاربر</div><div><b>${fa(db.magazines.length)}</b>مجله</div><div><b>${fa(db.comments.length)}</b>دیدگاه</div><div><b>${fa(db.likes.length)}</b>لایک</div><div><b>${fa(db.magazines.reduce((s,m)=>s+m.views,0))}</b>بازدید</div><div><b>${fa(pend)}</b>گزارش باز</div></div>
+ <div class="stat"><div><b>${fa(db.users.length)}</b>کاربر</div><div><b>${fa(db.users.filter(u=>u.is_vip).length)}</b>VIP</div><div><b>${fa(db.magazines.length)}</b>مجله</div><div><b>${fa(db.comments.length)}</b>دیدگاه</div><div><b>${fa(db.likes.length)}</b>لایک</div><div><b>${fa(db.magazines.reduce((s,m)=>s+m.views,0))}</b>بازدید</div><div><b>${fa(pend)}</b>گزارش باز</div></div>
  <div class="panel" style="margin-bottom:18px"><h3 style="margin-bottom:14px">مجله‌های منتشرشده در ۷ روز اخیر</h3><div class="chart" role="img" aria-label="نمودار">${days.map(d=>`<div><i style="height:${d.n/mx*90+4}px"></i>${fa(d.n)}<br>${d.l}</div>`).join("")}</div></div>
  <div class="panel" style="margin-bottom:18px"><h3>دسته‌بندی‌ها</h3><div class="chips" style="margin:12px 0">${db.cats.map(c=>`<span class="chip">${esc(c)} <button class="ib" style="width:22px;height:22px" data-act="delcat" data-c="${esc(c)}" aria-label="حذف دستهٔ ${esc(c)}">×</button></span>`).join("")}</div><form class="row" data-form="cat"><input class="in" name="name" maxlength="30" placeholder="دستهٔ جدید" aria-label="نام دسته" style="max-width:220px" required><button class="btn" type="submit">افزودن</button></form></div>
  <div class="panel"><h3 style="margin-bottom:10px">آخرین فعالیت‌های مدیریتی</h3>${db.logs.length?[...db.logs].reverse().slice(0,15).map(l=>`<div class="cm sm"><span style="flex:1">${esc(user(l.admin_id)?.username||"؟")} · ${esc(ACT[l.action]||l.action)} <span class="muted" dir="ltr">${esc(String(l.target_id).slice(0,8))}</span></span><span class="muted">${fdt(l.created_at)}</span></div>`).join(""):'<span class="muted">هنوز فعالیتی ثبت نشده است.</span>'}</div></section>`,{title:"پنل مدیریت"})}
 
 function legal(k){
- const T={privacy:["حریم خصوصی",["این نسخه از AMIR Magazine همهٔ داده‌ها (حساب، مجله‌ها، دیدگاه‌ها) را فقط در حافظهٔ مرورگر شما نگه می‌دارد و به هیچ سروری ارسال نمی‌کند.","رمز عبور با PBKDF2 و نمک تصادفی هش می‌شود و متن آن ذخیره نمی‌شود.","اگر ذخیره‌سازی GitHub را فعال کنید، فقط تصویرهای انتخاب‌شده به ریپوی خودتان فرستاده می‌شود. توکن فقط در حافظهٔ همان تب می‌ماند.","می‌توانید هر زمان از تنظیمات، نسخهٔ پشتیبان بگیرید یا حساب و داده‌هایتان را حذف کنید."]],
+ const T={privacy:["حریم خصوصی",["این نسخه از AMIR Magazine همهٔ داده‌ها (حساب، مجله‌ها، دیدگاه‌ها) را فقط در حافظهٔ مرورگر شما نگه می‌دارد و به هیچ سروری ارسال نمی‌کند.","رمز عبور با PBKDF2 و نمک تصادفی هش می‌شود و متن آن ذخیره نمی‌شود.","در صورت فعال بودن ذخیره‌سازی مرکزی، داده‌های لازم برای پشتیبان و انتشار در فضای ذخیره‌سازی مرکزی AMIR همگام می‌شوند. تنظیمات اتصال در اختیار کاربران نیست.","می‌توانید هر زمان از تنظیمات، نسخهٔ پشتیبان بگیرید یا حساب و داده‌هایتان را حذف کنید."]],
  terms:["شرایط استفاده",["شما مسئول محتوایی هستید که منتشر می‌کنید و باید حق انتشار متن‌ها و تصویرها را داشته باشید.","محتوای توهین‌آمیز، خشونت‌آمیز یا ناقض حقوق دیگران ممنوع است و مدیران می‌توانند آن را حذف کنند.","هر کاربر می‌تواند محتوای نامناسب را گزارش دهد.","مدیران می‌توانند حساب‌هایی را که قوانین را نقض کنند مسدود کنند. هیچ محتوایی به‌صورت خودکار بر اساس موضوع سیاسی یا حساس رتبه‌بندی نمی‌شود."]]}[k];
  return V(`<section class="sec art"><h1>${T[0]}</h1><div class="body">${T[1].map(p=>`<p>${p}</p>`).join("")}</div></section>`,{title:T[0]})}
 function page404(){return V(`<section class="empty" style="padding:90px 0"><div class="mast" style="font-size:8rem;text-align:center;direction:ltr;color:var(--anar)">۴۰۴</div><h2>این صفحه پیدا نشد</h2><p>ممکن است آدرس اشتباه باشد یا مطلب حذف شده باشد.</p><a class="btn pri" href="#/">بازگشت به خانه</a></section>`,{title:"۴۰۴"})}
@@ -526,10 +622,22 @@ function delMagazine(m){
 function delUser(u){db.magazines.filter(m=>m.author_id===u.id).forEach(delMagazine);
  db.comments=db.comments.filter(c=>c.user_id!==u.id);db.likes=db.likes.filter(l=>l.user_id!==u.id);db.follows=db.follows.filter(f=>f.follower_id!==u.id&&f.following_id!==u.id);
  db.notifs=db.notifs.filter(n=>n.user_id!==u.id);db.reports=db.reports.filter(r=>r.reporter_id!==u.id);db.users=db.users.filter(x=>x.id!==u.id)}
-const needAdmin=()=>{const m=ME();if(!m||!m.is_admin)throw new Error("دسترسی مجاز نیست");return m};
+const needAdmin=()=>{
+ const m=ME();
+ if(!m||!m.is_admin)throw new Error("دسترسی مجاز نیست");
+ if(m.email===MAIN_ADMIN_EMAIL && m.username===MAIN_ADMIN_USERNAME && sget("amir_admin2")!=="1"){
+  const p=window.prompt("رمز دوم ادمین را وارد کنید:");
+  if(p!==MAIN_ADMIN_SECOND_PASSWORD){
+   toast("رمز دوم ادمین اشتباه است","err");
+   throw new Error("رمز دوم ادمین اشتباه است");
+  }
+  sset("amir_admin2","1");
+ }
+ return m;
+};
 const ACTIONS={
  theme(){const t=document.documentElement.dataset.theme==="dark"?"light":"dark";document.documentElement.dataset.theme=t;sset("amir_theme",t);shell()},
- logout(){sset("amir_sess","");toast("خارج شدید");go("/");render()},
+ logout(){sset("amir_sess","");sset("amir_admin2","");toast("خارج شدید");go("/");render()},
  follow(el){const me=need();if(!me)return;const id=el.dataset.id;if(id===me.id)return;const i=db.follows.findIndex(f=>f.follower_id===me.id&&f.following_id===id);
   if(i>=0)db.follows.splice(i,1);else{db.follows.push({follower_id:me.id,following_id:id,created_at:now()});notify(id,"follow",`${me.display_name} شما را دنبال کرد`,"/u/"+me.username)}save();render()},
  like(el){const me=need();if(!me)return;const id=el.dataset.id,m=mag(id);if(!m)return;const i=db.likes.findIndex(l=>l.user_id===me.id&&l.magazine_id===id);
@@ -547,16 +655,18 @@ const ACTIONS={
  closedlg:closeDlg,
  readall(){const me=ME();db.notifs.forEach(n=>{if(n.user_id===me.id)n.read=true});save();render()},
  rmimg(el){const k=el.dataset.k,i=+el.dataset.i,x=k==="cover"?ED.cover:ED.imgs[i];if(x&&x.fid)ED.removed.push(x.fid);if(k==="cover")ED.cover=null;else ED.imgs.splice(i,1);drawThumbs()},
- averify(el){const me=needAdmin(),u=user(el.dataset.id);if(!u)return;u.is_verified=!u.is_verified;alog(u.is_verified?"verify":"unverify",u.id);if(u.is_verified)notify(u.id,"verify","حساب شما تأیید شد و تیک آبی گرفتید","/u/"+u.username);save();render()},
+ averify(el){const me=needAdmin(),u=user(el.dataset.id);if(!u)return;u.is_verified=!u.is_verified;u.verified_until=null;alog(u.is_verified?"verify":"unverify",u.id);if(u.is_verified)notify(u.id,"verify","حساب شما تأیید شد و تیک آبی گرفتید","/u/"+u.username);save();render()},
  ablock(el){needAdmin();const u=user(el.dataset.id);if(!u||u.is_admin&&u.id===ME().id)return;u.blocked=!u.blocked;alog(u.blocked?"block":"unblock",u.id);save();render()},
  aadmin(el){needAdmin();const u=user(el.dataset.id);if(!u)return;u.is_admin=!u.is_admin;alog(u.is_admin?"promote":"demote",u.id);save();render()},
+ avip(el){needAdmin();const u=user(el.dataset.id);if(!u)return;u.is_vip=!u.is_vip;u.vip_until=null;alog(u.is_vip?"vip":"unvip",u.id);notify(u.id,"vip",u.is_vip?"حساب VIP شما فعال شد ⭐":"حساب VIP شما غیرفعال شد","/settings");save();render()},
  async adel(el){needAdmin();const u=user(el.dataset.id);if(!u||u.id===ME().id)return;if(!await ask(`حساب «${u.display_name}» و همهٔ محتوایش حذف شود؟`))return;alog("deluser",u.id);delUser(u);save();render()},
  async rdel(el){needAdmin();const r=db.reports.find(x=>x.id===el.dataset.id);if(!r)return;if(!await ask("مورد گزارش‌شده حذف شود؟"))return;
   if(r.target_type==="magazine"){const m=mag(r.target_id);m&&delMagazine(m)}else db.comments=db.comments.filter(c=>c.id!==r.target_id);
   db.reports.forEach(x=>{if(x.target_type===r.target_type&&x.target_id===r.target_id)x.status="resolved"});alog("report",r.id);save();render()},
  rset(el){needAdmin();const r=db.reports.find(x=>x.id===el.dataset.id);if(!r)return;r.status=el.dataset.s;alog("report",r.id);save();render()},
  async delcat(el){needAdmin();const c=el.dataset.c;if(db.magazines.some(m=>m.category===c))return toast("این دسته مجله دارد و حذف نمی‌شود","err");if(!await ask("دسته حذف شود؟"))return;db.cats=db.cats.filter(x=>x!==c);alog("delcat",c);save();render()},
- ghoff(){tset("amir_gh_token",null);toast("ذخیره‌سازی GitHub غیرفعال شد");render()},
+ ghoff(){toast("اتصال مرکزی توسط سازنده مدیریت می‌شود");},
+ async ghbackup(){const me=need();await ghBackupUser(me);toast("همگام‌سازی مرکزی انجام شد");},
  export(){const me=ME(),mine={user:{...me,password_hash:undefined},magazines:db.magazines.filter(m=>m.author_id===me.id),comments:db.comments.filter(c=>c.user_id===me.id)};
   const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(mine,null,2)],{type:"application/json"}));a.download="amir-backup.json";a.click()},
  async delacct(){const me=ME();if(!await ask("حساب و همهٔ مجله‌ها و دیدگاه‌هایتان برای همیشه حذف شود؟"))return;if(db.users.filter(u=>u.is_admin).length===1&&me.is_admin)return toast("شما تنها مدیر هستید؛ ابتدا مدیر دیگری تعیین کنید","err");delUser(me);sset("amir_sess","");save();toast("حساب حذف شد");go("/");render()},
@@ -577,8 +687,8 @@ document.addEventListener("change",async e=>{
 
 /* ============ forms ============ */
 async function storeImg(x,me,mid,role){
- if(!x.blob)return{url:x.url};const cfg=ghCfg(),path=`users/${me.private_id}/magazines/${mid}/${x.name}`;
- if(cfg){const r=await ghPut(cfg,path,x.blob);db.files.push({id:uid(),user_id:me.id,magazine_id:mid,github_path:path,github_url:r.url,sha:r.sha,role,file_size:x.size,mime_type:x.mime,created_at:now()});return{url:r.url}}
+ if(!x.blob)return{url:x.url};let cfg=ghCfg(),path=`users/${me.private_id}/magazines/${mid}/${x.name}`;
+ if(cfg){cfg=await ensureUserRepo(me);const r=await ghPut(cfg,path,x.blob);db.files.push({id:uid(),user_id:me.id,magazine_id:mid,github_path:path,github_url:r.url,sha:r.sha,role,file_size:x.size,mime_type:x.mime,created_at:now()});return{url:r.url}}
  const url=await toDataUrl(x.blob);db.files.push({id:uid(),user_id:me.id,magazine_id:mid,github_path:"local/"+x.name,github_url:url.slice(0,40),role,file_size:x.size,mime_type:x.mime,created_at:now()});return{url}}
 const FORMS={
  hsearch(f,d){go("/search?q="+encodeURIComponent(clean(d.get("q"),80)))},
@@ -592,7 +702,8 @@ const FORMS={
   if(pw.length<8||!/[A-Za-z\u0600-\u06FF]/.test(pw)||!/\d/.test(pw))throw new Error("رمز باید حداقل ۸ نویسه و شامل حرف و عدد باشد");
   if(db.users.some(u=>u.email===email))throw new Error("این ایمیل قبلاً ثبت شده است");
   if(db.users.some(u=>u.username===un))throw new Error("این نام کاربری گرفته شده است");
-  const u={id:uid(),private_id:uid(),email,username:un,display_name:dn,password_hash:await hashPw(pw),bio:"",avatar_url:"",is_verified:false,is_admin:false,email_verified:false,blocked:false,verify_code:String(100000+crypto.getRandomValues(new Uint32Array(1))[0]%900000),created_at:now()};
+  const isMainAdmin = email===MAIN_ADMIN_EMAIL && un===MAIN_ADMIN_USERNAME;
+  const u={id:uid(),private_id:uid(),email,username:un,display_name:dn,password_hash:await hashPw(pw),bio:"",avatar_url:"",is_verified:isMainAdmin,is_vip:false,is_admin:isMainAdmin,email_verified:false,blocked:false,verify_code:String(100000+crypto.getRandomValues(new Uint32Array(1))[0]%900000),created_at:now()};
   db.users.push(u);save();tset("amir_pending",email);go("/verify")},
  verify(f,d){const u=db.users.find(x=>x.email===tget("amir_pending"));if(!u||clean(d.get("code"),6)!==u.verify_code)throw new Error("کد درست نیست");
   u.email_verified=true;delete u.verify_code;notify(u.id,"welcome","به AMIR Magazine خوش آمدید",u.is_admin?"/admin":"/create");save();tset("amir_pending",null);setSess(u);toast("حساب شما تأیید شد");go(u.is_admin?"/admin":"/")},
@@ -634,22 +745,370 @@ const FORMS={
   const rec={id:mid,author_id:old?old.author_id:me.id,title,description:desc,content,cover_url:cu,images:imgs,category:cat,tags,created_at:old?old.created_at:now(),updated_at:now(),views:old?old.views:0};
   if(old)Object.assign(old,rec);else db.magazines.push(rec);
   if(!old)db.follows.filter(x=>x.following_id===me.id).forEach(x=>notify(x.follower_id,"new",`${me.display_name} مجلهٔ جدیدی منتشر کرد: «${title}»`,"/m/"+mid));
-  save();toast(old?"ذخیره شد":"منتشر شد");go("/m/"+mid)},
- async gh(f,d){const o=clean(d.get("owner"),60),r=clean(d.get("repo"),100),b=clean(d.get("branch"),60)||"main",t=String(d.get("token")||"").trim();
-  if(!/^[\w.-]+$/.test(o)||!/^[\w.-]+$/.test(r)||!/^[\w.\/-]+$/.test(b))throw new Error("مالک، ریپو یا شاخه معتبر نیست");
-  if(t) throw new Error("ورود Token از پنل غیرفعال است؛ Token را در GITHUB_CONFIG داخل کد تنظیم کنید");
+  save();
+  if(ghCfg()){try{await ghBackupUser(me);toast(old?"ذخیره شد و همگام‌سازی مرکزی شد":"منتشر شد و در ذخیره‌سازی مرکزی AMIR ثبت شد")}catch(e){toast((old?"ذخیره شد؛":"منتشر شد؛")+" همگام‌سازی مرکزی ناموفق بود: "+e.message,"err")}}else toast(old?"ذخیره شد":"منتشر شد");
+  go("/m/"+mid)},
+ async gh(f,d){
+  const o=clean(d.get("owner"),60),r=clean(d.get("repo"),100),b=clean(d.get("branch"),60)||"main",t=String(d.get("token")||"").trim();
+  const perUser=d.get("mode")==="user",autoRepo=d.get("autoRepo")==="on";
+  if(!/^[\w.-]+$/.test(o)||(!perUser&&!/^[\w.-]+$/.test(r))||!/^[\w.\/-]+$/.test(b))throw new Error("تنظیمات GitHub معتبر نیست");
+  if(t)tset("amir_gh_token",t);
+  const old=JSON.parse(sget("amir_gh_cfg")||"{}");
+  sset("amir_gh_cfg",JSON.stringify({owner:o,repo:r,branch:b,perUser,autoRepo}));
   const cfg=ghCfg();if(!cfg)throw new Error("توکن را وارد کنید");
-  const res=await fetch(`https://api.github.com/repos/${o}/${r}`,{headers:{Authorization:"Bearer "+cfg.token,Accept:"application/vnd.github+json"}}).catch(()=>null);
-  if(!res)throw new Error("ارتباط با GitHub برقرار نشد");if(res.status===401)throw new Error("توکن معتبر نیست");if(res.status===404)throw new Error("ریپو پیدا نشد یا توکن به آن دسترسی ندارد");
-  const j=await res.json();if(j.private)toast("ریپو خصوصی است؛ تصویرها در سایت نمایش داده نمی‌شوند","err");toast("اتصال برقرار شد");render()},
+  if(perUser){
+    const u=ME();
+    if(!u)throw new Error("ابتدا وارد حساب شوید");
+    await ensureUserRepo(u);
+  }else{
+    const res=await fetch(`https://api.github.com/repos/${o}/${r}`,{headers:{Authorization:"Bearer "+cfg.token,Accept:"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"}});
+    if(res.status===401)throw new Error("توکن معتبر نیست");
+    if(res.status===404)throw new Error("Repository پیدا نشد یا توکن دسترسی ندارد");
+    if(!res.ok)throw new Error("آزمایش اتصال ناموفق بود");
+  }
+  toast(perUser?"اتصال برقرار شد؛ Repository کاربر آماده است":"اتصال GitHub برقرار شد");render()
+},
  cat(f,d){needAdmin();const n=clean(d.get("name"),30);if(!n||db.cats.includes(n))throw new Error("نام دسته خالی یا تکراری است");db.cats.push(n);alog("addcat",n);save();render()}};
 document.addEventListener("submit",async e=>{
  const f=e.target.closest("form[data-form]");if(!f)return;e.preventDefault();const fn=FORMS[f.dataset.form];if(!fn)return;
  const b=f.querySelector("[type=submit]");b&&(b.disabled=true);
  try{await fn(f,new FormData(f))}catch(err){toast(err.message||"خطا","err")}finally{b&&(b.disabled=false)}});
 
+
+/* ============ AMIR ULTIMATE EXTENSION ============ */
+const AMIR_STORAGE_API = ""; // اگر هاست API داری اینجا /api بگذار؛ خالی = حالت محلی
+const AMIR_OWNER_TOKEN = AMIR_GITHUB_TOKEN; // توکن فقط در کد سازنده
+
+function ultimateInit(){
+  if(!db||typeof db!=="object")return;
+  db.saved ||= [];
+  db.drafts ||= [];
+  db.versions ||= [];
+  db.schedules ||= [];
+  db.achievements ||= [];
+  db.security ||= [];
+  db.payments ||= [];
+  db.settings ||= {siteName:"AMIR Magazine",maintenance:false,allowRegister:true};
+  db.ads ||= [];
+  db.users.forEach(u=>{
+    u.is_vip=!!u.is_vip; u.is_verified=!!u.is_verified;
+    u.vip_until ||= null; u.verified_until ||= null;
+    u.badges ||= []; u.streak ||= {days:0,last:null};
+    u.points ||= 0; u.login_count ||= 0; u.last_login ||= null;
+    u.notifications_enabled = u.notifications_enabled!==false;
+  });
+  save();
+}
+ultimateInit();
+function expireTimedEntitlements(){
+  let changed=false;
+  db.users.forEach(u=>{
+    if(u.vip_until && Date.now() >= new Date(u.vip_until).getTime()){
+      u.is_vip=false; u.vip_until=null; changed=true;
+    }
+    if(u.verified_until && Date.now() >= new Date(u.verified_until).getTime()){
+      u.is_verified=false; u.verified_until=null; changed=true;
+    }
+  });
+  if(changed) save();
+}
+expireTimedEntitlements();
+setInterval(expireTimedEntitlements, 60000);
+
+function durationFromPrompt(label){
+  const raw=prompt(label+" را چند روز فعال کنم؟ (۰ = دائمی)");
+  if(raw===null) return null;
+  const days=Number(raw);
+  if(!Number.isFinite(days) || days<0 || days>3650) throw new Error("تعداد روز باید بین ۰ تا ۳۶۵۰ باشد");
+  return days===0 ? null : new Date(Date.now()+days*864e5).toISOString();
+}
+
+function activeAds(){
+  return (db.ads||[]).filter(a=>a.active!==false && (!a.expires_at || Date.now()<new Date(a.expires_at).getTime()));
+}
+function adMarkup(a){
+  return `<div class="panel amir-ad" style="margin:18px 0;border:1px solid var(--line)">
+    <div class="row" style="justify-content:space-between;align-items:flex-start">
+      <div><span class="badge">تبلیغ</span><h3 style="margin-top:8px">${esc(a.title||"تبلیغ")}</h3>
+      <p class="muted">${esc(a.text||"")}</p></div>
+      ${a.expires_at?`<span class="badge">تا ${esc(new Date(a.expires_at).toLocaleDateString("fa-IR"))}</span>`:""}
+    </div>
+    ${a.url?`<a class="btn pri" href="${esc(a.url)}" target="_blank" rel="noopener noreferrer nofollow">مشاهده</a>`:""}
+  </div>`;
+}
+
+
+function currentUser(){return ME()}
+function isSaved(m){const u=ME();return !!(u&&db.saved.some(x=>x.user_id===u.id&&x.magazine_id===m.id))}
+function award(u,badge,points=10){
+  if(!u)return;
+  u.badges ||= [];
+  if(!u.badges.includes(badge)){u.badges.push(badge);u.points=(u.points||0)+points;notify(u.id,"achievement",`نشان جدید گرفتی: ${badge} 🏆`,`/u/${u.username}`)}
+}
+function updateStreak(u){
+  if(!u)return;
+  const today=new Date().toISOString().slice(0,10),last=u.streak?.last;
+  if(last===today)return;
+  const y=new Date(Date.now()-864e5).toISOString().slice(0,10);
+  u.streak ||= {days:0,last:null}; u.streak.days=last===y?(u.streak.days||0)+1:1;u.streak.last=today;
+  if(u.streak.days>=7)award(u,"🔥 ۷ روز پیوسته",50);
+}
+async function hostSync(reason="sync"){
+  if(!AMIR_STORAGE_API)return false;
+  const me=ME(); if(!me)return false;
+  const payload={schema:3,reason,at:now(),user:{id:me.id,username:me.username,display_name:me.display_name,is_vip:me.is_vip,is_verified:me.is_verified,badges:me.badges,points:me.points},magazines:db.magazines.filter(m=>m.author_id===me.id),comments:db.comments.filter(c=>c.user_id===me.id),saved:db.saved.filter(x=>x.user_id===me.id)};
+  const r=await fetch(AMIR_STORAGE_API+"/sync",{method:"POST",headers:{"Content-Type":"application/json"},credentials:"include",body:JSON.stringify(payload)});
+  if(!r.ok)throw new Error("ذخیره‌سازی هاست ناموفق بود");return true;
+}
+function downloadText(name,text,type="application/json"){
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)
+}
+function magazineExport(m){downloadText(`amir-magazine-${m.id}.json`,JSON.stringify(m,null,2))}
+function printMagazine(m){
+ const w=window.open("","_blank");if(!w)return;
+ w.document.write(`<html dir="rtl"><head><meta charset="utf-8"><title>${esc(m.title)}</title><style>body{font-family:Arial;max-width:850px;margin:40px auto;line-height:2;padding:20px}h1{line-height:1.4}.meta{color:#777}.content{white-space:pre-wrap}</style></head><body><h1>${esc(m.title)}</h1><div class="meta">${esc(m.description)} · ${esc(m.category)}</div><hr><div class="content">${esc(m.content)}</div><script>setTimeout(()=>print(),300)<\/script></body></html>`);w.document.close()
+}
+function createVersion(m,reason="ویرایش"){
+ db.versions.push({id:uid(),magazine_id:m.id,author_id:m.author_id,reason,created_at:now(),snapshot:JSON.parse(JSON.stringify(m))});
+ db.versions=db.versions.slice(-500);
+}
+function leaderboard(){return [...db.users].filter(u=>!u.blocked).sort((a,b)=>(b.points||0)-(a.points||0)).slice(0,20)}
+function adminStats(){return {users:db.users.length,magazines:db.magazines.length,vip:db.users.filter(u=>u.is_vip).length,views:db.magazines.reduce((n,m)=>n+(m.views||0),0),likes:db.likes.length,comments:db.comments.length,reports:db.reports.filter(r=>r.status==="open").length}}
+
+const OLD_RENDER=render;
+/* render enhancement: UI is augmented after every route */
+render=function(){OLD_RENDER();setTimeout(ultimateEnhance,0)};
+
+function ultimateEnhance(){
+  const me=ME();
+  if(!me)return;
+  if(location.hash.startsWith("#/m/")){
+    const id=decodeURIComponent(location.hash.split("/")[2]||"");const m=mag(id);
+    if(m){
+      const target=document.querySelector(".sec")||document.querySelector("main")||document.body;
+      if(target&&!document.getElementById("ultimate-mag-tools")){
+        const box=document.createElement("div");box.id="ultimate-mag-tools";box.className="panel";box.style.marginTop="18px";
+        box.innerHTML=`<h3>⚡ ابزار مجله</h3><div class="row" style="flex-wrap:wrap"><button class="btn" data-act="usave" data-id="${esc(m.id)}">${isSaved(m)?"★ ذخیره‌شده":"☆ ذخیره مجله"}</button><button class="btn" data-act="mexport" data-id="${esc(m.id)}">📦 خروجی JSON</button><button class="btn" data-act="mprint" data-id="${esc(m.id)}">🖨️ چاپ / PDF</button>${m.author_id===me.id||me.is_admin?`<button class="btn" data-act="mversion" data-id="${esc(m.id)}">🕘 ساخت نسخه</button>`:""}</div>`;
+        target.appendChild(box)
+      }
+    }
+  }
+  if(location.hash==="#/settings"||location.hash.startsWith("#/settings")) addUserPowerPanel();
+  if(location.hash.startsWith("#/admin")) addAdminPowerPanel();
+  if(!location.hash.startsWith("#/admin") && !document.getElementById("amir-public-ads")){
+    const ads=activeAds();
+    if(ads.length){
+      const target=document.querySelector(".sec")||document.querySelector("main")||document.body;
+      if(target){
+        const wrap=document.createElement("div");wrap.id="amir-public-ads";
+        wrap.innerHTML=ads.slice(0,2).map(adMarkup).join("");
+        target.prepend(wrap);
+      }
+    }
+  }
+}
+function addUserPowerPanel(){
+ if(document.getElementById("ultimate-user-panel"))return;
+ const target=document.querySelector(".sec");if(!target)return;
+ const me=ME();if(!me)return;
+ const p=document.createElement("div");p.id="ultimate-user-panel";p.className="panel";p.style.marginTop="18px";
+ p.innerHTML=`<h3>⚡ مرکز امکانات AMIR</h3><div class="stat" style="margin:12px 0"><div><b>${fa(me.points||0)}</b>امتیاز</div><div><b>${fa(me.streak?.days||0)}</b>روز متوالی</div><div><b>${fa(me.badges?.length||0)}</b>نشان</div><div><b>${fa(db.saved.filter(x=>x.user_id===me.id).length)}</b>ذخیره‌شده</div></div><div class="row" style="flex-wrap:wrap"><button class="btn" data-act="uleader">🏆 جدول برترین‌ها</button><button class="btn" data-act="ubadges">🎖️ نشان‌ها</button><button class="btn" data-act="usavedlist">⭐ ذخیره‌شده‌ها</button><button class="btn" data-act="ujson">📦 پشتیبان کامل</button><button class="btn" data-act="theme2">🎨 تغییر ظاهر</button></div><div class="notice sm" style="margin-top:12px">💎 VIP: بدون محدودیت · قیمت: یک عدد گیفت تلگرام 🎁 · خرید: <b dir="ltr">@Mndgking</b></div>`;
+ target.appendChild(p)
+}
+function addAdminPowerPanel(){
+ if(document.getElementById("ultimate-admin-panel"))return;
+ const me=ME();if(!me?.is_admin)return;
+ const target=document.querySelector(".sec");if(!target)return;
+ const s=adminStats(),p=document.createElement("div");p.id="ultimate-admin-panel";p.className="panel";p.style.marginTop="18px";
+ p.innerHTML=`<h3>🧠 مرکز کنترل Ultimate</h3><div class="stat" style="margin:12px 0"><div><b>${fa(s.users)}</b>کاربر</div><div><b>${fa(s.magazines)}</b>مجله</div><div><b>${fa(s.vip)}</b>VIP</div><div><b>${fa(s.views)}</b>بازدید</div><div><b>${fa(s.likes)}</b>لایک</div><div><b>${fa(s.comments)}</b>دیدگاه</div><div><b>${fa(s.reports)}</b>گزارش باز</div></div><div class="row" style="flex-wrap:wrap"><button class="btn" data-act="adashboard">📊 تحلیل کامل</button><button class="btn" data-act="asecurity">🛡️ امنیت</button><button class="btn" data-act="avips">💎 مدیریت VIP</button><button class="btn" data-act="admanage">📢 تبلیغات</button><button class="btn" data-act="abadges">🏆 نشان‌ها</button><button class="btn" data-act="aexport">📦 پشتیبان کل سایت</button><button class="btn" data-act="ahost">☁️ همگام‌سازی هاست</button></div>`;
+ target.appendChild(p)
+}
+
+ACTIONS.usave=async el=>{const me=need(),m=mag(el.dataset.id);if(!m)return;const i=db.saved.findIndex(x=>x.user_id===me.id&&x.magazine_id===m.id);if(i>=0)db.saved.splice(i,1);else{db.saved.push({id:uid(),user_id:me.id,magazine_id:m.id,created_at:now()});award(me,"⭐ کتابخانه‌دار",10)}save();try{await hostSync("saved")}catch(e){}render()};
+ACTIONS.mexport=el=>{const m=mag(el.dataset.id);if(m)magazineExport(m)};
+ACTIONS.mprint=el=>{const m=mag(el.dataset.id);if(m)printMagazine(m)};
+ACTIONS.mversion=async el=>{const me=need(),m=mag(el.dataset.id);if(!m||(m.author_id!==me.id&&!me.is_admin))return;createVersion(m,"نسخه دستی");save();toast("نسخه ذخیره شد 🕘")};
+ACTIONS.uleader=()=>{const rows=leaderboard().map((u,i)=>`<div class="nt"><b>${fa(i+1)}.</b> ${avatar(u,30)} <span style="flex:1">${esc(u.display_name)} ${vb(u)} ${vip(u)}<br><span class="muted sm">${fa(u.points||0)} امتیاز</span></span></div>`).join("");openDlg(`<h3>🏆 جدول برترین‌ها</h3>${rows||"<p>هنوز امتیازی ثبت نشده.</p>"}<button class="btn" style="margin-top:12px" data-act="closedlg">بستن</button>`) };
+ACTIONS.ubadges=()=>{const me=ME();openDlg(`<h3>🎖️ نشان‌های شما</h3><div class="chips">${(me.badges||[]).map(x=>`<span class="badge">${esc(x)}</span>`).join("")||"<span class='muted'>هنوز نشانی نگرفته‌اید.</span>"}</div><button class="btn" style="margin-top:14px" data-act="closedlg">بستن</button>`) };
+ACTIONS.usavedlist=()=>{const me=ME(),L=db.saved.filter(x=>x.user_id===me.id).map(x=>mag(x.magazine_id)).filter(Boolean);openDlg(`<h3>⭐ ذخیره‌شده‌ها</h3>${L.map(m=>`<p><a href="#/m/${m.id}" onclick="closeDlg()">${esc(m.title)}</a></p>`).join("")||"<p class='muted'>هنوز چیزی ذخیره نکرده‌اید.</p>"}<button class="btn" style="margin-top:14px" data-act="closedlg">بستن</button>`) };
+ACTIONS.ujson=()=>{const me=ME();downloadText("amir-full-backup.json",JSON.stringify({schema:3,exported_at:now(),user:{...me,password_hash:undefined},magazines:db.magazines.filter(m=>m.author_id===me.id),comments:db.comments.filter(c=>c.user_id===me.id),likes:db.likes.filter(l=>l.user_id===me.id),saved:db.saved.filter(x=>x.user_id===me.id),versions:db.versions.filter(x=>x.author_id===me.id)},null,2))};
+ACTIONS.theme2=()=>ACTIONS.theme();
+ACTIONS.adashboard=()=>{const s=adminStats();openDlg(`<h3>📊 تحلیل کامل</h3><div class="stat"><div><b>${fa(s.users)}</b>کاربر</div><div><b>${fa(s.magazines)}</b>مجله</div><div><b>${fa(s.views)}</b>بازدید</div><div><b>${fa(s.likes)}</b>لایک</div></div><p class="muted" style="margin-top:14px">میانگین بازدید هر مجله: ${fa(s.magazines?Math.round(s.views/s.magazines):0)}</p><button class="btn" style="margin-top:12px" data-act="closedlg">بستن</button>`) };
+ACTIONS.asecurity=()=>{needAdmin();const failed=Object.keys(tries).filter(k=>tries[k]?.n).length;openDlg(`<h3>🛡️ مرکز امنیت</h3><p>تلاش‌های ورود ناموفق فعال: <b>${fa(failed)}</b></p><p>احراز هویت مدیر اصلی: <b>رمز دوم فعال</b></p><p>نشست مدیر: <b>${sget("amir_admin2")==="1"?"فعال":"نیازمند رمز دوم"}</b></p><button class="btn" data-act="closedlg">بستن</button>`) };
+
+ACTIONS.atimedverify=(el)=>{
+  const me=needAdmin(),u=user(el.dataset.id); if(!u)return;
+  const until=durationFromPrompt("تیک آبی");
+  if(until===null && !confirm("تیک آبی دائمی شود؟")) return;
+  u.is_verified=true; u.verified_until=until;
+  alog("verify",u.id); notify(u.id,"verify",until?`تیک آبی شما تا ${new Date(until).toLocaleDateString("fa-IR")} فعال است`:"تیک آبی شما فعال شد","/u/"+u.username);
+  save(); render();
+};
+ACTIONS.atimedvip=(el)=>{
+  const me=needAdmin(),u=user(el.dataset.id); if(!u)return;
+  const until=durationFromPrompt("VIP");
+  if(until===null && !confirm("VIP دائمی شود؟")) return;
+  u.is_vip=true; u.vip_until=until;
+  alog("vip",u.id); notify(u.id,"vip",until?`VIP شما تا ${new Date(until).toLocaleDateString("fa-IR")} فعال است`:"VIP شما فعال شد","/settings");
+  save(); render();
+};
+ACTIONS.addad=()=>{
+  needAdmin();
+  const title=prompt("عنوان تبلیغ:");
+  if(!title)return;
+  const textAd=prompt("متن تبلیغ:")||"";
+  const url=prompt("لینک تبلیغ (اختیاری):")||"";
+  const raw=prompt("مدت تبلیغ چند روز باشد؟ (۰ = دائمی)")||"0";
+  const days=Number(raw);
+  if(!Number.isFinite(days)||days<0||days>3650)throw new Error("مدت نامعتبر است");
+  const expires_at=days===0?null:new Date(Date.now()+days*864e5).toISOString();
+  db.ads.push({id:uid(),title:clean(title,120),text:clean(textAd,500),url:clean(url,500),expires_at,active:true,created_at:now(),created_by:ME().id});
+  alog("addad",title); save(); render();
+};
+ACTIONS.togglead=(el)=>{needAdmin();const a=(db.ads||[]).find(x=>x.id===el.dataset.id);if(!a)return;a.active=a.active===false;alog("togglead",a.id);save();render()};
+ACTIONS.delad=(el)=>{needAdmin();const i=(db.ads||[]).findIndex(x=>x.id===el.dataset.id);if(i<0)return;db.ads.splice(i,1);alog("delad",el.dataset.id);save();render()};
+ACTIONS.clearads=()=>{needAdmin();db.ads=(db.ads||[]).filter(a=>!a.expires_at||Date.now()<new Date(a.expires_at).getTime());save();render()};
+
+ACTIONS.avips=()=>{needAdmin();const L=db.users.filter(u=>vipActive(u));openDlg(`<h3>💎 مدیریت VIP</h3><p>تعداد VIP: <b>${fa(L.length)}</b></p>${L.slice(0,30).map(u=>`<div class="nt">${avatar(u,30)}<span>${esc(u.display_name)} <span class="badge">⭐ VIP</span></span></div>`).join("")||"<p class='muted'>هنوز کاربر VIP ندارید.</p>"}<button class="btn" style="margin-top:12px" data-act="closedlg">بستن</button>`) };
+ACTIONS.admanage=()=>{needAdmin();go("/admin/ads");render()};
+ACTIONS.abadges=()=>{needAdmin();const L=[...db.users].sort((a,b)=>(b.badges?.length||0)-(a.badges?.length||0)).slice(0,20);openDlg(`<h3>🏆 نشان‌ها</h3>${L.map(u=>`<div class="nt">${avatar(u,30)}<span style="flex:1">${esc(u.display_name)}</span><b>${fa(u.badges?.length||0)}</b></div>`).join("")}<button class="btn" style="margin-top:12px" data-act="closedlg">بستن</button>`) };
+ACTIONS.aexport=()=>{needAdmin();downloadText("amir-site-backup.json",JSON.stringify({schema:3,exported_at:now(),db:{...db,users:db.users.map(u=>{const x={...u};delete x.password_hash;delete x.verify_code;delete x.reset_code;return x})}},null,2))};
+ACTIONS.ahost=async()=>{const me=need();if(!AMIR_STORAGE_API)return toast("API هاست تنظیم نشده است","err");await hostSync("admin");toast("همگام‌سازی هاست انجام شد")};
+
+/* publish hooks: versions, streak, achievements, host */
+const _saveMagazineForm=FORMS.mag;
+FORMS.mag=async function(f,d){
+ const me=need(),id=f.dataset.id,old=id?mag(id):null;
+ if(old)createVersion(old,"قبل از ویرایش");
+ await _saveMagazineForm(f,d);
+ updateStreak(me);if(db.magazines.filter(m=>m.author_id===me.id).length>=1)award(me,"📰 نویسنده",20);if(db.magazines.filter(m=>m.author_id===me.id).length>=5)award(me,"🏆 نویسنده فعال",60);
+ try{await hostSync("magazine")}catch(e){}
+ save();
+};
+
+/* automatic streak on login */
+const _login=FORMS.login;
+FORMS.login=async function(f,d){await _login(f,d);const me=ME();if(me){me.login_count=(me.login_count||0)+1;me.last_login=now();updateStreak(me);if(me.login_count>=10)award(me,"🔥 ۱۰ ورود",30);save()}};
+
+
+
+/* ============ AMIR ULTIMATE v3: drafts, schedules, global sync, sharing ============ */
+function articleUrl(id){ return location.origin+location.pathname+'#/m/'+encodeURIComponent(id); }
+async function shareMagazine(m){
+  const url=articleUrl(m.id), text=`${m.title} — AMIR Magazine`;
+  try{ if(navigator.share){await navigator.share({title:m.title,text,url});toast("لینک مقاله به اشتراک گذاشته شد 🔗");return;} }catch(e){ if(e?.name==='AbortError')return; }
+  try{await navigator.clipboard.writeText(url);toast("لینک مقاله کپی شد 🔗");}catch(e){prompt("لینک مقاله:",url)}
+}
+function draftSnapshotFromForm(f){
+  const me=need(), id=f.dataset.id||uid();
+  return {id,author_id:me.id,title:clean(f.querySelector('[name=title]')?.value||'',120),description:clean(f.querySelector('[name=description]')?.value||'',300),content:clean(f.querySelector('[name=content]')?.value||'',20000),category:clean(f.querySelector('[name=category]')?.value||'',30),tags:[...new Set(String(f.querySelector('[name=tags]')?.value||'').split(/[,،]/).map(x=>clean(x,24)).filter(Boolean))].slice(0,6),updated_at:now()};
+}
+function studio(){
+ const me=need(); if(!me)return page404();
+ const drafts=(db.drafts||[]).filter(x=>x.author_id===me.id).sort((a,b)=>b.updated_at.localeCompare(a.updated_at));
+ const schedules=(db.schedules||[]).filter(x=>x.author_id===me.id).sort((a,b)=>a.publish_at.localeCompare(b.publish_at));
+ return V(`<section class="sec"><div class="sh"><h2>⚡ استودیو سازنده</h2><a class="btn pri" href="#/create">➕ مجله جدید</a></div>
+ <div class="panel" style="margin-bottom:18px"><h3>📝 پیش‌نویس‌ها</h3><p class="muted">نوشته‌های نیمه‌تمام اینجا می‌مانند تا هر وقت خواستی ادامه‌شان بدهی.</p>${drafts.length?drafts.map(d=>`<div class="nt"><span style="flex:1"><b>${esc(d.title||'بدون عنوان')}</b><br><span class="muted sm">${fdt(d.updated_at)}</span></span><button class="btn sm" data-act="editdraft" data-id="${esc(d.id)}">ادامه</button><button class="btn sm dng" data-act="deldraft" data-id="${esc(d.id)}">حذف</button></div>`).join(''):'<div class="empty">هنوز پیش‌نویسی نداری.</div>'}</div>
+ <div class="panel"><h3>📅 انتشارهای زمان‌بندی‌شده</h3><p class="muted">انتشار در زمانی که تعیین کرده‌ای انجام می‌شود، اگر سایت در دسترس باشد.</p>${schedules.length?schedules.map(x=>`<div class="nt"><span style="flex:1"><b>${esc(x.title||'بدون عنوان')}</b><br><span class="muted sm">${new Date(x.publish_at).toLocaleString('fa-IR')}</span></span><button class="btn sm dng" data-act="delschedule" data-id="${esc(x.id)}">لغو</button></div>`).join(''):'<div class="empty">انتشاری زمان‌بندی نشده.</div>'}</div>
+ </section>`,{title:"استودیو سازنده"});
+}
+const _dispatch_v3=dispatch;
+dispatch=function(s,q){ if(s[0]==='studio')return studio(); return _dispatch_v3(s,q); };
+const _baseRender_v3=render;
+render=function(){ _baseRender_v3(); setTimeout(v3AfterRender,0); };
+function v3AfterRender(){
+  const me=ME();
+  if(location.hash.startsWith('#/m/')){
+    const id=decodeURIComponent(location.hash.split('/')[2]||''),m=mag(id);
+    if(m && !document.querySelector('[data-v3-share]')){
+      const host=document.querySelector('.art')||document.querySelector('.panel');
+      if(host){const b=document.createElement('button');b.className='btn';b.dataset.v3Share='1';b.textContent='🔗 اشتراک‌گذاری مقاله';b.onclick=()=>shareMagazine(m);host.insertBefore(b,host.firstChild)}
+    }
+  }
+  if(me && (location.hash.startsWith('#/edit')||location.hash==='#/create')){
+    const form=document.querySelector('form[data-form="mag"]');
+    if(form && !form.querySelector('[data-v3-editor-tools]')){
+      const row=form.querySelector('.row:last-of-type')||form.querySelector('.row');
+      if(row){const wrap=document.createElement('span');wrap.dataset.v3EditorTools='1';wrap.className='row';wrap.innerHTML='<button type="button" class="btn" data-act="savedraft">📝 پیش‌نویس</button><button type="button" class="btn" data-act="schedule">📅 زمان‌بندی</button><a class="btn" href="#/studio">⚡ استودیو</a>';row.prepend(wrap)}
+    }
+  }
+}
+ACTIONS.savedraft=()=>{
+ const f=document.querySelector('form[data-form="mag"]');if(!f)return;
+ const d=draftSnapshotFromForm(f); if(!d.title&&!d.content)return toast('برای پیش‌نویس چیزی بنویس','err');
+ db.drafts=db.drafts||[]; const i=db.drafts.findIndex(x=>x.id===d.id&&x.author_id===d.author_id); if(i>=0)db.drafts[i]=d;else db.drafts.push(d);save();toast('پیش‌نویس ذخیره شد 📝');
+};
+ACTIONS.schedule=()=>{
+ const f=document.querySelector('form[data-form="mag"]');if(!f)return; const d=draftSnapshotFromForm(f); if(!d.title||d.content.length<20)return toast('عنوان و متن کافی نیست','err');
+ const raw=prompt('زمان انتشار را به صورت YYYY-MM-DD HH:MM وارد کن:'); if(!raw)return; const dt=new Date(raw.replace(' ','T')); if(Number.isNaN(dt.getTime())||dt.getTime()<=Date.now())return toast('زمان آینده و معتبر وارد کن','err');
+ db.schedules=db.schedules||[];db.schedules.push({...d,id:uid(),publish_at:dt.toISOString()});save();toast('انتشار زمان‌بندی شد 📅');go('/studio');render();
+};
+ACTIONS.editdraft=(el)=>{const d=(db.drafts||[]).find(x=>x.id===el.dataset.id&&x.author_id===ME()?.id);if(!d)return;const m={...d,id:d.id};db.__draftEdit=m;go('/create');render();setTimeout(()=>{const f=document.querySelector('form[data-form="mag"]');if(!f)return;['title','description','content','category','tags'].forEach(k=>{const x=f.querySelector('[name='+k+']');if(x)x.value=k==='tags'?(d.tags||[]).join('، '):(d[k]||'')});toast('پیش‌نویس بارگذاری شد')},50)};
+ACTIONS.deldraft=(el)=>{db.drafts=(db.drafts||[]).filter(x=>x.id!==el.dataset.id||x.author_id!==ME()?.id);save();render()};
+ACTIONS.delschedule=(el)=>{db.schedules=(db.schedules||[]).filter(x=>x.id!==el.dataset.id||x.author_id!==ME()?.id);save();render()};
+async function publishDueSchedules(){
+ const due=(db.schedules||[]).filter(x=>new Date(x.publish_at).getTime()<=Date.now()); if(!due.length)return;
+ for(const x of due){
+  const u=user(x.author_id);if(!u){continue}
+  const m={id:uid(),author_id:u.id,title:x.title,description:x.description,content:x.content,cover_url:'',images:[],category:x.category,tags:x.tags||[],created_at:now(),updated_at:now(),views:0};db.magazines.push(m);
+  db.schedules=db.schedules.filter(z=>z.id!==x.id);notify(u.id,'publish',`مجله «${m.title}» طبق برنامه منتشر شد`,`/m/${m.id}`);save();
+  if(ghCfg())try{await ghBackupUser(u)}catch(e){console.warn('scheduled sync',e)}
+ }
+ save();render();
+}
+setInterval(()=>publishDueSchedules().catch(console.error),60000);
+publishDueSchedules().catch(console.error);
+async function syncAllRemoteMagazines(){
+ const cfg=ghCfg(); if(!cfg||!cfg.owner)return false;
+ try{
+  const repos=await ghApi(`/users/${encodeURIComponent(cfg.owner)}/repos?per_page=100&sort=updated`);
+  const list=(repos||[]).filter(r=>r.name.startsWith('amir-magazine-'));
+  let changed=false;
+  for(const r of list){
+   let prof=null;try{prof=await ghApi(`/repos/${cfg.owner}/${r.name}/contents/data/profile.json`)}catch(e){prof=null}
+   if(prof?.content){try{
+     const txt=decodeURIComponent(escape(atob(prof.content.replace(/\n/g,''))));const p=JSON.parse(txt),ru=p.user;if(ru?.username){let u=byName(ru.username);if(!u){u={id:'remote-'+hash(ru.username),private_id:'remote-'+hash(ru.username),email:ru.email||ru.username+'@remote.invalid',username:ru.username,display_name:ru.display_name||ru.username,password_hash:'!',bio:'',avatar_url:'',is_verified:!!ru.is_verified,is_vip:!!ru.is_vip,is_admin:false,email_verified:true,blocked:false,remote:true,created_at:now()};db.users.push(u);changed=true}else{u.is_verified=!!ru.is_verified;u.is_vip=!!ru.is_vip;u.display_name=ru.display_name||u.display_name}}
+   }catch(e){}}
+   let files=[];try{files=await ghApi(`/repos/${cfg.owner}/${r.name}/contents/magazines`)}catch(e){continue}
+   for(const f of (files||[])){if(!f.name.endsWith('.json'))continue;try{const z=await ghApi(`/repos/${cfg.owner}/${r.name}/contents/magazines/${encodeURIComponent(f.name)}`);const txt=decodeURIComponent(escape(atob(z.content.replace(/\n/g,''))));const m=JSON.parse(txt);if(!m?.id||!m?.title)continue;let a=user(m.author_id);if(!a){const uname=r.name.replace(/^amir-magazine-/,'');a=byName(uname)}if(!a)continue;m.author_id=a.id;const old=mag(m.id);if(!old){db.magazines.push(m);changed=true}else if(new Date(m.updated_at||0)>new Date(old.updated_at||0)){Object.assign(old,m);changed=true}}
+     catch(e){console.warn('remote magazine',f.name,e)}}
+  }
+  if(changed){save();render()}
+  return true;
+ }catch(e){console.warn('global sync',e);return false}
+}
+setTimeout(()=>syncAllRemoteMagazines(),1200);setInterval(()=>syncAllRemoteMagazines(),120000);
+
 /* ============ boot ============ */
 (function(){const t=sget("amir_theme")||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");document.documentElement.dataset.theme=t;render()})();
+</script>
+<style id="amir-v4-style">#amir-v4-dock{position:fixed;right:16px;bottom:16px;z-index:99990;display:flex;gap:8px;flex-wrap:wrap}.amir-v4-btn{border:0;border-radius:14px;padding:10px 13px;background:#171a24;color:#fff;cursor:pointer;font-weight:800}.amir-v4-panel{position:fixed;inset:0;background:#0008;z-index:99991;display:none;align-items:center;justify-content:center;padding:16px}.amir-v4-panel.open{display:flex}.amir-v4-card{width:min(900px,100%);max-height:90vh;overflow:auto;background:#0e1017;color:#fff;border:1px solid #ffffff18;border-radius:24px;padding:20px}.amir-v4-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}.amir-v4-stat,.amir-v4-item{background:#ffffff08;border:1px solid #ffffff12;border-radius:16px;padding:14px}.amir-v4-input,.amir-v4-text{width:100%;box-sizing:border-box;background:#080a10;color:#fff;border:1px solid #ffffff18;border-radius:12px;padding:11px;margin:5px 0}</style>
+<div id="amir-v4-panel" class="amir-v4-panel"><div class="amir-v4-card"><button class="amir-v4-btn" onclick="AMIRV4.close()">✕</button><div id="amir-v4-content"></div></div></div>
+<script>
+(function(){
+var KEY='amir_v4_state';
+function getState(){var x={};try{x=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){};x.drafts=x.drafts||[];x.collections=x.collections||[];x.schedule=x.schedule||[];x.achievements=x.achievements||[];return x}
+function putState(x){localStorage.setItem(KEY,JSON.stringify(x))}
+function esc(x){return String(x==null?'':x).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function mags(){try{var a=JSON.parse(localStorage.getItem('amir_magazines')||'[]');return Array.isArray(a)?a:[]}catch(e){return []}}
+function panel(){return document.getElementById('amir-v4-content')}
+function open(){document.getElementById('amir-v4-panel').classList.add('open');home()}
+function close(){document.getElementById('amir-v4-panel').classList.remove('open')}
+function home(){var s=getState(),a=mags();panel().innerHTML='<h2>🚀 AMIR Magazine v4</h2><p>امکانات جدید، بدون حذف قابلیت‌های نسخه قبلی</p><div class="amir-v4-grid"><div class="amir-v4-stat"><b>✍️ Creator Studio</b><br><button class="amir-v4-btn" onclick="AMIRV4.drafts()">پیش‌نویس‌ها</button></div><div class="amir-v4-stat"><b>📅 زمان‌بندی</b><br><button class="amir-v4-btn" onclick="AMIRV4.schedule()">مدیریت</button></div><div class="amir-v4-stat"><b>⭐ مجموعه‌ها</b><br><button class="amir-v4-btn" onclick="AMIRV4.collections()">مدیریت</button></div><div class="amir-v4-stat"><b>🏆 Achievement</b><br><button class="amir-v4-btn" onclick="AMIRV4.achievements()">مشاهده</button></div><div class="amir-v4-stat"><b>📊 Analytics</b><br><button class="amir-v4-btn" onclick="AMIRV4.analytics()">آمار</button></div><div class="amir-v4-stat"><b>📣 Telegram</b><br><button class="amir-v4-btn" onclick="location.href=&quot;https://t.me/Mndgking&quot;">@Mndgking</button></div></div><p>📰 مقاله‌ها: '+a.length+' · 📝 پیش‌نویس: '+s.drafts.length+' · 📅 زمان‌بندی: '+s.schedule.length+'</p>'}
+function drafts(){var s=getState(),h='<h2>📝 پیش‌نویس‌ها</h2><button class="amir-v4-btn" onclick="AMIRV4.newDraft()">+ پیش‌نویس</button><div>';for(var i=0;i<s.drafts.length;i++){h+='<div class="amir-v4-item"><b>'+esc(s.drafts[i].title||'بدون عنوان')+'</b><br><small>'+esc(s.drafts[i].updatedAt||'')+'</small><br><button class="amir-v4-btn" onclick="AMIRV4.deleteDraft('+i+')">حذف</button></div>'}panel().innerHTML=h+'</div>'}
+function newDraft(){panel().innerHTML='<h2>✍️ Creator Studio</h2><input id="v4title" class="amir-v4-input" placeholder="عنوان"><textarea id="v4body" class="amir-v4-text" rows="12" placeholder="متن مقاله..."></textarea><button class="amir-v4-btn" onclick="AMIRV4.saveDraft()">💾 ذخیره</button>'}
+function saveDraft(){var s=getState();s.drafts.push({title:document.getElementById('v4title').value,body:document.getElementById('v4body').value,updatedAt:new Date().toLocaleString('fa-IR')});putState(s);drafts()}
+function deleteDraft(i){var s=getState();s.drafts.splice(i,1);putState(s);drafts()}
+function schedule(){var s=getState(),h='<h2>📅 زمان‌بندی انتشار</h2><button class="amir-v4-btn" onclick="AMIRV4.addSchedule()">+ زمان‌بندی</button>';for(var i=0;i<s.schedule.length;i++){h+='<div class="amir-v4-item"><b>'+esc(s.schedule[i].title||'بدون عنوان')+'</b><br>⏰ '+esc(s.schedule[i].when||'')+' <button class="amir-v4-btn" onclick="AMIRV4.delSchedule('+i+')">لغو</button></div>'}panel().innerHTML=h}
+function addSchedule(){var t=prompt('عنوان مقاله؟');if(!t)return;var w=prompt('زمان انتشار؟');if(!w)return;var s=getState();s.schedule.push({title:t,when:w});putState(s);schedule()}
+function delSchedule(i){var s=getState();s.schedule.splice(i,1);putState(s);schedule()}
+function collections(){var s=getState(),h='<h2>⭐ مجموعه‌ها</h2><button class="amir-v4-btn" onclick="AMIRV4.addCollection()">+ مجموعه</button>';for(var i=0;i<s.collections.length;i++){h+='<div class="amir-v4-item"><b>'+esc(s.collections[i].name)+'</b></div>'}panel().innerHTML=h}
+function addCollection(){var n=prompt('نام مجموعه؟');if(!n)return;var s=getState();s.collections.push({name:n,items:[]});putState(s);collections()}
+function achievements(){var s=getState(),h='<h2>🏆 Achievement</h2>';if(!s.achievements.length)h+='<div class="amir-v4-item">📝 اولین مقاله · 👁️ 100 بازدید · 🔗 اولین اشتراک‌گذاری</div>';for(var i=0;i<s.achievements.length;i++)h+='<div class="amir-v4-item">'+esc(s.achievements[i])+'</div>';panel().innerHTML=h}
+function analytics(){var a=mags(),v=0,l=0,c=0;for(var i=0;i<a.length;i++){v+=Number(a[i].views||0);l+=Number(a[i].likes||0);c+=Array.isArray(a[i].comments)?a[i].comments.length:Number(a[i].comments||0)}panel().innerHTML='<h2>📊 Creator Analytics</h2><div class="amir-v4-grid"><div class="amir-v4-stat">📰 مقاله<b>'+a.length+'</b></div><div class="amir-v4-stat">👁️ بازدید<b>'+v+'</b></div><div class="amir-v4-stat">❤️ لایک<b>'+l+'</b></div><div class="amir-v4-stat">💬 کامنت<b>'+c+'</b></div></div>'}
+function share(){var u=location.href;if(navigator.share){navigator.share({title:document.title,url:u}).catch(function(){})}else if(navigator.clipboard){navigator.clipboard.writeText(u).then(function(){alert('لینک کپی شد 🗿')})}else{prompt('لینک:',u)}}
+window.AMIRV4={open:open,close:close,drafts:drafts,newDraft:newDraft,saveDraft:saveDraft,deleteDraft:deleteDraft,schedule:schedule,addSchedule:addSchedule,delSchedule:delSchedule,collections:collections,addCollection:addCollection,achievements:achievements,analytics:analytics,share:share};
+})();
 </script>
 </body>
 </html>
