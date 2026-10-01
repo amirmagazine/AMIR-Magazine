@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AMIR Magazine</title>
+<meta name="description" content="AMIR Magazine؛ جایی برای انتشار مجله، مقاله و محتوای تصویری">
+<meta http-equiv="Content-Security-Policy" content="object-src 'none'; base-uri 'none'; connect-src https://api.github.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Vazirmatn:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EEF1F0;--sf:#FFFFFF;--sf2:#E3E8E6;--ink:#131A2E;--mut:#566074;--line:#D3DAD7;--anar:#C8274B;--onanar:#fff;--fir:#0B7F78;--saf:#F2B134;--sh:0 1px 0 rgba(19,26,46,.06),0 18px 34px -20px rgba(19,26,46,.45);--fd:Lalezar,Vazirmatn,Tahoma,sans-serif;--fb:Vazirmatn,Tahoma,system-ui,sans-serif}
+[data-theme=dark]{--bg:#0B111F;--sf:#151D32;--sf2:#1D2742;--ink:#EDF0F7;--mut:#9CA7BF;--line:#28344F;--anar:#F0577A;--onanar:#0B111F;--fir:#3CCBC1;--sh:0 1px 0 rgba(255,255,255,.04),0 20px 36px -20px rgba(0,0,0,.9)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.8 var(--fb);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit;color:inherit}
+img,svg{max-width:100%}
+:focus-visible{outline:3px solid var(--fir);outline-offset:2px;border-radius:6px}
+.skip{position:absolute;top:-60px;inset-inline-start:10px;background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:10px;z-index:99}
+.skip:focus{top:10px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 18px}
+.ic{width:20px;height:20px;flex:none}
+.vb{width:16px;height:16px;vertical-align:-3px;margin-inline-start:3px}
+.muted{color:var(--mut)}
+.sm{font-size:.875rem}
+/* header */
+#hd{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.hrow{display:flex;align-items:center;gap:14px;height:64px}
+.logo{direction:ltr;font-family:var(--fd);font-size:1.7rem;line-height:1;display:flex;align-items:baseline;gap:6px;letter-spacing:.5px}
+.logo b{font-weight:400;color:var(--anar)}
+.logo span{font-family:var(--fb);font-size:.8rem;font-weight:700;color:var(--mut);letter-spacing:2px}
+.nav{display:flex;gap:4px;margin-inline-start:10px}
+.nav a{padding:6px 12px;border-radius:999px;font-weight:500;color:var(--mut)}
+.nav a:hover,.nav a[aria-current=page]{color:var(--ink);background:var(--sf2)}
+.sp{flex:1}
+.hs{display:flex;align-items:center;background:var(--sf2);border-radius:999px;padding:0 12px;gap:6px;min-width:0}
+.hs input{background:none;border:0;outline:0;height:38px;width:170px;min-width:0}
+.hs:focus-within{outline:3px solid var(--fir)}
+.ib{position:relative;display:inline-grid;place-items:center;width:40px;height:40px;border-radius:50%;border:0;background:transparent;cursor:pointer}
+.ib:hover{background:var(--sf2)}
+.dot{position:absolute;top:3px;inset-inline-start:3px;min-width:18px;height:18px;border-radius:9px;background:var(--anar);color:var(--onanar);font-size:.7rem;display:grid;place-items:center;font-weight:700;padding:0 4px}
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:0 18px;border-radius:12px;border:1.5px solid var(--line);background:var(--sf);font-weight:500;cursor:pointer;transition:transform .15s,background .15s}
+.btn:hover{background:var(--sf2)}
+.btn:active{transform:scale(.97)}
+.btn.pri{background:var(--anar);border-color:var(--anar);color:var(--onanar);font-weight:700}
+.btn.pri:hover{filter:brightness(1.07)}
+.btn.dng{color:var(--anar);border-color:var(--anar)}
+.btn.sm{min-height:34px;padding:0 12px;font-size:.875rem;border-radius:10px}
+.btn[disabled]{opacity:.55;cursor:wait}
+.btn[aria-pressed=true]{background:var(--anar);color:var(--onanar);border-color:var(--anar)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+/* hero */
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:28px;align-items:center;padding:46px 0 30px}
+.mast{direction:ltr;text-align:right;font-family:var(--fd);line-height:.82;font-size:clamp(5.5rem,20vw,12.5rem);letter-spacing:-2px;margin:0}
+.mast i{display:block;font-style:normal;font-family:var(--fb);font-size:clamp(1rem,2.4vw,1.5rem);font-weight:700;letter-spacing:.9em;color:var(--anar);margin-top:14px;padding-inline-start:.9em}
+.hero h1{margin:0}
+.lede{font-size:1.15rem;max-width:34ch;margin:22px 0}
+.stack{position:relative;height:430px;direction:ltr}
+.stack a{position:absolute;width:56%;aspect-ratio:4/5;border-radius:18px;overflow:hidden;box-shadow:var(--sh);transform:rotate(var(--r)) translate(var(--x),var(--y));animation:deal .9s cubic-bezier(.2,.8,.2,1) both;animation-delay:var(--d)}
+.stack a:nth-child(1){--r:-7deg;--x:0;--y:10px;--d:0s;inset-inline-start:0;top:20px}
+.stack a:nth-child(2){--r:5deg;--x:0;--y:0;--d:.12s;inset-inline-start:30%;top:0}
+.stack a:nth-child(3){--r:-2deg;--x:0;--y:0;--d:.24s;inset-inline-start:42%;top:150px;width:52%}
+@keyframes deal{from{opacity:0;transform:rotate(0) translate(0,60px)}}
+.stack svg,.stack img,.cv svg,.cv img{display:block;width:100%;height:100%;object-fit:cover}
+/* sections */
+.sec{padding:30px 0}
+.sh{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:18px}
+h2{font-family:var(--fd);font-weight:400;font-size:clamp(1.7rem,4vw,2.4rem);margin:0;line-height:1.3}
+h3{margin:0}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{padding:5px 14px;border-radius:999px;background:var(--sf);border:1.5px solid var(--line);font-size:.9rem;cursor:pointer}
+.chip:hover,.chip[aria-current=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+/* magazine cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:34px 24px}
+.grid.feat>.card:first-child{grid-column:span 2}
+.grid.feat>.card:first-child .cv{aspect-ratio:16/10}
+.card .cv{position:relative;display:block;aspect-ratio:4/5;border-radius:20px;overflow:hidden;background:var(--sf2);box-shadow:var(--sh);transition:transform .25s}
+.card .cv:hover{transform:translateY(-4px)}
+.cat{position:absolute;top:12px;inset-inline-start:12px;background:var(--bg);color:var(--ink);padding:2px 12px;border-radius:999px;font-size:.8rem;font-weight:500}
+.card h3{font-family:var(--fd);font-weight:400;font-size:1.45rem;line-height:1.4;margin:14px 0 4px}
+.card p{margin:0 0 10px;color:var(--mut);font-size:.95rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.by{display:flex;align-items:center;gap:8px;font-size:.9rem;flex-wrap:wrap}
+.stats{display:flex;gap:16px;color:var(--mut);font-size:.85rem;margin-top:8px}
+.stats span{display:inline-flex;gap:5px;align-items:center}
+.stats .ic{width:16px;height:16px}
+.av{display:inline-grid;place-items:center;border-radius:50%;overflow:hidden;background:var(--fir);color:#fff;font-weight:700;flex:none;object-fit:cover}
+/* forms */
+.panel{background:var(--sf);border-radius:24px;padding:28px;box-shadow:var(--sh)}
+.narrow{max-width:460px;margin:40px auto}
+.fld{display:block;margin-bottom:16px}
+.fld>span{display:block;font-weight:500;margin-bottom:4px}
+.fld small{color:var(--mut)}
+.in{width:100%;min-height:46px;padding:8px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg)}
+textarea.in{min-height:140px;resize:vertical}
+.in:focus{outline:3px solid var(--fir);outline-offset:1px}
+.notice{background:var(--sf2);border-radius:14px;padding:12px 16px;font-size:.92rem;margin:0 0 16px}
+.notice.demo{border:1.5px dashed var(--saf)}
+.err{color:var(--anar)}
+.code{font-family:ui-monospace,monospace;font-size:1.5rem;letter-spacing:6px;direction:ltr;display:block;text-align:center}
+/* profile */
+.pbanner{height:190px;border-radius:26px;overflow:hidden;box-shadow:var(--sh)}
+.pbanner svg{width:100%;height:100%;display:block}
+.phead{display:flex;gap:18px;align-items:end;margin:-52px 22px 20px;flex-wrap:wrap}
+.phead .av{border:5px solid var(--bg)}
+.pcounts{display:flex;gap:22px;margin:10px 0}
+.pcounts b{font-size:1.2rem;display:block;line-height:1.2}
+/* article */
+.art{max-width:760px;margin:0 auto}
+.art .acover{border-radius:26px;overflow:hidden;aspect-ratio:16/10;box-shadow:var(--sh);margin:18px 0}
+.art .acover svg,.art .acover img{width:100%;height:100%;object-fit:cover;display:block}
+.art h1{font-family:var(--fd);font-weight:400;font-size:clamp(2rem,6vw,3.4rem);line-height:1.35;margin:10px 0}
+.body p{font-size:1.1rem;line-height:2.1;margin:0 0 1.2em}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin:24px 0}
+.gal img{width:100%;border-radius:16px;display:block}
+.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:14px 0;border-block:1px solid var(--line);margin:22px 0}
+.cm{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
+.cm p{margin:2px 0 0;white-space:pre-wrap;overflow-wrap:anywhere}
+.tags{display:flex;gap:8px;flex-wrap:wrap}
+.tags a{color:var(--fir);font-size:.9rem}
+/* editor */
+.thumbs{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.thumbs div{position:relative;width:96px;height:96px;border-radius:14px;overflow:hidden;background:var(--sf2)}
+.thumbs img{width:100%;height:100%;object-fit:cover}
+.thumbs button{position:absolute;top:4px;inset-inline-start:4px;width:26px;height:26px;border-radius:50%;border:0;background:var(--ink);color:var(--bg);cursor:pointer}
+/* tables */
+.tw{overflow-x:auto;background:var(--sf);border-radius:20px;box-shadow:var(--sh)}
+table{border-collapse:collapse;width:100%;min-width:640px}
+th,td{padding:12px 14px;text-align:start;border-bottom:1px solid var(--line);vertical-align:middle}
+th{font-weight:700;font-size:.9rem;color:var(--mut)}
+.stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:22px}
+.stat div{background:var(--sf);border-radius:20px;padding:16px 18px;box-shadow:var(--sh)}
+.stat b{display:block;font-family:var(--fd);font-weight:400;font-size:2.2rem;line-height:1.2}
+.subnav{display:flex;gap:6px;margin:24px 0;flex-wrap:wrap}
+.chart{display:flex;align-items:end;gap:10px;height:130px}
+.chart div{flex:1;text-align:center;font-size:.78rem;color:var(--mut)}
+.chart i{display:block;background:var(--fir);border-radius:8px 8px 3px 3px;min-height:4px;margin-bottom:4px}
+.empty{text-align:center;padding:50px 10px;color:var(--mut)}
+.badge{display:inline-block;padding:1px 10px;border-radius:999px;font-size:.78rem;background:var(--sf2)}
+.badge.r{background:var(--anar);color:var(--onanar)}
+.nt{display:flex;gap:12px;padding:14px 16px;background:var(--sf);border-radius:16px;margin-bottom:10px;align-items:center}
+.nt.un{border-inline-start:5px solid var(--anar)}
+footer{margin-top:60px;border-top:1px solid var(--line);padding:26px 0 90px;color:var(--mut);font-size:.9rem}
+footer .row{justify-content:space-between}
+#bn{display:none}
+#toasts{position:fixed;bottom:84px;inset-inline:0;display:flex;flex-direction:column;align-items:center;gap:8px;z-index:60;pointer-events:none}
+.toast{background:var(--ink);color:var(--bg);padding:10px 20px;border-radius:14px;box-shadow:var(--sh);animation:up .25s both}
+.toast.err{background:var(--anar);color:var(--onanar)}
+@keyframes up{from{opacity:0;transform:translateY(12px)}}
+dialog{border:0;border-radius:22px;padding:24px;background:var(--sf);color:var(--ink);box-shadow:0 30px 80px rgba(0,0,0,.4);max-width:min(440px,92vw);width:100%}
+dialog::backdrop{background:rgba(5,8,18,.55)}
+@media(max-width:860px){.hero{grid-template-columns:1fr;padding-top:24px}.stack{height:360px;max-width:420px}.nav{display:none}.hs input{width:110px}}
+@media(max-width:760px){
+ #bn{display:flex;position:fixed;bottom:0;inset-inline:0;z-index:25;background:var(--sf);border-top:1px solid var(--line);justify-content:space-around;padding:6px 6px calc(6px + env(safe-area-inset-bottom))}
+ #bn a{display:grid;place-items:center;gap:0;font-size:.7rem;padding:2px 10px;color:var(--mut);position:relative}
+ #bn a[aria-current=page]{color:var(--anar)}
+ .grid.feat>.card:first-child{grid-column:auto}
+ .grid.feat>.card:first-child .cv{aspect-ratio:4/5}
+ .hide-m{display:none!important}
+ .panel{padding:20px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#app">پرش به محتوا</a>
+<header id="hd"></header>
+<main id="app" class="wrap" tabindex="-1"></main>
+<footer><div class="wrap"><div class="row"><span>© AMIR Magazine</span><span class="row"><a href="#/privacy">حریم خصوصی</a><a href="#/terms">شرایط استفاده</a></span></div></div></footer>
+<nav id="bn" aria-label="ناوبری موبایل"></nav>
+<div id="toasts" role="status" aria-live="polite"></div>
+<dialog id="dlg"></dialog>
+
+<script>
+"use strict";
+/* ============ utilities ============ */
+const $=(s,e=document)=>e.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const clean=(s,max)=>String(s??"").replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g,"").trim().slice(0,max);
+const fa=n=>Number(n||0).toLocaleString("fa-IR");
+const fdate=i=>new Intl.DateTimeFormat("fa-IR",{dateStyle:"medium"}).format(new Date(i));
+const fdt=i=>new Intl.DateTimeFormat("fa-IR",{dateStyle:"medium",timeStyle:"short"}).format(new Date(i));
+const uid=()=>crypto.randomUUID();
+const now=()=>new Date().toISOString();
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const mem={};
+const sget=k=>{try{return localStorage.getItem(k)}catch(e){return mem[k]??null}};
+const sset=(k,v)=>{try{localStorage.setItem(k,v);return true}catch(e){if(e&&e.name==="QuotaExceededError")return false;mem[k]=v;return true}};
+const tget=k=>{try{return sessionStorage.getItem(k)}catch(e){return mem["s"+k]??null}};
+const tset=(k,v)=>{try{v==null?sessionStorage.removeItem(k):sessionStorage.setItem(k,v)}catch(e){mem["s"+k]=v}};
+const hash=s=>{let h=2166136261;for(const c of String(s)){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0};
+const b64e=u=>btoa(String.fromCharCode(...u));
+const b64d=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+const P={
+heart:'<path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7Z"/>',
+comment:'<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
+eye:'<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+search:'<circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>',
+bell:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/>',
+user:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+moon:'<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>',
+plus:'<path d="M12 5v14M5 12h14"/>',
+home:'<path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/>',
+compass:'<circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/>',
+shield:'<path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/>',
+settings:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2"/>',
+logout:'<path d="M9 21H5V3h4M16 17l5-5-5-5M21 12H9"/>'};
+const ic=n=>`<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[n]}</svg>`;
+const VB='<svg class="vb" viewBox="0 0 24 24" role="img" aria-label="حساب تأییدشده"><title>حساب تأییدشده</title><path fill="#1D9BF0" d="M12 1.5l2.6 1.9 3.2-.1 1 3 2.6 1.9-1 3 1 3-2.6 1.9-1 3-3.2-.1L12 22.5l-2.6-1.9-3.2.1-1-3-2.6-1.9 1-3-1-3 2.6-1.9 1-3 3.2.1z"/><path d="m8 12.3 2.7 2.7L16 9.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const vb=u=>u&&u.is_verified?VB:"";
+const vip=u=>u&&u.is_vip?`<span class="badge" title="حساب VIP">⭐ VIP</span>`:"";
+function toast(m,t){const e=document.createElement("div");e.className="toast "+(t||"");e.textContent=m;$("#toasts").append(e);setTimeout(()=>e.remove(),3600)}
+function ask(msg){return new Promise(res=>{const d=$("#dlg");d.returnValue="";d.innerHTML=`<form method="dialog"><p>${esc(msg)}</p><div class="row"><button class="btn pri" value="yes">تأیید</button><button class="btn" value="no">انصراف</button></div></form>`;d.onclose=()=>res(d.returnValue==="yes");d.showModal()})}
+function openDlg(html){const d=$("#dlg");d.onclose=null;d.innerHTML=html;d.showModal()}
+const closeDlg=()=>{const d=$("#dlg");if(d.open)d.close()};
+
+/* ============ generative covers ============ */
+function gen(seed,label){
+ const h=hash(seed||"x"),C=[["#0B7F78","#101A33","#F2B134"],["#C8274B","#2B0F2E","#F9D9C6"],["#3550E8","#0E1530","#A8F0E4"],["#F2B134","#3A1B10","#FFF1CF"],["#7A47D8","#170F36","#FFC2DB"],["#0F8A63","#0A2420","#EAF7A6"]][h%6];
+ const s=[34,44,56][(h>>4)%3],r=[0,15,30][(h>>6)%3],ch=esc([...String(label||"")][0]||"ا");
+ return `<svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="g${h}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${C[0]}"/><stop offset="1" stop-color="${C[1]}"/></linearGradient><pattern id="p${h}" width="${s}" height="${s}" patternUnits="userSpaceOnUse" patternTransform="rotate(${r})"><rect x="${s*.2}" y="${s*.2}" width="${s*.6}" height="${s*.6}" fill="none" stroke="${C[2]}" stroke-width="1.2"/><rect x="${s*.2}" y="${s*.2}" width="${s*.6}" height="${s*.6}" fill="none" stroke="${C[2]}" stroke-width="1.2" transform="rotate(45 ${s/2} ${s/2})"/></pattern></defs><rect width="400" height="500" fill="url(#g${h})"/><rect width="400" height="500" fill="url(#p${h})" opacity=".3"/><circle cx="${120+h%160}" cy="${150+(h>>3)%120}" r="${110+h%50}" fill="${C[1]}" opacity=".55"/><text x="${70+h%40}" y="400" font-family="Lalezar,Vazirmatn,sans-serif" font-size="300" fill="${C[2]}" opacity=".92" style="direction:ltr">${ch}</text></svg>`}
+const okUrl=u=>typeof u==="string"&&(/^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(u)||/^https:\/\/raw\.githubusercontent\.com\/[\w.\-\/%]+$/.test(u));
+const cover=m=>okUrl(m.cover_url)?`<img src="${m.cover_url}" alt="" loading="lazy">`:gen(m.id,m.title);
+function avatar(u,sz){const s=sz||40;if(u&&okUrl(u.avatar_url))return `<img class="av" width="${s}" height="${s}" style="width:${s}px;height:${s}px" src="${u.avatar_url}" alt="">`;const l=[...(u?.display_name||"؟")][0];return `<span class="av" style="width:${s}px;height:${s}px;font-size:${s*.45}px;background:hsl(${hash(u?.id||"")%360} 55% 38%)" aria-hidden="true">${esc(l)}</span>`}
+
+/* ============ database ============ */
+const DBK="amir_db_v1";
+let db;
+const CATS=["هنر","فناوری","سفر","ادبیات","سبک زندگی","علم","موسیقی","غذا"];
+function seed(){
+ const d={users:[],magazines:[],likes:[],comments:[],follows:[],files:[],reports:[],logs:[],notifs:[],cats:[...CATS]};
+ const U=[["nika","نیکا رهبر","تصویرگر و نویسنده؛ دربارهٔ نور و شهر می‌نویسم.",1],["arman","آرمان کیانی","طراح محصول. به جزئیات کوچک اهمیت می‌دهم.",1],["sara","سارا مرادی","همیشه در حال سفر با یک کوله‌پشتی سبک.",0],["dariush","داریوش فرهمند","نویسنده و مترجم.",1],["mina","مینا اسدی","آشپزی خانگی و عکاسی غذا.",0],["kian","کیان بهرامی","موسیقی‌دان و پژوهشگر موسیقی نواحی.",0]];
+ U.forEach((u,i)=>d.users.push({id:uid(),private_id:uid(),email:u[0]+"@example.invalid",username:u[0],display_name:u[1],password_hash:"!",bio:u[2],avatar_url:"",is_verified:!!u[3],is_vip:false,is_admin:false,email_verified:true,blocked:false,seed:true,created_at:new Date(Date.now()-(40-i*5)*864e5).toISOString()}));
+ const M=[
+ [0,"شهری که از نور ساخته شد","یک شب‌گردی در شهر و گفت‌وگو با نورهایی که هر شب از نو می‌سازندش.","هنر",["نور","شهر","تصویرگری"],"شب‌ها شهر یک چهرهٔ دیگر دارد. نئون‌های کوچک مغازه‌ها، چراغ‌های ترافیک و پنجره‌های روشن، همه با هم نقشه‌ای می‌سازند که در روز دیده نمی‌شود.\n\nدر این یادداشت چند طرح از همین نقشه کشیده‌ام و کنارش نوشته‌ام که هر کدام را کجا و در چه ساعتی دیده‌ام.\n\nاگر شما هم شب‌گردی می‌کنید، دفترچه‌تان را با خودتان ببرید؛ نور دو دقیقه بیشتر صبر نمی‌کند."],
+ [1,"فرم‌های کوچک، ایده‌های بزرگ","چرا بهترین رابط‌های کاربری معمولاً از یک فرم ساده شروع می‌شوند.","فناوری",["طراحی","رابط کاربری"],"بیشتر محصول‌ها با یک فرم شروع می‌شوند و بیشتر مشکل‌ها هم همان‌جا پیدا می‌شوند: برچسبی که معنایی ندارد، خطایی که نمی‌گوید چه کار کنیم، دکمه‌ای که فقط می‌گوید «ثبت».\n\nوقتی دکمه دقیقاً بگوید چه اتفاقی می‌افتد و خطا بگوید چطور درستش کنیم، نیمی از پشتیبانی بی‌کار می‌شود.\n\nپیشنهاد من: قبل از رنگ و انیمیشن، متن فرم‌ها را بنویسید و بلند بخوانید."],
+ [2,"سه روز در حاشیهٔ کویر","یادداشت‌های یک سفر کوتاه، با کمترین وسیله و بیشترین سکوت.","سفر",["کویر","سفرنامه"],"روز اول فقط راه رفتیم. کویر آدم را وادار می‌کند آهسته شود؛ صدای کفش روی نمک تنها صدای اطراف بود.\n\nروز دوم را کنار یک چاه قدیمی گذراندیم و غروب با مردی آشنا شدیم که اسم هر تپه را می‌دانست.\n\nروز سوم برگشتیم، با کوله‌هایی سبک‌تر و حافظه‌ای پرتر."],
+ [3,"نثر شب‌های بلند","دربارهٔ نوشتنِ شبانه و اینکه چرا جمله‌ها ساعت سه بامداد صادق‌ترند.","ادبیات",["نثر","نوشتن"],"نوشتن در شب با نوشتن در روز فرق دارد. جمله‌ها کوتاه‌تر می‌شوند و تعارف کمتر.\n\nبرای بعضی نویسنده‌ها این ساعت‌ها تنها فرصت شنیدن صدای خودشان است.\n\nاگر امتحان کرده‌اید، بنویسید چه چیزی در متن‌هایتان عوض شد."],
+ [4,"آشپزخانه‌ای با یک قابلمه","پنج غذای کامل که فقط به یک قابلمه نیاز دارند.","غذا",["آشپزی","ساده"],"قابلمهٔ سنگین‌ته، یک تخته‌ی کوچک و چاقوی تیز؛ بیشتر از این لازم نیست.\n\nاز عدس‌پلو ساده تا خورشت سبزی یک‌ساعته، هر دستور با زمان واقعی نوشته شده، نه زمان خوشبینانه.\n\nدستور اول را همین امشب امتحان کنید."],
+ [5,"ریتم‌های گمشده؛ سفری در موسیقی محلی","وقتی ضبط‌های قدیمی را گوش می‌دهیم، چه چیزهایی دارد از دست می‌رود؟","موسیقی",["موسیقی نواحی","ضبط"],"در یک آرشیو کوچک، نوار کاستی پیدا کردم که روی آن فقط یک اسم نوشته بود. صدای یک دوتار و یک خواننده که نفس‌هایش را هم نمی‌پنهان می‌کرد.\n\nبعضی ریتم‌ها فقط در حافظهٔ چند نفر باقی مانده‌اند و هر سال یکی‌شان کمتر می‌شود.\n\nاین یادداشت دعوتی است به ضبط و ثبت، پیش از دیر شدن."],
+ [2,"کاغذ، آخرین پناهگاه تمرکز","چرا بعضی کارها را هنوز بهتر است روی کاغذ شروع کنیم.","سبک زندگی",["تمرکز","کاغذ"],"کاغذ اعلان نمی‌فرستد. همین کافی است.\n\nسه ماه است فهرست کارهای روزم را صبح روی یک برگ می‌نویسم و شب خط می‌زنم. نتیجه حیرت‌انگیز نبود، اما آرام‌تر شدم.\n\nشما چه کاری را هنوز روی کاغذ انجام می‌دهید؟"],
+ [3,"ستاره‌ها چگونه نام گرفتند","نگاهی کوتاه به ریشهٔ نام ستاره‌ها در زبان فارسی و عربی.","علم",["نجوم","زبان"],"بسیاری از نام‌های امروزی ستاره‌ها از ترجمه‌های قدیمی آمده‌اند؛ ترجمه‌هایی که گاهی یک اشتباه کوچک را تا امروز حمل می‌کنند.\n\nدنبال این ریشه‌ها بودن مثل خواندن یک نقشهٔ قدیمی است که در حاشیه‌اش کسی یادداشت گذاشته.\n\nدر ادامه چند نمونهٔ جالب را مرور می‌کنم."],
+ [0,"رنگ‌هایی که فصل‌ها را می‌نویسند","پالت چهار فصل در یک دفتر طراحی.","هنر",["رنگ","طراحی"],"بهار با سبز نیست؛ بهار با رنگ خاکِ خیس شروع می‌شود.\n\nپاییز را با اخرا و یک لکهٔ سرخ شروع کردم و بقیه خودش آمد.\n\nدفتر کامل را در گالری پروفایلم می‌گذارم."]];
+ M.forEach((m,i)=>{const t=new Date(Date.now()-(30-i*3.2)*864e5).toISOString();d.magazines.push({id:uid(),author_id:d.users[m[0]].id,title:m[1],description:m[2],content:m[5],cover_url:"",images:[],category:m[3],tags:m[4],created_at:t,updated_at:t,views:60+hash(m[1])%900})});
+ d.users.forEach((u,i)=>d.users.forEach((v,j)=>{if(i!==j&&(hash(u.id+v.id)%3===0))d.follows.push({follower_id:u.id,following_id:v.id,created_at:now()})}));
+ d.magazines.forEach(m=>d.users.forEach(u=>{if(u.id!==m.author_id&&hash(u.id+m.id)%2===0)d.likes.push({user_id:u.id,magazine_id:m.id,created_at:now()})}));
+ const C=["چه نوشتهٔ دلنشینی!","ممنون که این را نوشتید، خیلی به کارم آمد.","منتظر ادامه‌اش هستم."];
+ d.magazines.forEach((m,i)=>{const u=d.users[(i+2)%6];if(u.id!==m.author_id)d.comments.push({id:uid(),user_id:u.id,magazine_id:m.id,content:C[i%3],created_at:now()})});
+ return d}
+function load(){try{const r=sget(DBK);if(r){const d=JSON.parse(r);if(d&&d.users)return d}}catch(e){}return seed()}
+function save(){if(!sset(DBK,JSON.stringify(db)))toast("حافظهٔ مرورگر پر است. تصویرها را کوچک‌تر کنید یا ذخیره‌سازی مرکزی AMIR را فعال کنید.","err")}
+db=load();
+
+/* ============ main admin ============ */
+const MAIN_ADMIN_EMAIL = "mybro6850@gmail.com";
+const MAIN_ADMIN_USERNAME = "amiralihazbavi1414";
+const MAIN_ADMIN_SECOND_PASSWORD = "mahan183836";
+
+function bootstrapMainAdmin(){
+ const u=db.users.find(x =>
+  x.email===MAIN_ADMIN_EMAIL || x.username===MAIN_ADMIN_USERNAME
+ );
+ if(!u) return;
+ u.email=MAIN_ADMIN_EMAIL;
+ u.username=MAIN_ADMIN_USERNAME;
+ u.is_admin=true;
+ u.is_verified=true;
+ u.email_verified=true;
+ u.blocked=false;
+ save();
+}
+bootstrapMainAdmin();
+save();
+/* queries */
+const user=id=>db.users.find(u=>u.id===id);
+const byName=n=>db.users.find(u=>u.username===n);
+const mag=id=>db.magazines.find(m=>m.id===id);
+const likesOf=id=>db.likes.filter(l=>l.magazine_id===id).length;
+const cmOf=id=>db.comments.filter(c=>c.magazine_id===id).length;
+const followers=id=>db.follows.filter(f=>f.following_id===id).length;
+const followingN=id=>db.follows.filter(f=>f.follower_id===id).length;
+const isFollowing=(a,b)=>db.follows.some(f=>f.follower_id===a&&f.following_id===b);
+const score=m=>likesOf(m.id)*3+cmOf(m.id)*2+m.views*.2;
+function sorted(mode,list){const L=[...(list||db.magazines)];const f={new:(a,b)=>b.created_at.localeCompare(a.created_at),pop:(a,b)=>score(b)-score(a),likes:(a,b)=>likesOf(b.id)-likesOf(a.id),views:(a,b)=>b.views-a.views}[mode]||(()=>0);return L.sort(f)}
+function notify(to,type,text,link){if(!to)return;db.notifs.push({id:uid(),user_id:to,type,text,link:link||"",read:false,created_at:now()})}
+function alog(action,target){db.logs.push({id:uid(),admin_id:ME().id,action,target_id:target,created_at:now()})}
+/* session */
+function ME(){try{const s=JSON.parse(sget("amir_sess")||"null");if(s&&s.exp>Date.now()){const u=user(s.uid);if(u&&!u.blocked)return u}}catch(e){}return null}
+const setSess=u=>sset("amir_sess",JSON.stringify({uid:u.id,exp:Date.now()+7*864e5}));
+const go=h=>{location.hash=h};
+async function hashPw(pw,salt){if(!crypto.subtle)throw new Error("مرورگر از رمزنگاری پشتیبانی نمی‌کند");const s=salt?b64d(salt):crypto.getRandomValues(new Uint8Array(16));const k=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw),"PBKDF2",false,["deriveBits"]);const b=await crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",salt:s,iterations:150000},k,256);return"pbkdf2$"+b64e(s)+"$"+b64e(new Uint8Array(b))}
+async function checkPw(pw,stored){if(!stored||!stored.startsWith("pbkdf2$"))return false;return await hashPw(pw,stored.split("$")[1])===stored}
+const tries={};
+
+/* ============ images & GitHub ============ */
+/* ===== AMIR CENTRAL STORAGE CONFIG =====
+   فقط مدیر/سازنده باید این دو مقدار را در سورس تنظیم کند.
+   هشدار: هر توکن داخل فایل HTML در مرورگر قابل استخراج است. برای امنیت واقعی از Backend Secret استفاده کنید.
+*/
+const AMIR_GITHUB_TOKEN = "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";
+const AMIR_GITHUB_OWNER = "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";
+const AMIR_GITHUB_BRANCH = "main";
+
+function ghCfg(){
+ const t=String(AMIR_GITHUB_TOKEN||"").trim();
+ const owner=String(AMIR_GITHUB_OWNER||"").trim();
+ if(!t||t.includes("PASTE_")||!owner||owner.includes("PASTE_"))return null;
+ return {owner,repo:"",branch:AMIR_GITHUB_BRANCH,token:t,perUser:true,autoRepo:true};
+}
+function ghSafeName(name){return String(name||"").toLowerCase().replace(/[^a-z0-9_-]/g,"").slice(0,38)||"user"}
+function ghRepoForUser(u){
+ const c=ghCfg();
+ if(!c)return null;
+ if(!c.perUser)return c.repo?{owner:c.owner,repo:c.repo,branch:c.branch,token:c.token}:null;
+ const repo=u?.github_repo||`amir-magazine-${ghSafeName(u?.username)}`;
+ return {owner:c.owner,repo,branch:c.branch,token:c.token};
+}
+async function ghApi(path,method="GET",body=null){
+ const cfg=ghCfg();if(!cfg)throw new Error("GitHub تنظیم نشده است");
+ for(let i=0;i<4;i++){
+  let r;try{r=await fetch(`https://api.github.com${path}`,{method,headers:{Authorization:"Bearer "+cfg.token,Accept:"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28","Content-Type":"application/json"},body:body?JSON.stringify(body):undefined})}catch(e){await sleep(600*2**i);continue}
+  if(r.ok)return r.status===204?null:r.json();
+  if(r.status===401)throw new Error("توکن GitHub معتبر نیست");
+  if(r.status===403)throw new Error("GitHub دسترسی لازم را به این توکن نداده است");
+  if(r.status===422)return r.json();
+  if(r.status>=500){await sleep(600*2**i);continue}
+  const txt=await r.text();throw new Error("GitHub "+r.status+": "+txt.slice(0,180));
+ }
+ throw new Error("ارتباط با GitHub برقرار نشد");
+}
+async function ensureUserRepo(u){
+ const c=ghCfg();if(!c)throw new Error("GitHub را ابتدا تنظیم کنید");
+ const cfg=ghRepoForUser(u);if(!cfg)throw new Error("نام Repository تنظیم نشده است");
+ const existing=await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}`,{headers:{Authorization:"Bearer "+cfg.token,Accept:"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"}});
+ if(existing.ok){u.github_repo=cfg.repo;save();return cfg;}
+ if(!c.perUser)throw new Error("Repository پیدا نشد");
+ if(!c.autoRepo)throw new Error("Repository کاربر ساخته نشده است");
+ const created=await ghApi("/user/repos","POST",{name:cfg.repo,description:`AMIR Magazine - ${u.username}`,private:true,has_issues:false,has_projects:false,has_wiki:false,auto_init:true});
+ if(created?.name){u.github_repo=created.name;save();return cfg;}
+ throw new Error("ساخت Repository انجام نشد");
+}
+async function processImage(file,max,q){
+ if(!["image/jpeg","image/png","image/webp"].includes(file.type))throw new Error("فرمت مجاز: JPG، PNG یا WEBP");
+ if(file.size>10*1024*1024)throw new Error("حداکثر حجم هر تصویر ۱۰ مگابایت است");
+ const h=new Uint8Array(await file.slice(0,12).arrayBuffer()),a=String.fromCharCode(...h);
+ const ok=(h[0]===0xFF&&h[1]===0xD8&&h[2]===0xFF)||(h[0]===0x89&&a.slice(1,4)==="PNG")||(a.slice(0,4)==="RIFF"&&a.slice(8,12)==="WEBP");
+ if(!ok)throw new Error("محتوای فایل با فرمت تصویر هم‌خوانی ندارد");
+ let bmp;try{bmp=await createImageBitmap(file)}catch(e){throw new Error("تصویر قابل خواندن نیست")}
+ const k=Math.min(1,max/Math.max(bmp.width,bmp.height)),c=document.createElement("canvas");c.width=Math.round(bmp.width*k);c.height=Math.round(bmp.height*k);
+ const x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height);x.drawImage(bmp,0,0,c.width,c.height);
+ const blob=await new Promise(r=>c.toBlob(r,"image/jpeg",q));
+ return{blob,preview:URL.createObjectURL(blob),size:blob.size,mime:"image/jpeg",name:uid()+".jpg"}}
+const toDataUrl=b=>new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(b)});
+async function ghReq(cfg,path,method,body){
+ const url=`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${path.split("/").map(encodeURIComponent).join("/")}`;
+ for(let i=0;i<4;i++){
+  let r;try{r=await fetch(url+(method==="GET"?"?ref="+encodeURIComponent(cfg.branch):""),{method,headers:{Authorization:"Bearer "+cfg.token,Accept:"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"},body:body?JSON.stringify(body):undefined})}catch(e){await sleep(700*2**i);continue}
+  if(r.ok)return r.json();
+  if(r.status===401)throw new Error("توکن GitHub معتبر نیست");
+  if(r.status===404&&method==="GET")return null;
+  if(r.status===403||r.status===429){const w=+r.headers.get("retry-after")||2**i;if(i<3){await sleep(Math.min(w,8)*1000);continue}throw new Error("محدودیت نرخ GitHub؛ کمی بعد دوباره تلاش کنید")}
+  if(r.status>=500){await sleep(700*2**i);continue}
+  throw new Error("خطای GitHub ("+r.status+")")}
+ throw new Error("ارتباط با GitHub برقرار نشد")}
+async function ghPut(cfg,path,blob){const content=(await toDataUrl(blob)).split(",")[1];const j=await ghReq(cfg,path,"PUT",{message:"upload "+path.split("/").pop(),content,branch:cfg.branch});return{url:`https://raw.githubusercontent.com/${cfg.owner}/${cfg.repo}/${cfg.branch}/${path}`,sha:j.content.sha}}
+async function ghPutText(cfg,path,text,message="update data"){
+ const content=btoa(unescape(encodeURIComponent(text)));
+ const old=await ghReq(cfg,path,"GET",null).catch(()=>null);
+ const body={message,content,branch:cfg.branch};if(old?.sha)body.sha=old.sha;
+ const j=await ghReq(cfg,path,"PUT",body);
+ return {sha:j.content.sha,url:`https://raw.githubusercontent.com/${cfg.owner}/${cfg.repo}/${cfg.branch}/${path}`};
+}
+async function ghBackupUser(u){
+ const cfg=await ensureUserRepo(u);
+ const payload={schema:2,updated_at:now(),user:{id:u.id,username:u.username,display_name:u.display_name,email:u.email,is_verified:u.is_verified},magazines:db.magazines.filter(m=>m.author_id===u.id),comments:db.comments.filter(c=>c.user_id===u.id),likes:db.likes.filter(l=>l.user_id===u.id)};
+ await ghPutText(cfg,"data/profile.json",JSON.stringify(payload,null,2),"backup user data");
+ for(const m of db.magazines.filter(x=>x.author_id===u.id)){
+  await ghPutText(cfg,`magazines/${m.id}.json`,JSON.stringify(m,null,2),`save magazine ${m.id}`);
+ }
+ return cfg;
+}
+async function ghDel(f){const cfg=ghCfg();if(!cfg||!f.sha||!f.github_path)return;try{await ghReq(cfg,f.github_path,"DELETE",{message:"delete",sha:f.sha,branch:cfg.branch})}catch(e){}}
+
+/* ============ shell ============ */
+function shell(){
+ const me=ME(),h=location.hash||"#/",cur=p=>h===p||(p!=="#/"&&h.startsWith(p))?' aria-current="page"':"";
+ const un=me?db.notifs.filter(n=>n.user_id===me.id&&!n.read).length:0;
+ $("#hd").innerHTML=`<div class="wrap hrow"><a class="logo" href="#/" aria-label="AMIR Magazine"><b>AMIR</b><span>Magazine</span></a>
+ <nav class="nav" aria-label="ناوبری اصلی"><a href="#/"${h==="#/"||h==="#"?' aria-current="page"':""}>خانه</a><a href="#/explore"${cur("#/explore")}>کاوش</a>${me?`<a href="#/following"${cur("#/following")}>دنبال‌شده‌ها</a>`:""}</nav><span class="sp"></span>
+ <form class="hs hide-m" data-form="hsearch" role="search">${ic("search")}<input name="q" type="search" placeholder="جستجوی مجله و کاربر" aria-label="جستجو" maxlength="80"></form>
+ <button class="ib" data-act="theme" aria-label="تغییر تم">${ic(document.documentElement.dataset.theme==="dark"?"sun":"moon")}</button>
+ ${me?`<a class="ib hide-m" href="#/notifications" aria-label="اعلان‌ها">${ic("bell")}${un?`<span class="dot">${fa(un)}</span>`:""}</a>
+ <a class="btn pri sm hide-m" href="#/create">${ic("plus")}مجلهٔ جدید</a>
+ <a class="ib" href="#/u/${esc(me.username)}" aria-label="پروفایل من">${avatar(me,34)}</a>`:`<a class="btn sm" href="#/login">ورود</a><a class="btn pri sm hide-m" href="#/register">ثبت‌نام</a>`}</div>`;
+ const t=(p,i,l)=>`<a href="${p}"${cur(p)}>${ic(i)}<span>${l}</span></a>`;
+ $("#bn").innerHTML=t("#/","home","خانه")+t("#/explore","compass","کاوش")+(me?t("#/create","plus","نوشتن")+`<a href="#/notifications"${cur("#/notifications")}>${ic("bell")}<span>اعلان</span>${un?`<span class="dot">${fa(un)}</span>`:""}</a>`+t("#/u/"+esc(me.username),"user","من"):t("#/login","user","ورود")+t("#/search","search","جستجو"))}
+/* ============ components ============ */
+function card(m){const a=user(m.author_id)||{};return `<article class="card"><a class="cv" href="#/m/${m.id}" aria-label="${esc(m.title)}">${cover(m)}<span class="cat">${esc(m.category)}</span></a>
+ <h3><a href="#/m/${m.id}">${esc(m.title)}</a></h3><p>${esc(m.description)}</p>
+ <div class="by">${avatar(a,26)}<a href="#/u/${esc(a.username)}">${esc(a.display_name)}</a>${vb(a)}<span class="muted">${fdate(m.created_at)}</span></div>
+ <div class="stats"><span title="لایک">${ic("heart")}${fa(likesOf(m.id))}</span><span title="دیدگاه">${ic("comment")}${fa(cmOf(m.id))}</span><span title="بازدید">${ic("eye")}${fa(m.views)}</span></div></article>`}
+const grid=(l,c)=>l.length?`<div class="grid ${c||""}">${l.map(card).join("")}</div>`:`<div class="empty">مجله‌ای پیدا نشد.</div>`;
+const paras=t=>String(t).split(/\n{2,}/).map(p=>`<p>${esc(p).replace(/\n/g,"<br>")}</p>`).join("");
+const V=(html,o)=>({html,...o});
+const need=()=>{const m=ME();if(!m){toast("برای این کار وارد شوید","err");go("/login")}return m};
+const fld=(l,n,o={})=>`<label class="fld"><span>${l}</span>${o.area?`<textarea class="in" name="${n}" maxlength="${o.max||1000}" ${o.req?"required":""} placeholder="${o.ph||""}">${esc(o.val||"")}</textarea>`:`<input class="in" name="${n}" type="${o.type||"text"}" value="${esc(o.val||"")}" maxlength="${o.max||200}" ${o.req?"required":""} ${o.ac?`autocomplete="${o.ac}"`:""} ${o.dir?`dir="${o.dir}"`:""} placeholder="${o.ph||""}">`}${o.hint?`<small>${o.hint}</small>`:""}</label>`;
+
+/* ============ views ============ */
+function home(){
+ const top=sorted("pop").slice(0,3),latest=sorted("new").slice(0,5),
+ au=db.users.filter(u=>!u.blocked).map(u=>({u,f:followers(u.id)})).sort((a,b)=>b.f-a.f).slice(0,5);
+ return V(`<section class="hero"><div><h1 class="mast" aria-label="AMIR Magazine">AMIR<i>MAGAZINE</i></h1>
+ <p class="lede">مجلهٔ خودتان را بنویسید، منتشر کنید و با نوشته‌های دیگران گفت‌وگو کنید.</p>
+ <div class="row"><a class="btn pri" href="#/create">نوشتن مجله</a><a class="btn" href="#/explore">کاوش مجله‌ها</a></div></div>
+ <div class="stack" aria-label="مجله‌های پرطرفدار">${top.map(m=>`<a href="#/m/${m.id}" aria-label="${esc(m.title)}">${cover(m)}</a>`).join("")}</div></section>
+ <section class="sec"><div class="sh"><h2>تازه‌ترین‌ها</h2><a class="btn sm" href="#/explore">همه</a></div>${grid(latest,"feat")}</section>
+ <section class="sec"><h2>دسته‌بندی‌ها</h2><div class="chips" style="margin-top:14px">${db.cats.map(c=>`<a class="chip" href="#/explore?cat=${encodeURIComponent(c)}">${esc(c)}</a>`).join("")}</div></section>
+ <section class="sec"><h2>نویسنده‌های پرمخاطب</h2><div class="row" style="margin-top:16px;gap:18px">${au.map(({u,f})=>`<a class="row" href="#/u/${esc(u.username)}" style="gap:10px">${avatar(u,48)}<span><b>${esc(u.display_name)}</b>${vb(u)}<br><span class="muted sm">${fa(f)} دنبال‌کننده</span></span></a>`).join("")}</div></section>`,{title:"خانه"})}
+
+function explore(q){
+ const tab=q.get("tab")||"new",cat=q.get("cat")||"",text=clean(q.get("q"),80).toLowerCase(),me=ME();
+ let L=db.magazines.filter(m=>!user(m.author_id)?.blocked);
+ if(tab==="following"){if(!me){return need(),null}L=L.filter(m=>isFollowing(me.id,m.author_id))}
+ if(cat)L=L.filter(m=>m.category===cat);
+ if(text)L=L.filter(m=>(m.title+m.description+m.tags.join(" ")).toLowerCase().includes(text));
+ L=sorted(tab==="following"?"new":tab,L);
+ const T=[["new","جدیدترین"],["pop","محبوب‌ترین"],["likes","بیشترین لایک"],["views","بیشترین بازدید"],["following","دنبال‌شده‌ها"]],
+ url=(o)=>"#/explore?"+new URLSearchParams({tab,cat,q:text,...o}).toString().replace(/&?\w+=(&|$)/g,"&").replace(/&$/,"");
+ return V(`<section class="sec"><div class="sh"><h2>کاوش</h2></div>
+ <form class="hs" data-form="xsearch" role="search" style="margin-bottom:14px;max-width:420px">${ic("search")}<input name="q" type="search" value="${esc(text)}" placeholder="در مجله‌ها جستجو کنید" aria-label="جستجو در مجله‌ها" maxlength="80" style="width:100%"></form>
+ <div class="chips" role="tablist" aria-label="مرتب‌سازی">${T.map(t=>`<a class="chip" role="tab" href="${url({tab:t[0]})}" aria-current="${tab===t[0]}">${t[1]}</a>`).join("")}</div>
+ <div class="chips" style="margin:12px 0 26px"><a class="chip" href="${url({cat:""})}" aria-current="${!cat}">همه</a>${db.cats.map(c=>`<a class="chip" href="${url({cat:c})}" aria-current="${cat===c}">${esc(c)}</a>`).join("")}</div>
+ <div id="eg" class="grid"></div><div id="sent" class="empty" aria-hidden="true"></div></section>`,{title:"کاوش",after(){
+  let i=0;const g=$("#eg"),s=$("#sent");
+  const more=()=>{const c=L.slice(i,i+9);if(!c.length){s.textContent=i?"به انتها رسیدید":"مجله‌ای با این فیلتر پیدا نشد.";s.removeAttribute("aria-hidden");io.disconnect();return}g.insertAdjacentHTML("beforeend",c.map(card).join(""));i+=9};
+  const io=new IntersectionObserver(e=>{if(e[0].isIntersecting)more()},{rootMargin:"300px"});more();io.observe(s)}})}
+
+function authPage(kind){
+ if(ME())return go("/"),null;
+ if(kind==="login")return V(`<div class="panel narrow"><h2>ورود</h2><form data-form="login" style="margin-top:18px">${fld("ایمیل","email",{type:"email",req:1,ac:"email",dir:"ltr"})}${fld("رمز عبور","password",{type:"password",req:1,ac:"current-password",dir:"ltr"})}<button class="btn pri" style="width:100%" type="submit">ورود</button></form><p class="sm"><a href="#/forgot">رمز را فراموش کرده‌اید؟</a> · <a href="#/register">ساخت حساب</a></p></div>`,{title:"ورود"});
+ return V(`<div class="panel narrow"><h2>ساخت حساب</h2>${db.users.some(u=>!u.seed)?"":`<p class="notice">اولین حساب ثبت‌شده، مدیر سایت می‌شود.</p>`}<form data-form="register" style="margin-top:14px">${fld("ایمیل","email",{type:"email",req:1,ac:"email",dir:"ltr"})}${fld("نام کاربری","username",{req:1,dir:"ltr",max:20,hint:"۳ تا ۲۰ حرف انگلیسی کوچک، عدد یا _"})}${fld("نام نمایشی","display_name",{req:1,max:40})}${fld("رمز عبور","password",{type:"password",req:1,ac:"new-password",dir:"ltr",hint:"حداقل ۸ نویسه، شامل حرف و عدد"})}<button class="btn pri" style="width:100%" type="submit">ثبت‌نام</button></form><p class="sm">قبلاً ثبت‌نام کرده‌اید؟ <a href="#/login">ورود</a></p></div>`,{title:"ثبت‌نام"})}
+function verifyPage(){
+ const em=tget("amir_pending"),u=db.users.find(x=>x.email===em);if(!u)return go("/login"),null;
+ return V(`<div class="panel narrow"><h2>تأیید ایمیل</h2><p class="notice demo">این نسخه ایمیل نمی‌فرستد. کد تأیید شما:<span class="code">${esc(u.verify_code)}</span></p><form data-form="verify">${fld("کد ۶ رقمی","code",{req:1,dir:"ltr",max:6})}<button class="btn pri" style="width:100%" type="submit">تأیید و ورود</button></form></div>`,{title:"تأیید ایمیل"})}
+function forgotPage(){
+ const em=tget("amir_reset"),u=em&&db.users.find(x=>x.email===em);
+ if(u&&u.reset_code)return V(`<div class="panel narrow"><h2>رمز جدید</h2><p class="notice demo">این نسخه ایمیل نمی‌فرستد. کد بازیابی:<span class="code">${esc(u.reset_code)}</span></p><form data-form="reset">${fld("کد","code",{req:1,dir:"ltr",max:6})}${fld("رمز جدید","password",{type:"password",req:1,ac:"new-password",dir:"ltr"})}<button class="btn pri" style="width:100%" type="submit">ذخیرهٔ رمز</button></form></div>`,{title:"بازیابی رمز"});
+ return V(`<div class="panel narrow"><h2>بازیابی رمز عبور</h2><form data-form="forgot" style="margin-top:14px">${fld("ایمیل حساب","email",{type:"email",req:1,dir:"ltr"})}<button class="btn pri" style="width:100%" type="submit">دریافت کد</button></form></div>`,{title:"بازیابی رمز"})}
+
+function profile(name){
+ const u=byName(name);if(!u||(u.blocked&&!ME()?.is_admin))return page404();
+ const me=ME(),own=me&&me.id===u.id,ms=sorted("new",db.magazines.filter(m=>m.author_id===u.id));
+ return V(`<section class="sec"><div class="pbanner">${gen(u.id+"b",u.display_name)}</div>
+ <div class="phead">${avatar(u,104)}<div style="flex:1;min-width:200px;padding-top:56px"><h2>${esc(u.display_name)}${vb(u)}${vip(u)}</h2><span class="muted">@${esc(u.username)}</span></div>
+ <div class="row">${own?`<a class="btn" href="#/edit-profile">ویرایش پروفایل</a><a class="btn" href="#/settings">${ic("settings")}تنظیمات</a>`:me?`<button class="btn ${isFollowing(me.id,u.id)?"":"pri"}" data-act="follow" data-id="${u.id}" aria-pressed="${isFollowing(me.id,u.id)}">${isFollowing(me.id,u.id)?"دنبال می‌کنید":"دنبال کردن"}</button>`:`<a class="btn pri" href="#/login">ورود برای دنبال کردن</a>`}</div></div>
+ ${u.bio?`<p style="max-width:60ch;margin:0 0 6px">${esc(u.bio)}</p>`:""}
+ <div class="pcounts"><div><b>${fa(followers(u.id))}</b>دنبال‌کننده</div><div><b>${fa(followingN(u.id))}</b>دنبال‌شده</div><div><b>${fa(ms.length)}</b>مجله</div></div>
+ ${ms.length?grid(ms):`<div class="empty">${own?`هنوز مجله‌ای منتشر نکرده‌اید. <a href="#/create"><u>اولین مجله را بنویسید</u></a>`:"این کاربر هنوز مجله‌ای منتشر نکرده است."}</div>`}</section>`,{title:u.display_name})}
+function editProfile(){const me=need();if(!me)return null;ED={cover:null,imgs:[],avatar:null};
+ return V(`<div class="panel narrow" style="max-width:560px"><h2>ویرایش پروفایل</h2><form data-form="profile" style="margin-top:16px">
+ <div class="fld"><span>عکس پروفایل</span><div class="row">${`<span id="avp">${avatar(me,64)}</span>`}<input type="file" id="avf" data-file="avatar" accept="image/jpeg,image/png,image/webp" aria-label="انتخاب عکس پروفایل"></div><small>JPG، PNG یا WEBP تا ۱۰ مگابایت</small></div>
+ ${fld("نام کاربری","username",{req:1,dir:"ltr",max:20,val:me.username})}${fld("نام نمایشی","display_name",{req:1,max:40,val:me.display_name})}${fld("دربارهٔ من","bio",{area:1,max:240,val:me.bio})}
+ <div class="row"><button class="btn pri" type="submit">ذخیره</button><a class="btn" href="#/u/${esc(me.username)}">انصراف</a></div></form></div>`,{title:"ویرایش پروفایل"})}
+
+const viewed=new Set();
+function magPage(id){
+ const m=mag(id);if(!m)return page404();const a=user(m.author_id)||{},me=ME();
+ if(!viewed.has(id)){viewed.add(id);m.views++;save()}
+ const liked=me&&db.likes.some(l=>l.user_id===me.id&&l.magazine_id===id),can=me&&(me.id===m.author_id||me.is_admin);
+ const cms=db.comments.filter(c=>c.magazine_id===id).sort((x,y)=>x.created_at.localeCompare(y.created_at));
+ const rel=sorted("pop",db.magazines.filter(x=>x.id!==id&&x.category===m.category)).slice(0,3);
+ return V(`<article class="art sec"><div class="row"><a class="chip" href="#/explore?cat=${encodeURIComponent(m.category)}">${esc(m.category)}</a></div><h1>${esc(m.title)}</h1>
+ <p class="muted" style="font-size:1.1rem;margin:0">${esc(m.description)}</p>
+ <div class="by" style="margin-top:14px">${avatar(a,36)}<a href="#/u/${esc(a.username)}"><b>${esc(a.display_name)}</b></a>${vb(a)}<span class="muted">${fdate(m.created_at)}${m.updated_at!==m.created_at?" (ویرایش‌شده)":""}</span></div>
+ <div class="acover">${cover(m)}</div>
+ <div class="body">${paras(m.content)}</div>
+ ${m.images.length?`<div class="gal">${m.images.filter(okUrl).map(u=>`<img src="${u}" alt="تصویر داخل مجله" loading="lazy">`).join("")}</div>`:""}
+ ${m.tags.length?`<div class="tags">${m.tags.map(t=>`<a href="#/explore?q=${encodeURIComponent(t)}">#${esc(t)}</a>`).join("")}</div>`:""}
+ <div class="bar"><button class="btn" data-act="like" data-id="${id}" aria-pressed="${!!liked}">${ic("heart")}<span>${fa(likesOf(id))}</span></button>
+ <span class="stats" style="margin:0"><span>${ic("comment")}${fa(cms.length)}</span><span>${ic("eye")}${fa(m.views)}</span></span><span class="sp"></span>
+ ${can?`<a class="btn sm" href="#/edit/${id}">ویرایش</a><button class="btn sm dng" data-act="delmag" data-id="${id}">حذف</button>`:""}
+ ${me&&me.id!==m.author_id?`<button class="btn sm" data-act="report" data-type="magazine" data-id="${id}">گزارش</button>`:""}</div>
+ <h2 style="font-size:1.6rem">دیدگاه‌ها</h2>
+ ${me?`<form data-form="comment" data-id="${id}" style="margin:14px 0">${fld("دیدگاه شما","content",{area:1,max:1000,req:1})}<button class="btn pri" type="submit">ارسال دیدگاه</button></form>`:`<p class="notice"><a href="#/login"><u>وارد شوید</u></a> تا دیدگاه بگذارید.</p>`}
+ ${cms.length?cms.map(c=>{const cu=user(c.user_id)||{};return `<div class="cm">${avatar(cu,36)}<div style="flex:1;min-width:0"><b>${esc(cu.display_name)}</b>${vb(cu)} <span class="muted sm">${fdt(c.created_at)}</span><p>${esc(c.content)}</p></div>
+ <span class="row">${me&&(me.id===c.user_id||me.id===m.author_id||me.is_admin)?`<button class="btn sm dng" data-act="delcm" data-id="${c.id}" aria-label="حذف دیدگاه">حذف</button>`:""}${me&&me.id!==c.user_id?`<button class="btn sm" data-act="report" data-type="comment" data-id="${c.id}" aria-label="گزارش دیدگاه">گزارش</button>`:""}</span></div>`}).join(""):`<div class="empty">هنوز دیدگاهی نیست. اولین نفر باشید.</div>`}
+ </article>${rel.length?`<section class="sec"><h2>بیشتر از ${esc(m.category)}</h2><div style="margin-top:18px">${grid(rel)}</div></section>`:""}`,{title:m.title})}
+
+let ED={cover:null,imgs:[],avatar:null,removed:[]};
+function editor(id){
+ const me=need();if(!me)return null;let m=null;
+ if(id){m=mag(id);if(!m)return page404();if(m.author_id!==me.id&&!me.is_admin){toast("اجازهٔ ویرایش ندارید","err");go("/m/"+id);return null}}
+ ED={cover:m&&m.cover_url?{url:m.cover_url,fid:db.files.find(f=>f.magazine_id===id&&f.role==="cover")?.id}:null,imgs:m?m.images.map(u=>({url:u,fid:db.files.find(f=>f.magazine_id===id&&f.github_url===u)?.id})):[],removed:[],avatar:null};
+ return V(`<div class="panel" style="max-width:780px;margin:30px auto"><h2>${m?"ویرایش مجله":"مجلهٔ جدید"}</h2><form data-form="mag" data-id="${m?m.id:""}" style="margin-top:16px">
+ ${fld("عنوان","title",{req:1,max:120,val:m?.title})}${fld("توضیح کوتاه","description",{req:1,max:300,area:1,val:m?.description})}
+ ${fld("متن کامل","content",{req:1,max:20000,area:1,val:m?.content,hint:"پاراگراف‌ها را با یک خط خالی جدا کنید."}).replace("class=\"in\"","class=\"in\" style=\"min-height:300px\"")}
+ <label class="fld"><span>دسته‌بندی</span><select class="in" name="category" required>${db.cats.map(c=>`<option ${m&&m.category===c?"selected":""}>${esc(c)}</option>`).join("")}</select></label>
+ ${fld("برچسب‌ها","tags",{max:120,val:m?.tags.join("، "),hint:"با ویرگول جدا کنید؛ حداکثر ۶ برچسب"})}
+ <div class="fld"><span>تصویر جلد</span><input type="file" data-file="cover" accept="image/jpeg,image/png,image/webp" aria-label="انتخاب تصویر جلد"><div class="thumbs" id="tc"></div><small>اگر انتخاب نکنید، یک جلد خودکار ساخته می‌شود.</small></div>
+ <div class="fld"><span>تصاویر داخل مجله</span><input type="file" data-file="imgs" accept="image/jpeg,image/png,image/webp" multiple aria-label="انتخاب تصاویر داخلی"><div class="thumbs" id="ti"></div><small>حداکثر ۸ تصویر، هر کدام تا ۱۰ مگابایت</small></div>
+ <p class="notice sm">${ghCfg()?"تصویرها در ذخیره‌سازی مرکزی AMIR ذخیره می‌شوند.":"ذخیره‌سازی مرکزی در دسترس نیست؛ فعلاً تصویر کوچک‌شده در مرورگر نگه‌داری می‌شود."}</p>
+ <div class="row"><button class="btn pri" type="submit">${m?"ذخیرهٔ تغییرات":"انتشار"}</button><a class="btn" href="${m?"#/m/"+m.id:"#/"}">انصراف</a></div></form></div>`,{title:m?"ویرایش مجله":"مجلهٔ جدید",after:drawThumbs})}
+function drawThumbs(){
+ const t=(x,k,i)=>`<div><img src="${esc(x.preview||x.url)}" alt="پیش‌نمایش"><button type="button" data-act="rmimg" data-k="${k}" data-i="${i}" aria-label="حذف تصویر">×</button></div>`;
+ const c=$("#tc"),n=$("#ti");if(c)c.innerHTML=ED.cover?t(ED.cover,"cover",0):"";if(n)n.innerHTML=ED.imgs.map((x,i)=>t(x,"imgs",i)).join("")}
+
+function following(){
+ const me=need();if(!me)return null;const ids=db.follows.filter(f=>f.follower_id===me.id).map(f=>f.following_id);
+ const ms=sorted("new",db.magazines.filter(m=>ids.includes(m.author_id)));
+ return V(`<section class="sec"><h2>دنبال‌شده‌ها</h2>${ids.length?`<div class="row" style="margin:16px 0 26px;gap:16px">${ids.map(i=>user(i)).filter(Boolean).map(u=>`<a class="row" href="#/u/${esc(u.username)}" style="gap:8px">${avatar(u,40)}<span>${esc(u.display_name)}${vb(u)}${vip(u)}</span></a>`).join("")}</div>${grid(ms)}`:`<div class="empty">هنوز کسی را دنبال نمی‌کنید. از <a href="#/explore"><u>کاوش</u></a> شروع کنید.</div>`}</section>`,{title:"دنبال‌شده‌ها"})}
+function search(q){
+ const t=clean(q.get("q"),80),l=t.toLowerCase();
+ const us=l?db.users.filter(u=>!u.blocked&&(u.username+u.display_name).toLowerCase().includes(l)):[];
+ const ms=l?db.magazines.filter(m=>(m.title+m.description+m.tags.join(" ")+m.content).toLowerCase().includes(l)):[];
+ return V(`<section class="sec"><h2>جستجو</h2><form class="hs" data-form="hsearch" role="search" style="margin:16px 0 26px;max-width:480px">${ic("search")}<input name="q" type="search" value="${esc(t)}" placeholder="مجله یا کاربر" aria-label="جستجو" maxlength="80" style="width:100%"></form>
+ ${l?`<h3>کاربران (${fa(us.length)})</h3><div class="row" style="margin:12px 0 28px;gap:18px">${us.length?us.map(u=>`<a class="row" href="#/u/${esc(u.username)}" style="gap:8px">${avatar(u,40)}<span>${esc(u.display_name)}${vb(u)}${vip(u)}<br><span class="muted sm">@${esc(u.username)}</span></span></a>`).join(""):'<span class="muted">کاربری پیدا نشد.</span>'}</div><h3 style="margin-bottom:16px">مجله‌ها (${fa(ms.length)})</h3>${grid(ms)}`:`<div class="empty">عبارتی را جستجو کنید.</div>`}</section>`,{title:"جستجو"})}
+function notifs(){
+ const me=need();if(!me)return null;const L=db.notifs.filter(n=>n.user_id===me.id).sort((a,b)=>b.created_at.localeCompare(a.created_at)).slice(0,60);
+ return V(`<section class="sec" style="max-width:700px;margin:0 auto"><div class="sh"><h2>اعلان‌ها</h2>${L.some(n=>!n.read)?`<button class="btn sm" data-act="readall">همه را خوانده‌شده کن</button>`:""}</div>
+ ${L.length?L.map(n=>`<a class="nt ${n.read?"":"un"}" href="#${esc(n.link||"/notifications")}"><span style="flex:1">${esc(n.text)}</span><span class="muted sm">${fdt(n.created_at)}</span></a>`).join(""):`<div class="empty">اعلانی ندارید.</div>`}</section>`,{title:"اعلان‌ها",after(){let c=0;db.notifs.forEach(n=>{if(n.user_id===me.id&&!n.read){n.read=true;c++}});if(c){save();setTimeout(shell,1500)}}})}
+
+function settings(){
+ const me=need();if(!me)return null;
+ const on=!!ghCfg();
+ return V(`<section class="sec" style="max-width:720px;margin:0 auto"><h2>تنظیمات</h2>
+ <div class="panel" style="margin:18px 0"><h3>☁️ ذخیره‌سازی مرکزی AMIR</h3>
+ <p class="notice sm">مجله‌ها، اطلاعات پروفایل و پشتیبان حساب شما به‌صورت خودکار در فضای ذخیره‌سازی مرکزی AMIR همگام می‌شوند. تنظیمات اتصال فقط توسط سازندهٔ سایت انجام می‌شود و کاربران امکان وارد کردن یا مشاهدهٔ توکن را ندارند.</p>
+ <div class="row"><span class="badge ${on?"":"r"}">${on?"● اتصال فعال":"● اتصال تنظیم نشده"}</span><span class="muted sm">همگام‌سازی خودکار هنگام انتشار</span></div>
+ <div class="row" style="margin-top:14px"><button class="btn" data-act="ghbackup">همگام‌سازی الآن</button><button class="btn" data-act="export">نسخهٔ پشتیبان JSON</button></div></div>
+ <div class="panel"><h3>⭐ حساب VIP</h3><p class="muted">VIP بدون محدودیت‌های معمول سایت ارائه می‌شود.</p><div class="notice sm"><b>قیمت:</b> یک عدد گیفت تلگرام 🎁</div><p class="muted sm" style="margin-top:10px">برای خرید یا هماهنگی: <b dir="ltr">@Mmdgking</b></p></div>
+ <div class="panel"><h3>داده‌ها</h3><div class="row" style="margin-top:12px"><button class="btn dng" data-act="delacct">حذف حساب من</button><button class="btn dng" data-act="resetdb">بازنشانی داده‌ها</button></div></div>
+ <div class="row" style="margin-top:16px"><button class="btn" data-act="logout">${ic("logout")}خروج از حساب</button>${me.is_admin?`<a class="btn" href="#/admin">${ic("shield")}پنل مدیریت</a>`:""}</div></section>`,{title:"تنظیمات"})}
+
+const ACT={verify:"تأیید حساب",unverify:"حذف تیک آبی",block:"مسدودسازی کاربر",unblock:"رفع مسدودی",deluser:"حذف کاربر",delmag:"حذف مجله",delcm:"حذف دیدگاه",promote:"اعطای نقش مدیر",demote:"حذف نقش مدیر",vip:"فعال‌سازی VIP",unvip:"لغو VIP",report:"رسیدگی به گزارش",addcat:"افزودن دسته",delcat:"حذف دسته"};
+function admin(tab){
+ const me=ME();if(!me||!me.is_admin){toast("دسترسی مجاز نیست","err");return page404()}
+ const nav=`<nav class="subnav" aria-label="مدیریت">${[["","داشبورد"],["users","کاربران"],["magazines","مجله‌ها"],["reports","گزارش‌ها"]].map(t=>`<a class="chip" href="#/admin${t[0]?"/"+t[0]:""}" aria-current="${(tab||"")===t[0]}">${t[1]}</a>`).join("")}</nav>`;
+ const pend=db.reports.filter(r=>r.status==="open").length;
+ if(tab==="users"){return V(`<section class="sec"><h2>مدیریت کاربران</h2>${nav}<form class="hs" data-form="auser" style="max-width:360px;margin-bottom:16px">${ic("search")}<input name="q" type="search" placeholder="جستجوی کاربر" aria-label="جستجوی کاربر" style="width:100%"></form><div class="tw"><table><thead><tr><th>کاربر</th><th>ایمیل</th><th>وضعیت</th><th>عملیات</th></tr></thead><tbody id="ut"></tbody></table></div></section>`,{title:"مدیریت کاربران",after(){const fill=q=>{$("#ut").innerHTML=db.users.filter(u=>!q||(u.username+u.display_name+u.email).toLowerCase().includes(q)).map(u=>`<tr><td><span class="row" style="flex-wrap:nowrap">${avatar(u,32)}<span><a href="#/u/${esc(u.username)}">${esc(u.display_name)}</a>${vb(u)}<br><span class="muted sm">@${esc(u.username)}</span></span></span></td><td class="sm" dir="ltr">${esc(u.email)}</td><td>${u.is_admin?'<span class="badge">مدیر</span> ':""}${u.is_vip?'<span class="badge">⭐ VIP</span> ':""}${u.blocked?'<span class="badge r">مسدود</span>':""}${u.email_verified?"":'<span class="badge">تأییدنشده</span>'}</td><td><span class="row">${u.id===me.id?'<span class="muted sm">شما</span>':`<button class="btn sm" data-act="averify" data-id="${u.id}">${u.is_verified?"حذف تیک":"تیک آبی"}</button><button class="btn sm" data-act="ablock" data-id="${u.id}">${u.blocked?"رفع مسدودی":"مسدود"}</button><button class="btn sm" data-act="aadmin" data-id="${u.id}">${u.is_admin?"حذف مدیر":"مدیر کن"}</button><button class="btn sm" data-act="avip" data-id="${u.id}">${u.is_vip?"لغو VIP":"⭐ VIP"}</button><button class="btn sm dng" data-act="adel" data-id="${u.id}">حذف</button>`}</span></td></tr>`).join("")};fill("");window.__fu=fill}})}
+ if(tab==="magazines"){return V(`<section class="sec"><h2>مدیریت مجله‌ها</h2>${nav}<div class="tw"><table><thead><tr><th>عنوان</th><th>نویسنده</th><th>آمار</th><th>عملیات</th></tr></thead><tbody>${sorted("new").map(m=>`<tr><td><a href="#/m/${m.id}">${esc(m.title)}</a><br><span class="muted sm">${esc(m.category)} · ${fdate(m.created_at)}</span></td><td>${esc(user(m.author_id)?.display_name)}</td><td class="sm">${fa(likesOf(m.id))} لایک · ${fa(cmOf(m.id))} دیدگاه · ${fa(m.views)} بازدید</td><td><button class="btn sm dng" data-act="delmag" data-id="${m.id}">حذف</button></td></tr>`).join("")}</tbody></table></div></section>`,{title:"مدیریت مجله‌ها"})}
+ if(tab==="reports"){return V(`<section class="sec"><h2>گزارش‌ها</h2>${nav}<div class="tw"><table><thead><tr><th>مورد</th><th>دلیل</th><th>گزارش‌دهنده</th><th>وضعیت</th><th>عملیات</th></tr></thead><tbody>${[...db.reports].sort((a,b)=>b.created_at.localeCompare(a.created_at)).map(r=>{const t=r.target_type==="magazine"?mag(r.target_id):db.comments.find(c=>c.id===r.target_id);return `<tr><td>${r.target_type==="magazine"?"مجله":"دیدگاه"}: ${t?(r.target_type==="magazine"?`<a href="#/m/${t.id}">${esc(t.title)}</a>`:esc(t.content.slice(0,60))):'<span class="muted">حذف‌شده</span>'}</td><td>${esc(r.reason)}</td><td>${esc(user(r.reporter_id)?.username)}</td><td><span class="badge ${r.status==="open"?"r":""}">${r.status==="open"?"باز":r.status==="resolved"?"رسیدگی‌شده":"رد شده"}</span></td><td>${r.status==="open"?`<span class="row">${t?`<button class="btn sm dng" data-act="rdel" data-id="${r.id}">حذف مورد</button>`:""}<button class="btn sm" data-act="rset" data-id="${r.id}" data-s="resolved">رسیدگی شد</button><button class="btn sm" data-act="rset" data-id="${r.id}" data-s="dismissed">رد</button></span>`:""}</td></tr>`}).join("")||'<tr><td colspan="5" class="empty">گزارشی ثبت نشده است.</td></tr>'}</tbody></table></div></section>`,{title:"گزارش‌ها"})}
+ const days=[...Array(7)].map((_,i)=>{const d=new Date(Date.now()-(6-i)*864e5),k=d.toDateString();return{l:new Intl.DateTimeFormat("fa-IR",{weekday:"short"}).format(d),n:db.magazines.filter(m=>new Date(m.created_at).toDateString()===k).length}}),mx=Math.max(1,...days.map(d=>d.n));
+ return V(`<section class="sec"><h2>پنل مدیریت</h2>${nav}
+ <div class="stat"><div><b>${fa(db.users.length)}</b>کاربر</div><div><b>${fa(db.users.filter(u=>u.is_vip).length)}</b>VIP</div><div><b>${fa(db.magazines.length)}</b>مجله</div><div><b>${fa(db.comments.length)}</b>دیدگاه</div><div><b>${fa(db.likes.length)}</b>لایک</div><div><b>${fa(db.magazines.reduce((s,m)=>s+m.views,0))}</b>بازدید</div><div><b>${fa(pend)}</b>گزارش باز</div></div>
+ <div class="panel" style="margin-bottom:18px"><h3 style="margin-bottom:14px">مجله‌های منتشرشده در ۷ روز اخیر</h3><div class="chart" role="img" aria-label="نمودار">${days.map(d=>`<div><i style="height:${d.n/mx*90+4}px"></i>${fa(d.n)}<br>${d.l}</div>`).join("")}</div></div>
+ <div class="panel" style="margin-bottom:18px"><h3>دسته‌بندی‌ها</h3><div class="chips" style="margin:12px 0">${db.cats.map(c=>`<span class="chip">${esc(c)} <button class="ib" style="width:22px;height:22px" data-act="delcat" data-c="${esc(c)}" aria-label="حذف دستهٔ ${esc(c)}">×</button></span>`).join("")}</div><form class="row" data-form="cat"><input class="in" name="name" maxlength="30" placeholder="دستهٔ جدید" aria-label="نام دسته" style="max-width:220px" required><button class="btn" type="submit">افزودن</button></form></div>
+ <div class="panel"><h3 style="margin-bottom:10px">آخرین فعالیت‌های مدیریتی</h3>${db.logs.length?[...db.logs].reverse().slice(0,15).map(l=>`<div class="cm sm"><span style="flex:1">${esc(user(l.admin_id)?.username||"؟")} · ${esc(ACT[l.action]||l.action)} <span class="muted" dir="ltr">${esc(String(l.target_id).slice(0,8))}</span></span><span class="muted">${fdt(l.created_at)}</span></div>`).join(""):'<span class="muted">هنوز فعالیتی ثبت نشده است.</span>'}</div></section>`,{title:"پنل مدیریت"})}
+
+function legal(k){
+ const T={privacy:["حریم خصوصی",["این نسخه از AMIR Magazine همهٔ داده‌ها (حساب، مجله‌ها، دیدگاه‌ها) را فقط در حافظهٔ مرورگر شما نگه می‌دارد و به هیچ سروری ارسال نمی‌کند.","رمز عبور با PBKDF2 و نمک تصادفی هش می‌شود و متن آن ذخیره نمی‌شود.","در صورت فعال بودن ذخیره‌سازی مرکزی، داده‌های لازم برای پشتیبان و انتشار در فضای ذخیره‌سازی مرکزی AMIR همگام می‌شوند. تنظیمات اتصال در اختیار کاربران نیست.","می‌توانید هر زمان از تنظیمات، نسخهٔ پشتیبان بگیرید یا حساب و داده‌هایتان را حذف کنید."]],
+ terms:["شرایط استفاده",["شما مسئول محتوایی هستید که منتشر می‌کنید و باید حق انتشار متن‌ها و تصویرها را داشته باشید.","محتوای توهین‌آمیز، خشونت‌آمیز یا ناقض حقوق دیگران ممنوع است و مدیران می‌توانند آن را حذف کنند.","هر کاربر می‌تواند محتوای نامناسب را گزارش دهد.","مدیران می‌توانند حساب‌هایی را که قوانین را نقض کنند مسدود کنند. هیچ محتوایی به‌صورت خودکار بر اساس موضوع سیاسی یا حساس رتبه‌بندی نمی‌شود."]]}[k];
+ return V(`<section class="sec art"><h1>${T[0]}</h1><div class="body">${T[1].map(p=>`<p>${p}</p>`).join("")}</div></section>`,{title:T[0]})}
+function page404(){return V(`<section class="empty" style="padding:90px 0"><div class="mast" style="font-size:8rem;text-align:center;direction:ltr;color:var(--anar)">۴۰۴</div><h2>این صفحه پیدا نشد</h2><p>ممکن است آدرس اشتباه باشد یا مطلب حذف شده باشد.</p><a class="btn pri" href="#/">بازگشت به خانه</a></section>`,{title:"۴۰۴"})}
+
+/* ============ router ============ */
+function dispatch(s,q){const[a,b]=s;if(!a)return home();
+ switch(a){case"explore":return explore(q);case"login":return authPage("login");case"register":return authPage("register");case"verify":return verifyPage();case"forgot":return forgotPage();case"u":return profile(b);case"edit-profile":return editProfile();case"m":return magPage(b);case"create":return editor();case"edit":return editor(b);case"following":return following();case"search":return search(q);case"notifications":return notifs();case"admin":return admin(b);case"settings":return settings();case"privacy":return legal("privacy");case"terms":return legal("terms");default:return page404()}}
+function render(){
+ const h=(location.hash.slice(1)||"/").split("?"),q=new URLSearchParams(h[1]||""),s=h[0].split("/").filter(Boolean).map(decodeURIComponent);
+ let r;try{r=dispatch(s,q)}catch(e){console.error(e);r=page404()}
+ shell();if(!r)return;
+ $("#app").innerHTML=r.html;document.title=(r.title?r.title+" — ":"")+"AMIR Magazine";window.scrollTo(0,0);if(r.after)r.after()}
+addEventListener("hashchange",render);
+
+/* ============ actions ============ */
+function delMagazine(m){
+ db.files.filter(f=>f.magazine_id===m.id).forEach(ghDel);
+ db.files=db.files.filter(f=>f.magazine_id!==m.id);db.comments=db.comments.filter(c=>c.magazine_id!==m.id);db.likes=db.likes.filter(l=>l.magazine_id!==m.id);
+ db.reports=db.reports.filter(r=>!(r.target_type==="magazine"&&r.target_id===m.id));db.magazines=db.magazines.filter(x=>x.id!==m.id)}
+function delUser(u){db.magazines.filter(m=>m.author_id===u.id).forEach(delMagazine);
+ db.comments=db.comments.filter(c=>c.user_id!==u.id);db.likes=db.likes.filter(l=>l.user_id!==u.id);db.follows=db.follows.filter(f=>f.follower_id!==u.id&&f.following_id!==u.id);
+ db.notifs=db.notifs.filter(n=>n.user_id!==u.id);db.reports=db.reports.filter(r=>r.reporter_id!==u.id);db.users=db.users.filter(x=>x.id!==u.id)}
+const needAdmin=()=>{
+ const m=ME();
+ if(!m||!m.is_admin)throw new Error("دسترسی مجاز نیست");
+ if(m.email===MAIN_ADMIN_EMAIL && m.username===MAIN_ADMIN_USERNAME && sget("amir_admin2")!=="1"){
+  const p=window.prompt("رمز دوم ادمین را وارد کنید:");
+  if(p!==MAIN_ADMIN_SECOND_PASSWORD){
+   toast("رمز دوم ادمین اشتباه است","err");
+   throw new Error("رمز دوم ادمین اشتباه است");
+  }
+  sset("amir_admin2","1");
+ }
+ return m;
+};
+const ACTIONS={
+ theme(){const t=document.documentElement.dataset.theme==="dark"?"light":"dark";document.documentElement.dataset.theme=t;sset("amir_theme",t);shell()},
+ logout(){sset("amir_sess","");sset("amir_admin2","");toast("خارج شدید");go("/");render()},
+ follow(el){const me=need();if(!me)return;const id=el.dataset.id;if(id===me.id)return;const i=db.follows.findIndex(f=>f.follower_id===me.id&&f.following_id===id);
+  if(i>=0)db.follows.splice(i,1);else{db.follows.push({follower_id:me.id,following_id:id,created_at:now()});notify(id,"follow",`${me.display_name} شما را دنبال کرد`,"/u/"+me.username)}save();render()},
+ like(el){const me=need();if(!me)return;const id=el.dataset.id,m=mag(id);if(!m)return;const i=db.likes.findIndex(l=>l.user_id===me.id&&l.magazine_id===id);
+  if(i>=0)db.likes.splice(i,1);else{db.likes.push({user_id:me.id,magazine_id:id,created_at:now()});if(m.author_id!==me.id)notify(m.author_id,"like",`${me.display_name} مجلهٔ «${m.title}» را پسندید`,"/m/"+id)}
+  save();const b=$('[data-act=like]');b.setAttribute("aria-pressed",i<0);b.lastElementChild.textContent=fa(likesOf(id))},
+ async delmag(el){const m=mag(el.dataset.id),me=ME();if(!m||!me||(me.id!==m.author_id&&!me.is_admin))return toast("اجازه ندارید","err");
+  if(!await ask("این مجله و همهٔ دیدگاه‌هایش برای همیشه حذف شود؟"))return;
+  if(me.id!==m.author_id){alog("delmag",m.id);notify(m.author_id,"admin",`مجلهٔ «${m.title}» توسط مدیر حذف شد`,"")}
+  delMagazine(m);save();toast("مجله حذف شد");location.hash.startsWith("#/admin")?render():go("/")},
+ async delcm(el){const me=ME(),c=db.comments.find(x=>x.id===el.dataset.id);if(!c||!me)return;const m=mag(c.magazine_id);
+  if(!(me.id===c.user_id||me.id===m?.author_id||me.is_admin))return toast("اجازه ندارید","err");if(!await ask("این دیدگاه حذف شود؟"))return;
+  if(me.is_admin&&me.id!==c.user_id){alog("delcm",c.id);notify(c.user_id,"admin","یکی از دیدگاه‌های شما توسط مدیر حذف شد","/m/"+c.magazine_id)}
+  db.comments=db.comments.filter(x=>x.id!==c.id);db.reports=db.reports.filter(r=>!(r.target_type==="comment"&&r.target_id===c.id));save();render()},
+ report(el){if(!need())return;openDlg(`<form data-form="report" data-type="${esc(el.dataset.type)}" data-id="${esc(el.dataset.id)}"><h3 style="margin-bottom:12px">گزارش محتوا</h3><label class="fld"><span>دلیل</span><select class="in" name="reason"><option>محتوای نامناسب</option><option>هرزنامه</option><option>نقض حقوق مالکیت</option><option>آزار یا توهین</option><option>سایر</option></select></label><div class="row"><button class="btn pri" type="submit">ارسال گزارش</button><button class="btn" type="button" data-act="closedlg">انصراف</button></div></form>`)},
+ closedlg:closeDlg,
+ readall(){const me=ME();db.notifs.forEach(n=>{if(n.user_id===me.id)n.read=true});save();render()},
+ rmimg(el){const k=el.dataset.k,i=+el.dataset.i,x=k==="cover"?ED.cover:ED.imgs[i];if(x&&x.fid)ED.removed.push(x.fid);if(k==="cover")ED.cover=null;else ED.imgs.splice(i,1);drawThumbs()},
+ averify(el){const me=needAdmin(),u=user(el.dataset.id);if(!u)return;u.is_verified=!u.is_verified;alog(u.is_verified?"verify":"unverify",u.id);if(u.is_verified)notify(u.id,"verify","حساب شما تأیید شد و تیک آبی گرفتید","/u/"+u.username);save();render()},
+ ablock(el){needAdmin();const u=user(el.dataset.id);if(!u||u.is_admin&&u.id===ME().id)return;u.blocked=!u.blocked;alog(u.blocked?"block":"unblock",u.id);save();render()},
+ aadmin(el){needAdmin();const u=user(el.dataset.id);if(!u)return;u.is_admin=!u.is_admin;alog(u.is_admin?"promote":"demote",u.id);save();render()},
+ avip(el){needAdmin();const u=user(el.dataset.id);if(!u)return;u.is_vip=!u.is_vip;alog(u.is_vip?"vip":"unvip",u.id);notify(u.id,"vip",u.is_vip?"حساب VIP شما فعال شد ⭐":"حساب VIP شما غیرفعال شد","/settings");save();render()},
+ async adel(el){needAdmin();const u=user(el.dataset.id);if(!u||u.id===ME().id)return;if(!await ask(`حساب «${u.display_name}» و همهٔ محتوایش حذف شود؟`))return;alog("deluser",u.id);delUser(u);save();render()},
+ async rdel(el){needAdmin();const r=db.reports.find(x=>x.id===el.dataset.id);if(!r)return;if(!await ask("مورد گزارش‌شده حذف شود؟"))return;
+  if(r.target_type==="magazine"){const m=mag(r.target_id);m&&delMagazine(m)}else db.comments=db.comments.filter(c=>c.id!==r.target_id);
+  db.reports.forEach(x=>{if(x.target_type===r.target_type&&x.target_id===r.target_id)x.status="resolved"});alog("report",r.id);save();render()},
+ rset(el){needAdmin();const r=db.reports.find(x=>x.id===el.dataset.id);if(!r)return;r.status=el.dataset.s;alog("report",r.id);save();render()},
+ async delcat(el){needAdmin();const c=el.dataset.c;if(db.magazines.some(m=>m.category===c))return toast("این دسته مجله دارد و حذف نمی‌شود","err");if(!await ask("دسته حذف شود؟"))return;db.cats=db.cats.filter(x=>x!==c);alog("delcat",c);save();render()},
+ ghoff(){toast("اتصال مرکزی توسط سازنده مدیریت می‌شود");},
+ async ghbackup(){const me=need();await ghBackupUser(me);toast("همگام‌سازی مرکزی انجام شد");},
+ export(){const me=ME(),mine={user:{...me,password_hash:undefined},magazines:db.magazines.filter(m=>m.author_id===me.id),comments:db.comments.filter(c=>c.user_id===me.id)};
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(mine,null,2)],{type:"application/json"}));a.download="amir-backup.json";a.click()},
+ async delacct(){const me=ME();if(!await ask("حساب و همهٔ مجله‌ها و دیدگاه‌هایتان برای همیشه حذف شود؟"))return;if(db.users.filter(u=>u.is_admin).length===1&&me.is_admin)return toast("شما تنها مدیر هستید؛ ابتدا مدیر دیگری تعیین کنید","err");delUser(me);sset("amir_sess","");save();toast("حساب حذف شد");go("/");render()},
+ async resetdb(){if(!await ask("همهٔ داده‌ها پاک و داده‌های نمونه برگردانده شود؟"))return;sset("amir_sess","");db=seed();save();toast("بازنشانی شد");go("/");render()}};
+document.addEventListener("click",async e=>{
+ const el=e.target.closest("[data-act]");if(!el)return;const n=el.dataset.act;
+ const f=ACTIONS[n]||ACTIONS[{averify:"averify",ablock:"ablock"}[n]];
+ if(f){try{await f(el)}catch(err){toast(err.message||"خطا","err")}}});
+document.addEventListener("change",async e=>{
+ const el=e.target.closest("[data-file]");if(!el)return;const k=el.dataset.file,files=[...el.files];el.value="";const gh=!!ghCfg();
+ for(const f of files){
+  try{
+   if(k==="imgs"&&ED.imgs.length>=8)throw new Error("حداکثر ۸ تصویر مجاز است");
+   const r=await processImage(f,k==="avatar"?256:gh?1800:900,gh?.86:.72);
+   if(k==="cover"){ED.cover=r}else if(k==="imgs"){ED.imgs.push(r)}else{ED.avatar=r;$("#avp").innerHTML=`<img class="av" style="width:64px;height:64px" src="${r.preview}" alt="">`}
+  }catch(err){toast(err.message,"err")}}
+ drawThumbs()});
+
+/* ============ forms ============ */
+async function storeImg(x,me,mid,role){
+ if(!x.blob)return{url:x.url};let cfg=ghCfg(),path=`users/${me.private_id}/magazines/${mid}/${x.name}`;
+ if(cfg){cfg=await ensureUserRepo(me);const r=await ghPut(cfg,path,x.blob);db.files.push({id:uid(),user_id:me.id,magazine_id:mid,github_path:path,github_url:r.url,sha:r.sha,role,file_size:x.size,mime_type:x.mime,created_at:now()});return{url:r.url}}
+ const url=await toDataUrl(x.blob);db.files.push({id:uid(),user_id:me.id,magazine_id:mid,github_path:"local/"+x.name,github_url:url.slice(0,40),role,file_size:x.size,mime_type:x.mime,created_at:now()});return{url}}
+const FORMS={
+ hsearch(f,d){go("/search?q="+encodeURIComponent(clean(d.get("q"),80)))},
+ xsearch(f,d){const q=new URLSearchParams(location.hash.split("?")[1]||"");q.set("q",clean(d.get("q"),80));go("/explore?"+q)},
+ auser(f,d){window.__fu&&window.__fu(clean(d.get("q"),60).toLowerCase())},
+ async register(f,d){
+  const email=clean(d.get("email"),120).toLowerCase(),un=clean(d.get("username"),20).toLowerCase(),dn=clean(d.get("display_name"),40),pw=String(d.get("password")||"");
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))throw new Error("ایمیل معتبر نیست");
+  if(!/^[a-z0-9_]{3,20}$/.test(un))throw new Error("نام کاربری باید ۳ تا ۲۰ حرف انگلیسی کوچک، عدد یا _ باشد");
+  if(!dn)throw new Error("نام نمایشی را وارد کنید");
+  if(pw.length<8||!/[A-Za-z\u0600-\u06FF]/.test(pw)||!/\d/.test(pw))throw new Error("رمز باید حداقل ۸ نویسه و شامل حرف و عدد باشد");
+  if(db.users.some(u=>u.email===email))throw new Error("این ایمیل قبلاً ثبت شده است");
+  if(db.users.some(u=>u.username===un))throw new Error("این نام کاربری گرفته شده است");
+  const isMainAdmin = email===MAIN_ADMIN_EMAIL && un===MAIN_ADMIN_USERNAME;
+  const u={id:uid(),private_id:uid(),email,username:un,display_name:dn,password_hash:await hashPw(pw),bio:"",avatar_url:"",is_verified:isMainAdmin,is_vip:false,is_admin:isMainAdmin,email_verified:false,blocked:false,verify_code:String(100000+crypto.getRandomValues(new Uint32Array(1))[0]%900000),created_at:now()};
+  db.users.push(u);save();tset("amir_pending",email);go("/verify")},
+ verify(f,d){const u=db.users.find(x=>x.email===tget("amir_pending"));if(!u||clean(d.get("code"),6)!==u.verify_code)throw new Error("کد درست نیست");
+  u.email_verified=true;delete u.verify_code;notify(u.id,"welcome","به AMIR Magazine خوش آمدید",u.is_admin?"/admin":"/create");save();tset("amir_pending",null);setSess(u);toast("حساب شما تأیید شد");go(u.is_admin?"/admin":"/")},
+ async login(f,d){
+  const email=clean(d.get("email"),120).toLowerCase(),pw=String(d.get("password")||""),t=tries[email]||{n:0,until:0};
+  if(Date.now()<t.until)throw new Error("تلاش‌های ناموفق زیاد بود؛ یک دقیقه صبر کنید");
+  const u=db.users.find(x=>x.email===email);
+  if(!u||!await checkPw(pw,u.password_hash)){t.n++;if(t.n>=5){t.until=Date.now()+6e4;t.n=0}tries[email]=t;throw new Error("ایمیل یا رمز عبور درست نیست")}
+  if(u.blocked)throw new Error("این حساب مسدود شده است");
+  if(!u.email_verified){tset("amir_pending",email);go("/verify");return}
+  tries[email]=null;setSess(u);toast("خوش آمدید");go("/")},
+ forgot(f,d){const email=clean(d.get("email"),120).toLowerCase(),u=db.users.find(x=>x.email===email&&x.password_hash!=="!");
+  if(!u){toast("اگر حسابی با این ایمیل باشد، کد بازیابی صادر می‌شود");return}
+  u.reset_code=String(100000+crypto.getRandomValues(new Uint32Array(1))[0]%900000);u.reset_exp=Date.now()+15*6e4;save();tset("amir_reset",email);render()},
+ async reset(f,d){const u=db.users.find(x=>x.email===tget("amir_reset"));const pw=String(d.get("password")||"");
+  if(!u||!u.reset_code||Date.now()>u.reset_exp||clean(d.get("code"),6)!==u.reset_code)throw new Error("کد نامعتبر یا منقضی است");
+  if(pw.length<8||!/\d/.test(pw))throw new Error("رمز باید حداقل ۸ نویسه و شامل عدد باشد");
+  u.password_hash=await hashPw(pw);delete u.reset_code;save();tset("amir_reset",null);toast("رمز تغییر کرد؛ وارد شوید");go("/login")},
+ comment(f,d){const me=need();if(!me)return;const m=mag(f.dataset.id),c=clean(d.get("content"),1000);if(!m||!c)throw new Error("متن دیدگاه خالی است");
+  const last=db.comments.filter(x=>x.user_id===me.id).pop();if(last&&Date.now()-new Date(last.created_at)<3000)throw new Error("کمی صبر کنید");
+  db.comments.push({id:uid(),user_id:me.id,magazine_id:m.id,content:c,created_at:now()});if(m.author_id!==me.id)notify(m.author_id,"comment",`${me.display_name} روی «${m.title}» دیدگاه گذاشت`,"/m/"+m.id);save();render()},
+ report(f,d){const me=need();if(!me)return;const t=f.dataset.type,id=f.dataset.id;if(!["magazine","comment"].includes(t))return;
+  if(db.reports.some(r=>r.reporter_id===me.id&&r.target_id===id&&r.status==="open"))throw new Error("قبلاً این مورد را گزارش کرده‌اید");
+  db.reports.push({id:uid(),reporter_id:me.id,target_type:t,target_id:id,reason:clean(d.get("reason"),100),status:"open",created_at:now()});
+  db.users.filter(u=>u.is_admin).forEach(a=>notify(a.id,"admin","گزارش جدیدی ثبت شد","/admin/reports"));save();closeDlg();toast("گزارش ثبت شد")},
+ async profile(f,d){const me=need();if(!me)return;const un=clean(d.get("username"),20).toLowerCase();
+  if(!/^[a-z0-9_]{3,20}$/.test(un))throw new Error("نام کاربری معتبر نیست");if(db.users.some(u=>u.username===un&&u.id!==me.id))throw new Error("این نام کاربری گرفته شده است");
+  const dn=clean(d.get("display_name"),40);if(!dn)throw new Error("نام نمایشی را وارد کنید");
+  if(ED.avatar)me.avatar_url=await toDataUrl(ED.avatar.blob);me.username=un;me.display_name=dn;me.bio=clean(d.get("bio"),240);save();toast("پروفایل ذخیره شد");go("/u/"+un)},
+ async mag(f,d){const me=need();if(!me)return;const id=f.dataset.id,old=id?mag(id):null;
+  if(old&&old.author_id!==me.id&&!me.is_admin)throw new Error("اجازهٔ ویرایش ندارید");
+  const title=clean(d.get("title"),120),desc=clean(d.get("description"),300),content=clean(d.get("content"),20000),cat=clean(d.get("category"),30);
+  if(!title||!desc||content.length<20)throw new Error("عنوان، توضیح و متن (حداقل ۲۰ نویسه) لازم است");if(!db.cats.includes(cat))throw new Error("دستهٔ نامعتبر");
+  const tags=[...new Set(String(d.get("tags")||"").split(/[,،]/).map(t=>clean(t,24)).filter(Boolean))].slice(0,6);
+  const mid=old?old.id:uid();toast("در حال ذخیره…");
+  ED.removed.forEach(fid=>{const x=db.files.find(z=>z.id===fid);if(x){ghDel(x);db.files=db.files.filter(z=>z.id!==fid)}});
+  let cu="";if(ED.cover)cu=(await storeImg(ED.cover,me,mid,"cover")).url;
+  const imgs=[];for(const x of ED.imgs)imgs.push((await storeImg(x,me,mid,"image")).url);
+  const rec={id:mid,author_id:old?old.author_id:me.id,title,description:desc,content,cover_url:cu,images:imgs,category:cat,tags,created_at:old?old.created_at:now(),updated_at:now(),views:old?old.views:0};
+  if(old)Object.assign(old,rec);else db.magazines.push(rec);
+  if(!old)db.follows.filter(x=>x.following_id===me.id).forEach(x=>notify(x.follower_id,"new",`${me.display_name} مجلهٔ جدیدی منتشر کرد: «${title}»`,"/m/"+mid));
+  save();
+  if(ghCfg()){try{await ghBackupUser(me);toast(old?"ذخیره شد و همگام‌سازی مرکزی شد":"منتشر شد و در ذخیره‌سازی مرکزی AMIR ثبت شد")}catch(e){toast((old?"ذخیره شد؛":"منتشر شد؛")+" همگام‌سازی مرکزی ناموفق بود: "+e.message,"err")}}else toast(old?"ذخیره شد":"منتشر شد");
+  go("/m/"+mid)},
+ async gh(f,d){
+  const o=clean(d.get("owner"),60),r=clean(d.get("repo"),100),b=clean(d.get("branch"),60)||"main",t=String(d.get("token")||"").trim();
+  const perUser=d.get("mode")==="user",autoRepo=d.get("autoRepo")==="on";
+  if(!/^[\w.-]+$/.test(o)||(!perUser&&!/^[\w.-]+$/.test(r))||!/^[\w.\/-]+$/.test(b))throw new Error("تنظیمات GitHub معتبر نیست");
+  if(t)tset("amir_gh_token",t);
+  const old=JSON.parse(sget("amir_gh_cfg")||"{}");
+  sset("amir_gh_cfg",JSON.stringify({owner:o,repo:r,branch:b,perUser,autoRepo}));
+  const cfg=ghCfg();if(!cfg)throw new Error("توکن را وارد کنید");
+  if(perUser){
+    const u=ME();
+    if(!u)throw new Error("ابتدا وارد حساب شوید");
+    await ensureUserRepo(u);
+  }else{
+    const res=await fetch(`https://api.github.com/repos/${o}/${r}`,{headers:{Authorization:"Bearer "+cfg.token,Accept:"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"}});
+    if(res.status===401)throw new Error("توکن معتبر نیست");
+    if(res.status===404)throw new Error("Repository پیدا نشد یا توکن دسترسی ندارد");
+    if(!res.ok)throw new Error("آزمایش اتصال ناموفق بود");
+  }
+  toast(perUser?"اتصال برقرار شد؛ Repository کاربر آماده است":"اتصال GitHub برقرار شد");render()
+},
+ cat(f,d){needAdmin();const n=clean(d.get("name"),30);if(!n||db.cats.includes(n))throw new Error("نام دسته خالی یا تکراری است");db.cats.push(n);alog("addcat",n);save();render()}};
+document.addEventListener("submit",async e=>{
+ const f=e.target.closest("form[data-form]");if(!f)return;e.preventDefault();const fn=FORMS[f.dataset.form];if(!fn)return;
+ const b=f.querySelector("[type=submit]");b&&(b.disabled=true);
+ try{await fn(f,new FormData(f))}catch(err){toast(err.message||"خطا","err")}finally{b&&(b.disabled=false)}});
+
+
+/* ============ AMIR ULTIMATE EXTENSION ============ */
+const AMIR_STORAGE_API = "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"
+const AMIR_OWNER_TOKEN = AMIR_GITHUB_TOKEN; // توکن فقط در کد سازنده
+
+function ultimateInit(){
+  if(!db||typeof db!=="object")return;
+  db.saved ||= [];
+  db.drafts ||= [];
+  db.versions ||= [];
+  db.schedules ||= [];
+  db.achievements ||= [];
+  db.security ||= [];
+  db.payments ||= [];
+  db.settings ||= {siteName:"AMIR Magazine",maintenance:false,allowRegister:true};
+  db.users.forEach(u=>{
+    u.is_vip=!!u.is_vip; u.badges ||= []; u.streak ||= {days:0,last:null};
+    u.points ||= 0; u.login_count ||= 0; u.last_login ||= null;
+    u.notifications_enabled = u.notifications_enabled!==false;
+  });
+  save();
+}
+ultimateInit();
+
+function currentUser(){return ME()}
+function isSaved(m){const u=ME();return !!(u&&db.saved.some(x=>x.user_id===u.id&&x.magazine_id===m.id))}
+function award(u,badge,points=10){
+  if(!u)return;
+  u.badges ||= [];
+  if(!u.badges.includes(badge)){u.badges.push(badge);u.points=(u.points||0)+points;notify(u.id,"achievement",`نشان جدید گرفتی: ${badge} 🏆`,`/u/${u.username}`)}
+}
+function updateStreak(u){
+  if(!u)return;
+  const today=new Date().toISOString().slice(0,10),last=u.streak?.last;
+  if(last===today)return;
+  const y=new Date(Date.now()-864e5).toISOString().slice(0,10);
+  u.streak ||= {days:0,last:null}; u.streak.days=last===y?(u.streak.days||0)+1:1;u.streak.last=today;
+  if(u.streak.days>=7)award(u,"🔥 ۷ روز پیوسته",50);
+}
+async function hostSync(reason="sync"){
+  if(!AMIR_STORAGE_API)return false;
+  const me=ME(); if(!me)return false;
+  const payload={schema:3,reason,at:now(),user:{id:me.id,username:me.username,display_name:me.display_name,is_vip:me.is_vip,is_verified:me.is_verified,badges:me.badges,points:me.points},magazines:db.magazines.filter(m=>m.author_id===me.id),comments:db.comments.filter(c=>c.user_id===me.id),saved:db.saved.filter(x=>x.user_id===me.id)};
+  const r=await fetch(AMIR_STORAGE_API+"/sync",{method:"POST",headers:{"Content-Type":"application/json"},credentials:"include",body:JSON.stringify(payload)});
+  if(!r.ok)throw new Error("ذخیره‌سازی هاست ناموفق بود");return true;
+}
+function downloadText(name,text,type="application/json"){
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)
+}
+function magazineExport(m){downloadText(`amir-magazine-${m.id}.json`,JSON.stringify(m,null,2))}
+function printMagazine(m){
+ const w=window.open("","_blank");if(!w)return;
+ w.document.write(`<html dir="rtl"><head><meta charset="utf-8"><title>${esc(m.title)}</title><style>body{font-family:Arial;max-width:850px;margin:40px auto;line-height:2;padding:20px}h1{line-height:1.4}.meta{color:#777}.content{white-space:pre-wrap}</style></head><body><h1>${esc(m.title)}</h1><div class="meta">${esc(m.description)} · ${esc(m.category)}</div><hr><div class="content">${esc(m.content)}</div><script>setTimeout(()=>print(),300)<\/script></body></html>`);w.document.close()
+}
+function createVersion(m,reason="ویرایش"){
+ db.versions.push({id:uid(),magazine_id:m.id,author_id:m.author_id,reason,created_at:now(),snapshot:JSON.parse(JSON.stringify(m))});
+ db.versions=db.versions.slice(-500);
+}
+function leaderboard(){return [...db.users].filter(u=>!u.blocked).sort((a,b)=>(b.points||0)-(a.points||0)).slice(0,20)}
+function adminStats(){return {users:db.users.length,magazines:db.magazines.length,vip:db.users.filter(u=>u.is_vip).length,views:db.magazines.reduce((n,m)=>n+(m.views||0),0),likes:db.likes.length,comments:db.comments.length,reports:db.reports.filter(r=>r.status==="open").length}}
+
+const OLD_RENDER=render;
+/* render enhancement: UI is augmented after every route */
+render=function(){OLD_RENDER();setTimeout(ultimateEnhance,0)};
+
+function ultimateEnhance(){
+  const me=ME();
+  if(!me)return;
+  if(location.hash.startsWith("#/m/")){
+    const id=decodeURIComponent(location.hash.split("/")[2]||"");const m=mag(id);
+    if(m){
+      const target=document.querySelector(".sec")||document.querySelector("main")||document.body;
+      if(target&&!document.getElementById("ultimate-mag-tools")){
+        const box=document.createElement("div");box.id="ultimate-mag-tools";box.className="panel";box.style.marginTop="18px";
+        box.innerHTML=`<h3>⚡ ابزار مجله</h3><div class="row" style="flex-wrap:wrap"><button class="btn" data-act="usave" data-id="${esc(m.id)}">${isSaved(m)?"★ ذخیره‌شده":"☆ ذخیره مجله"}</button><button class="btn" data-act="mexport" data-id="${esc(m.id)}">📦 خروجی JSON</button><button class="btn" data-act="mprint" data-id="${esc(m.id)}">🖨️ چاپ / PDF</button>${m.author_id===me.id||me.is_admin?`<button class="btn" data-act="mversion" data-id="${esc(m.id)}">🕘 ساخت نسخه</button>`:""}</div>`;
+        target.appendChild(box)
+      }
+    }
+  }
+  if(location.hash==="#/settings"||location.hash.startsWith("#/settings")) addUserPowerPanel();
+  if(location.hash.startsWith("#/admin")) addAdminPowerPanel();
+}
+function addUserPowerPanel(){
+ if(document.getElementById("ultimate-user-panel"))return;
+ const target=document.querySelector(".sec");if(!target)return;
+ const me=ME();if(!me)return;
+ const p=document.createElement("div");p.id="ultimate-user-panel";p.className="panel";p.style.marginTop="18px";
+ p.innerHTML=`<h3>⚡ مرکز امکانات AMIR</h3><div class="stat" style="margin:12px 0"><div><b>${fa(me.points||0)}</b>امتیاز</div><div><b>${fa(me.streak?.days||0)}</b>روز متوالی</div><div><b>${fa(me.badges?.length||0)}</b>نشان</div><div><b>${fa(db.saved.filter(x=>x.user_id===me.id).length)}</b>ذخیره‌شده</div></div><div class="row" style="flex-wrap:wrap"><button class="btn" data-act="uleader">🏆 جدول برترین‌ها</button><button class="btn" data-act="ubadges">🎖️ نشان‌ها</button><button class="btn" data-act="usavedlist">⭐ ذخیره‌شده‌ها</button><button class="btn" data-act="ujson">📦 پشتیبان کامل</button><button class="btn" data-act="theme2">🎨 تغییر ظاهر</button></div><div class="notice sm" style="margin-top:12px">💎 VIP: بدون محدودیت · قیمت: یک عدد گیفت تلگرام 🎁 · خرید: <b dir="ltr">@Mmdgking</b></div>`;
+ target.appendChild(p)
+}
+function addAdminPowerPanel(){
+ if(document.getElementById("ultimate-admin-panel"))return;
+ const me=ME();if(!me?.is_admin)return;
+ const target=document.querySelector(".sec");if(!target)return;
+ const s=adminStats(),p=document.createElement("div");p.id="ultimate-admin-panel";p.className="panel";p.style.marginTop="18px";
+ p.innerHTML=`<h3>🧠 مرکز کنترل Ultimate</h3><div class="stat" style="margin:12px 0"><div><b>${fa(s.users)}</b>کاربر</div><div><b>${fa(s.magazines)}</b>مجله</div><div><b>${fa(s.vip)}</b>VIP</div><div><b>${fa(s.views)}</b>بازدید</div><div><b>${fa(s.likes)}</b>لایک</div><div><b>${fa(s.comments)}</b>دیدگاه</div><div><b>${fa(s.reports)}</b>گزارش باز</div></div><div class="row" style="flex-wrap:wrap"><button class="btn" data-act="adashboard">📊 تحلیل کامل</button><button class="btn" data-act="asecurity">🛡️ امنیت</button><button class="btn" data-act="avips">💎 مدیریت VIP</button><button class="btn" data-act="abadges">🏆 نشان‌ها</button><button class="btn" data-act="aexport">📦 پشتیبان کل سایت</button><button class="btn" data-act="ahost">☁️ همگام‌سازی هاست</button></div>`;
+ target.appendChild(p)
+}
+
+ACTIONS.usave=async el=>{const me=need(),m=mag(el.dataset.id);if(!m)return;const i=db.saved.findIndex(x=>x.user_id===me.id&&x.magazine_id===m.id);if(i>=0)db.saved.splice(i,1);else{db.saved.push({id:uid(),user_id:me.id,magazine_id:m.id,created_at:now()});award(me,"⭐ کتابخانه‌دار",10)}save();try{await hostSync("saved")}catch(e){}render()};
+ACTIONS.mexport=el=>{const m=mag(el.dataset.id);if(m)magazineExport(m)};
+ACTIONS.mprint=el=>{const m=mag(el.dataset.id);if(m)printMagazine(m)};
+ACTIONS.mversion=async el=>{const me=need(),m=mag(el.dataset.id);if(!m||(m.author_id!==me.id&&!me.is_admin))return;createVersion(m,"نسخه دستی");save();toast("نسخه ذخیره شد 🕘")};
+ACTIONS.uleader=()=>{const rows=leaderboard().map((u,i)=>`<div class="nt"><b>${fa(i+1)}.</b> ${avatar(u,30)} <span style="flex:1">${esc(u.display_name)} ${vb(u)} ${vip(u)}<br><span class="muted sm">${fa(u.points||0)} امتیاز</span></span></div>`).join("");openDlg(`<h3>🏆 جدول برترین‌ها</h3>${rows||"<p>هنوز امتیازی ثبت نشده.</p>"}<button class="btn" style="margin-top:12px" data-act="closedlg">بستن</button>`) };
+ACTIONS.ubadges=()=>{const me=ME();openDlg(`<h3>🎖️ نشان‌های شما</h3><div class="chips">${(me.badges||[]).map(x=>`<span class="badge">${esc(x)}</span>`).join("")||"<span class='muted'>هنوز نشانی نگرفته‌اید.</span>"}</div><button class="btn" style="margin-top:14px" data-act="closedlg">بستن</button>`) };
+ACTIONS.usavedlist=()=>{const me=ME(),L=db.saved.filter(x=>x.user_id===me.id).map(x=>mag(x.magazine_id)).filter(Boolean);openDlg(`<h3>⭐ ذخیره‌شده‌ها</h3>${L.map(m=>`<p><a href="#/m/${m.id}" onclick="closeDlg()">${esc(m.title)}</a></p>`).join("")||"<p class='muted'>هنوز چیزی ذخیره نکرده‌اید.</p>"}<button class="btn" style="margin-top:14px" data-act="closedlg">بستن</button>`) };
+ACTIONS.ujson=()=>{const me=ME();downloadText("amir-full-backup.json",JSON.stringify({schema:3,exported_at:now(),user:{...me,password_hash:undefined},magazines:db.magazines.filter(m=>m.author_id===me.id),comments:db.comments.filter(c=>c.user_id===me.id),likes:db.likes.filter(l=>l.user_id===me.id),saved:db.saved.filter(x=>x.user_id===me.id),versions:db.versions.filter(x=>x.author_id===me.id)},null,2))};
+ACTIONS.theme2=()=>ACTIONS.theme();
+ACTIONS.adashboard=()=>{const s=adminStats();openDlg(`<h3>📊 تحلیل کامل</h3><div class="stat"><div><b>${fa(s.users)}</b>کاربر</div><div><b>${fa(s.magazines)}</b>مجله</div><div><b>${fa(s.views)}</b>بازدید</div><div><b>${fa(s.likes)}</b>لایک</div></div><p class="muted" style="margin-top:14px">میانگین بازدید هر مجله: ${fa(s.magazines?Math.round(s.views/s.magazines):0)}</p><button class="btn" style="margin-top:12px" data-act="closedlg">بستن</button>`) };
+ACTIONS.asecurity=()=>{needAdmin();const failed=Object.keys(tries).filter(k=>tries[k]?.n).length;openDlg(`<h3>🛡️ مرکز امنیت</h3><p>تلاش‌های ورود ناموفق فعال: <b>${fa(failed)}</b></p><p>احراز هویت مدیر اصلی: <b>رمز دوم فعال</b></p><p>نشست مدیر: <b>${sget("amir_admin2")==="1"?"فعال":"نیازمند رمز دوم"}</b></p><button class="btn" data-act="closedlg">بستن</button>`) };
+ACTIONS.avips=()=>{needAdmin();const L=db.users.filter(u=>u.is_vip);openDlg(`<h3>💎 مدیریت VIP</h3><p>تعداد VIP: <b>${fa(L.length)}</b></p>${L.slice(0,30).map(u=>`<div class="nt">${avatar(u,30)}<span>${esc(u.display_name)} <span class="badge">⭐ VIP</span></span></div>`).join("")||"<p class='muted'>هنوز کاربر VIP ندارید.</p>"}<button class="btn" style="margin-top:12px" data-act="closedlg">بستن</button>`) };
+ACTIONS.abadges=()=>{needAdmin();const L=[...db.users].sort((a,b)=>(b.badges?.length||0)-(a.badges?.length||0)).slice(0,20);openDlg(`<h3>🏆 نشان‌ها</h3>${L.map(u=>`<div class="nt">${avatar(u,30)}<span style="flex:1">${esc(u.display_name)}</span><b>${fa(u.badges?.length||0)}</b></div>`).join("")}<button class="btn" style="margin-top:12px" data-act="closedlg">بستن</button>`) };
+ACTIONS.aexport=()=>{needAdmin();downloadText("amir-site-backup.json",JSON.stringify({schema:3,exported_at:now(),db:{...db,users:db.users.map(u=>{const x={...u};delete x.password_hash;delete x.verify_code;delete x.reset_code;return x})}},null,2))};
+ACTIONS.ahost=async()=>{const me=need();if(!AMIR_STORAGE_API)return toast("API هاست تنظیم نشده است","err");await hostSync("admin");toast("همگام‌سازی هاست انجام شد")};
+
+/* publish hooks: versions, streak, achievements, host */
+const _saveMagazineForm=FORMS.mag;
+FORMS.mag=async function(f,d){
+ const me=need(),id=f.dataset.id,old=id?mag(id):null;
+ if(old)createVersion(old,"قبل از ویرایش");
+ await _saveMagazineForm(f,d);
+ updateStreak(me);if(db.magazines.filter(m=>m.author_id===me.id).length>=1)award(me,"📰 نویسنده",20);if(db.magazines.filter(m=>m.author_id===me.id).length>=5)award(me,"🏆 نویسنده فعال",60);
+ try{await hostSync("magazine")}catch(e){}
+ save();
+};
+
+/* automatic streak on login */
+const _login=FORMS.login;
+FORMS.login=async function(f,d){await _login(f,d);const me=ME();if(me){me.login_count=(me.login_count||0)+1;me.last_login=now();updateStreak(me);if(me.login_count>=10)award(me,"🔥 ۱۰ ورود",30);save()}};
+
+
+/* ============ boot ============ */
+(function(){const t=sget("amir_theme")||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");document.documentElement.dataset.theme=t;render()})();
+</script>
+</body>
+</html>
